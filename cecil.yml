@@ -1,0 +1,55 @@
+# Options
+title: 'Kévin THÉRAGE'
+baseline: >-
+  Développeur PHP/Symfony avec plus de 9 ans d'expérience, certifié Expert Symfony 6 et 7. Spécialisé dans les
+  architectures complexes et les projets techniques ambitieux pour des secteurs exigeants : banques, services publics,
+  e-commerce et presse française.
+description: 'Blog professionnel de Kévin THÉRAGE'
+url: "https://ktherage.github.io"
+canonicalurl: true
+
+# Menus
+menus:
+  main:
+    - id: 'a-propos'
+      name: 'A propos'
+      url: '/a-propos/'
+      weight: 1
+    - id: 'blog'
+      name: 'Blog'
+      url: '/blog/'
+      weight: 2
+
+theme: null
+
+author:
+  name: 'Kévin THÉRAGE'
+  url: 'https://ktherage.github.io/'
+image: cecil-card.png
+taxonomies:
+  tags: tag
+
+static:
+  exclude:
+    - "*.md"
+    - "*.yml"
+    - "*.yaml"
+
+output:
+  dir: "_site"
+  filename: "index"
+
+optimize:
+  enabled: true
+  html:
+    ext: true
+  css:
+    enabled: true
+  js:
+    enabled: true
+  images:
+    enabled: true
+
+cache:
+  enabled: true
+  dir: ".cache"

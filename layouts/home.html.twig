@@ -1,0 +1,22 @@
+{% extends "_default/page.html.twig" %}
+
+{% block content %}
+    <img
+            src="https://gravatar.com/avatar/cb089a21f9d805825080939f18434db83a16dcc7c6a4744483467debc1f90026?s=256"
+            width="256"
+            height="256"
+            class="my-4 rounded-circle"
+            loading="lazy"
+    />
+    <h1 class="my-2" style="font-weight: bold">{{ site.title }}</h1>
+    <p class="my-4" style="width: 75%; text-align: center">
+        {{ site.baseline }}
+    </p>
+    <p class="my-4 d-flex flex-row justify-content-around align-items-center" style="width: 75%; text-align: center">
+        {% for social in site.data.home.socials %}
+            <a href="{{ social.url }}" style="color: inherit;text-decoration: inherit;" target="_blank">
+                <i class="{{ social.icon }}" style="width:48px;height:48px">{{ social.name }}</i>
+            </a>
+        {% endfor %}
+    </p>
+{% endblock %}
