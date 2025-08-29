@@ -1,17 +1,36 @@
 {% extends '_default/page.html.twig' %}
 
 {%- block content ~%}
-    <article style="width: 75%;">
-        <header>
-            <h1>{{ page.title|e }}</h1>
-            <time>{{ page.date|format_date('long') }}</time>
-            {{- include('partials/terms-list.html.twig', {page, vocabulary: 'tags'}, with_context = false) ~}}
-        </header>
-        <main>
-            {{ page.content }}
-        </main>
-        <footer>
-            {{- include('partials/page-navigation.html.twig', {page}, with_context = false) ~}}
-        </footer>
-    </article>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-xl-8">
+            <article class="blog-post">
+                <header class="mb-4 pb-4 border-bottom">
+                    <h1 class="display-5 fw-bold mb-3">{{ page.title|e }}</h1>
+                    <div class="d-flex flex-wrap align-items-center gap-3 text-muted mb-3">
+                        <time class="small">
+                            <i class="bi bi-calendar3 me-1"></i>
+                            {{ page.date|format_date('long') }}
+                        </time>
+                    </div>
+                    {% if page.tags %}
+                        <div class="mb-2">
+                            {% for tag in page.tags %}
+                                <a href="{{ url('tags/' ~ tag) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </header>
+
+                <main class="blog-content">
+                    {{ page.content }}
+                </main>
+
+                <footer class="mt-5 pt-4 border-top">
+                    {{- include('partials/page-navigation.html.twig', {page}, with_context = false) ~}}
+                </footer>
+            </article>
+        </div>
+    </div>
+</div>
 {%- endblock content ~%}

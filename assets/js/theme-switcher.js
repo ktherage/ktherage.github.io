@@ -4,14 +4,14 @@ class ThemeSwitcher {
         this.storageKey = 'user-theme-preference';
         this.timeout = null;
 
-        this.init(themeToggleSelector);
+        this.init();
     }
 
     init() {
-        // Détecter le thème initial au chargement
+        // Déterminer et appliquer le thème initial
         this.setInitialTheme();
 
-        // Écouter les changements de préférences système
+        // Surveiller le changement du thème système
         this.watchSystemPreference();
 
         // Initialiser le bouton toggle
@@ -25,8 +25,10 @@ class ThemeSwitcher {
         const savedTheme = localStorage.getItem(this.storageKey);
         const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+        // Si l’utilisateur a déjà choisi un thème, on le garde
+        // Sinon, on suit le système
         const theme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
-        this.applyTheme(theme);
+        this.applyTheme(theme, false);
     }
 
     /**
@@ -34,47 +36,46 @@ class ThemeSwitcher {
      */
     watchSystemPreference() {
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
         mediaQuery.addEventListener('change', (e) => {
-            // Ne réagir que si aucune préférence utilisateur n'est sauvegardée
+            // Ne réagir que si aucune préférence utilisateur n’est sauvegardée
             if (!localStorage.getItem(this.storageKey)) {
-                this.applyTheme(e.matches ? 'dark' : 'light');
+                this.applyTheme(e.matches ? 'dark' : 'light', false);
             }
         });
     }
 
     /**
-     * Applique le thème avec transition fluide
+     * Applique le thème avec option pour sauvegarder ou non
      */
-    applyTheme(theme) {
+    applyTheme(theme, save = true) {
         clearTimeout(this.timeout);
 
-        // Sauvegarder la préférence utilisateur
-        localStorage.setItem(this.storageKey, theme);
+        // Sauvegarder uniquement si c’est un choix utilisateur
+        if (save) {
+            localStorage.setItem(this.storageKey, theme);
+        }
 
-        // Marquer l'état de transition
+        // Appliquer immédiatement le thème Bootstrap
+        document.documentElement.setAttribute('data-bs-theme', theme);
+
+        // Transition fluide
         document.documentElement.setAttribute('data-theme-switching', 'true');
 
+        // Mettre à jour l’icône
+        this.updateToggleIcon(theme);
+
         this.timeout = setTimeout(() => {
-            // Appliquer le thème Bootstrap
-            document.documentElement.setAttribute('data-bs-theme', theme);
-
-            // Mettre à jour l'icône du bouton
-            this.updateToggleIcon(theme);
-
-            // Retirer l'état de transition
             document.documentElement.removeAttribute('data-theme-switching');
         }, 150);
     }
 
     /**
-     * Bascule entre dark et light
+     * Bascule entre dark et light (choix utilisateur → sauvegardé)
      */
     toggle() {
         const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-
-        this.applyTheme(newTheme);
+        this.applyTheme(newTheme, true);
     }
 
     /**
@@ -85,17 +86,18 @@ class ThemeSwitcher {
         if (toggleButton) {
             toggleButton.addEventListener('click', () => this.toggle());
 
-            // Initialiser l'icône
+            // Icône initiale
             const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
             this.updateToggleIcon(currentTheme);
         }
     }
 
     /**
-     * Met à jour l'icône du bouton toggle
+     * Met à jour l’icône du bouton toggle
      */
     updateToggleIcon(theme) {
-        const selector = document.querySelector(`${this.themeToggleSelector}`);
+        const selector = document.querySelector(this.themeToggleSelector);
+        if (!selector) return;
 
         const newIcon = document.createElement('i');
         newIcon.classList.add('fas', theme === 'dark' ? 'fa-sun' : 'fa-moon');
@@ -104,7 +106,7 @@ class ThemeSwitcher {
     }
 }
 
-// Initialisation automatique
+// Initialisation
 document.addEventListener('DOMContentLoaded', () => {
     window.themeSwitcher = new ThemeSwitcher();
 });

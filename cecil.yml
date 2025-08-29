@@ -1,19 +1,20 @@
 # Options
 title: 'Kévin THÉRAGE'
 baseline: >-
-  Développeur PHP/Symfony avec plus de 9 ans d'expérience, certifié Expert Symfony 6 et 7. Spécialisé dans les
-  architectures complexes et les projets techniques ambitieux pour des secteurs exigeants : banques, services publics,
-  e-commerce et presse française.
+  PHP/Symfony Developer with over 9 years of experience, certified Symfony 6 and 7 Expert. Specialized in
+  complex architectures and ambitious technical projects for demanding sectors: banks, public services,
+  e-commerce and French press.
 description: 'Blog professionnel de Kévin THÉRAGE'
 url: "https://ktherage.github.io"
+baseurl: "https://ktherage.github.io"
 canonicalurl: true
 
 # Menus
 menus:
   main:
-    - id: 'a-propos'
-      name: 'A propos'
-      url: '/a-propos/'
+    - id: 'about-me'
+      name: 'About me'
+      url: '/about-me/'
       weight: 1
     - id: 'blog'
       name: 'Blog'
