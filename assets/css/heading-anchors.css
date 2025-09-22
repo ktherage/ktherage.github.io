@@ -1,0 +1,126 @@
+
+/* Variables spécifiques aux ancres de titres */
+:root {
+    --heading-anchor-color: var(--link-color);
+    --heading-anchor-hover-color: var(--link-hover-color);
+    --heading-anchor-opacity: 0;
+    --heading-anchor-opacity-hover: 1;
+    --heading-anchor-size: 0.8em;
+    --heading-anchor-spacing: 0.5rem;
+    --scroll-margin: 2rem;
+    --highlight-color: rgba(108, 117, 125, 0.2); /* Bootstrap secondary avec transparence */
+}
+
+[data-bs-theme="light"] {
+    --highlight-color: rgba(108, 117, 125, 0.2);
+}
+
+[data-bs-theme="dark"] {
+    --highlight-color: rgba(173, 181, 189, 0.2);
+}
+
+/* Styles pour les ancres de titres */
+.heading-anchor {
+    opacity: var(--heading-anchor-opacity);
+    margin-left: var(--heading-anchor-spacing);
+    color: var(--heading-anchor-color) !important;
+    text-decoration: none !important;
+    font-size: var(--heading-anchor-size);
+    transition: opacity 0.2s ease-in-out, color 0.2s ease-in-out;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+.heading-anchor:hover {
+    color: var(--heading-anchor-hover-color) !important;
+    text-decoration: none !important;
+}
+
+/* Affichage des ancres au survol des titres */
+.blog-content h1:hover .heading-anchor,
+.blog-content h2:hover .heading-anchor,
+.blog-content h3:hover .heading-anchor,
+.blog-content h4:hover .heading-anchor,
+.blog-content h5:hover .heading-anchor,
+.blog-content h6:hover .heading-anchor {
+    opacity: var(--heading-anchor-opacity-hover);
+}
+
+/* Animation smooth pour le scroll - cohérent avec ton UX */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Style pour les titres ciblés */
+:target {
+    scroll-margin-top: var(--scroll-margin);
+    animation: highlight 2s ease-in-out;
+}
+
+@keyframes highlight {
+    0% {
+        background-color: var(--highlight-color);
+        border-radius: 0.25rem;
+        padding: 0.25rem;
+    }
+    100% {
+        background-color: transparent;
+        padding: 0;
+    }
+}
+
+/* Amélioration de l'accessibilité - cohérent avec tes styles de focus */
+.heading-anchor:focus {
+    opacity: var(--heading-anchor-opacity-hover);
+    outline: 2px solid var(--link-color);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+}
+
+/* Notification de copie - utilise tes variables de couleurs */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-color);
+    padding: 0.75rem 1rem;
+    border-radius: 0.375rem; /* Bootstrap border-radius */
+    z-index: 1050; /* Au-dessus des modales Bootstrap */
+    font-size: 0.875rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Bootstrap shadow */
+    border: 1px solid var(--btn-border-color);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive - adaptation pour mobile */
+@media (max-width: 768px) {
+    .heading-anchor {
+        --heading-anchor-size: 0.7em;
+        --heading-anchor-spacing: 0.3rem;
+    }
+
+    .copy-notification {
+        right: 10px;
+        left: 10px;
+        text-align: center;
+    }
+}
+
+/* Amélioration pour l'impression */
+@media print {
+    .heading-anchor {
+        display: none;
+    }
+}

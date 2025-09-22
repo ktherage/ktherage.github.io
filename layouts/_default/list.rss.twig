@@ -1,0 +1,28 @@
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
+{%- if site.page('xsl/rss') ~%}
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/rss') }}" media="all"?>
+{%- endif ~%}
+<rss version="2.0">
+  <channel>
+    <title>{{ title|e }}</title>
+    <description><![CDATA[{{ site.description }}]]></description>
+    <lastBuildDate>{{ date|date('c') }}</lastBuildDate>
+    <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
+    <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
+    {%- for p in pages|sort_by_date ~%}
+    <item>
+      {%- block item ~%}
+      <guid>{{ url(p, {canonical: true}) }}</guid>
+      <title>{{ p.title|e }}</title>
+      <description><![CDATA[{{ p.content }}]]></description>
+      <pubDate>{{ p.date|date('c') }}</pubDate>
+      <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
+      {%- endblock ~%}
+    </item>
+    {%- endfor ~%}
+  </channel>
+</rss>
+{% endblock feed %}

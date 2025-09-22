@@ -1,0 +1,7 @@
+# Options
+imports:
+  - { resource: cecil.yml }
+
+
+url: "http://localhost"
+baseurl: "http://localhost"

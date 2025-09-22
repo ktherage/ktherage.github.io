@@ -1,10 +1,13 @@
 ---
 tags: [symfony, doctrine, migrations, ci, database, php, bash, devops, automation, testing]
+excerpt: >-
+  I had the opportunity to work on a project with a team that was relatively new to Doctrine migrations. To help them get used to it, and to discard the possibility of having pull (or merge) requests with changes to doctrine entities without generating a migration.
+
+  Here is how I did it. I hope you'll enjoy it!
 ---
 I had the opportunity to work on a project with a team that was relatively new to Doctrine migrations. To help them get used to it, and to discard the possibility of having pull (or merge) requests with changes to doctrine entities without generating a migration.
 
 Here is how I did it. I hope you'll enjoy it!
-<!-- break -->
 
 ## Disclaimer
 

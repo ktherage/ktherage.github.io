@@ -38,31 +38,33 @@
             {% endif %}
 
             <div class="row g-4" id="blog-posts">
-                {% for p in pages %}
+                {% for page in pages %}
                     <div class="col-md-6 col-lg-4 blog-post-item"
-                         data-tags="{% if p.tags %}{{ p.tags|join(' ')|lower }}{% endif %}">
+                         data-tags="{% if page.tags %}{{ page.tags|join(' ')|lower }}{% endif %}">
                         <div class="card h-100 shadow-sm border-0">
                             <div class="card-body d-flex flex-column">
                                 <h2 class="card-title fs-4 mb-2">
-                                    <a href="{{ url(p) }}" class="text-decoration-none">
-                                        {{ p.title|e }}
+                                    <a href="{{ url(page) }}" class="text-decoration-none">
+                                        {{ page.title|e }}
                                     </a>
                                 </h2>
                                 <time class="text-muted small mb-3">
-                                    {{ p.date|format_date('long') }}
+                                    {{ page.date|format_date('long') }}
                                 </time>
-                                {% if p.tags %}
+                                {% if page.tags %}
                                     <div class="mb-3">
-                                        {% for tag in p.tags %}
+                                        {% for tag in page.tags %}
                                             <a href="{{ url('tags/' ~ tag) }}"
                                                class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
+                                {% if page.excerpt is defined %}
                                 <p class="card-text">
-                                    {{ p.content|excerpt_html }}
+                                    {{ page.excerpt }}
                                 </p>
-                                <a href="{{ url(p) }}" class="btn btn-outline-light mt-auto text-decoration-none">
+                                {% endif %}
+                                <a href="{{ url(page) }}" class="btn btn-outline-light mt-auto text-decoration-none">
                                     Read more
                                 </a>
                             </div>

@@ -1,0 +1,33 @@
+{# all "showable pages by default #}
+{% set pages = site.pages.showable %}
+{# in case of a list page, take its sub pages #}
+{% if page.pages is defined %}
+	{%- set pages = page.pages -%}
+{% endif %}
+{# in case of a paginated list page, take the paginator list pages #}
+{% if page.paginator.pages is defined %}
+	{%- set pages = page.paginator.pages -%}
+{% endif %}
+
+{% extends ['page.html.twig', '_default/page.html.twig'] %}
+
+      {%- block content ~%}
+      <article>
+        <header>
+          {% if page.type != 'homepage' %}<h1>{{ page.title }}</h1>{% endif ~%}
+        </header>
+        {%- if page.content ~%}
+        <section>
+          {{- page.content ~}}
+        </section>
+        {%- endif ~%}
+        {%- for p in pages ~%}
+        <article>
+          <h2><a href="{{ url(p) }}">{{ p.title|e }}</a></h2>
+        </article>
+        {%- endfor ~%}
+        <footer>
+          {{- include('partials/paginator.html.twig', {page}, with_context = false) ~}}
+        </footer>
+      </article>
+      {%- endblock content ~%}

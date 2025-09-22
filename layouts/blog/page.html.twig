@@ -1,9 +1,14 @@
 {% extends '_default/page.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/heading-anchors.css') }}">
+{% endblock %}
+
 {%- block content ~%}
 <div class="container my-5">
     <div class="row justify-content-center">
-        <div class="col-lg-10 col-xl-8">
+        <div class="col-lg-12 col-xl-10">
             <article class="blog-post">
                 <header class="mb-4 pb-4 border-bottom">
                     <h1 class="display-5 fw-bold mb-3">{{ page.title|e }}</h1>
@@ -13,7 +18,7 @@
                             {{ page.date|format_date('long') }}
                         </time>
                     </div>
-                    {% if page.tags %}
+                    {% if page.tags is defined %}
                         <div class="mb-2">
                             {% for tag in page.tags %}
                                 <a href="{{ url('tags/' ~ tag) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
@@ -34,3 +39,8 @@
     </div>
 </div>
 {%- endblock content ~%}
+
+{%- block javascripts ~%}
+    {{ parent() }}
+    <script src="{{ asset('js/heading-anchors.js') }}"></script>
+{%- endblock javascripts ~%}

@@ -1,0 +1,77 @@
+/* Variables CSS pour les thèmes */
+:root {
+    --link-color: black;
+    --link-hover-color: grey;
+    --btn-color: black;
+    --btn-border-color: black;
+    --btn-hover-bg: black;
+    --btn-hover-color: white;
+    --badge-hover-bg: black;
+    --badge-hover-color: white;
+}
+
+[data-bs-theme="light"] {
+    --link-color: black;
+    --link-hover-color: grey;
+    --btn-color: black;
+    --btn-border-color: black;
+    --btn-hover-bg: black;
+    --btn-hover-color: white;
+    --badge-hover-bg: black;
+    --badge-hover-color: white;
+}
+
+[data-bs-theme="dark"] {
+    --link-color: white;
+    --link-hover-color: #ccc;
+    --btn-color: white;
+    --btn-border-color: white;
+    --btn-hover-bg: white;
+    --btn-hover-color: black;
+    --badge-hover-bg: white;
+    --badge-hover-color: black;
+}
+
+/* Styles généraux pour tous les liens */
+a {
+    color: var(--link-color) !important;
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: var(--link-hover-color) !important;
+}
+
+/* Styles pour tous les boutons Bootstrap */
+.btn {
+    color: var(--btn-color) !important;
+    border-color: var(--btn-border-color) !important;
+    background-color: transparent !important;
+}
+
+.btn:hover {
+    background-color: var(--btn-hover-bg) !important;
+    border-color: var(--btn-border-color) !important;
+    color: var(--btn-hover-color) !important;
+}
+
+/* Styles pour les badges */
+.badge {
+    color: white !important;
+}
+
+.badge:hover {
+    color: var(--badge-hover-color) !important;
+    background-color: var(--badge-hover-bg) !important;
+}
+
+/* Exception pour les badges de filtrage actifs */
+.filter-badge.active {
+    background-color: var(--badge-hover-bg) !important;
+    color: var(--badge-hover-color) !important;
+}
+
+.filter-badge.active:hover {
+    background-color: grey !important;
+    color: white !important;
+}

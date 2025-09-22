@@ -13,12 +13,12 @@
         <p class="my-4" style="width: 75%; text-align: center">
             {{ site.baseline }}
         </p>
-        <p class="my-4 d-flex flex-row justify-content-around align-items-center" style="width: 75%; text-align: center">
+        <div class="row mx-2 d-flex align-items-center justify-content-center">
             {% for social in site.data.home.socials %}
-                <a href="{{ social.url }}" style="color: inherit;text-decoration: inherit;" target="_blank">
+                <a class="col-sm-3 col-md-2 my-2 d-flex flex-row justify-content-around align-items-center" href="{{ social.url }}" style="color: inherit;text-decoration: inherit;" target="_blank">
                     <i class="{{ social.icon }}" style="width:48px;height:48px">{{ social.name }}</i>
                 </a>
             {% endfor %}
-        </p>
+        </div>
     </main>
 {% endblock %}

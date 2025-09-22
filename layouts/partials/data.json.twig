@@ -1,0 +1,27 @@
+{#- data -#}
+{% set type = item.section|default('page')|json_encode() %}
+{% set id = item.id|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
+{% set url = url(item, {canonical: true})|json_encode(constant('JSON_UNESCAPED_SLASHES')) %}
+{% set attributes = {
+  'title': item.title,
+  'body': item.body|e('html'),
+  'date': item.date|date('c'),
+  'updated': item.updated|date('c'),
+} %}
+{#- add front matter variables to attributes -#}
+{% set attributes = item.fmvariables|merge(attributes) %}
+{#- encode attributes values to JSON -#}
+{% set attributes = attributes|map((v) => v|json_encode(constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_UNESCAPED_SLASHES'))) %}
+    {
+      "type": {{ type }},
+      "id": {{ id }},
+      "url": {{ url }}
+{%- if attributes is defined %},
+      "attributes": {
+{%- for key, value in attributes ~%}
+        "{{ key }}": {{ value }}{% if not loop.last %},{% endif %}
+{% endfor ~%}
+      }
+{% endif %}
+    }
+{#- /data -#}

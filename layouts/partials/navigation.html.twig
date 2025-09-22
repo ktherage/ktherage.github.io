@@ -1,14 +1,16 @@
+{%- if menu|length > 1 ~%}
 <nav class="navbar navbar-expand-lg">
     <div class="container d-flex flex-row justify-content-between align-items-center">
         <button type="button" class="btn" data-theme-toggle title="Changer de thème">
             <i class="fas fa-moon"></i>
         </button>
         <div class="navbar-nav d-flex flex-row align-items-center">
-            {% for entry in menu|sort_by_weight %}
+            {%- for item in site.menus[menu]|sort_by_weight ~%}
                 <div class="nav-item px-2">
-                    <a class="nav-link" href="{{ url(entry.url) }}">{{ entry.name }}</a>
+                    <a class="nav-link" href="{{ url(item.url) }}">{{ item.name }}</a>
                 </div>
             {%- endfor ~%}
         </div>
     </div>
 </nav>
+{%- endif ~%}

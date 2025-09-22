@@ -1,0 +1,14 @@
+{# all "showable pages by default #}
+{% set pages = site.pages.showable %}
+{# in case of a list page, take its sub pages #}
+{% if page.pages is defined %}
+  {%- set pages = page.pages -%}
+{% endif %}
+{# in case of a paginated list page, take the paginator list pages #}
+{% if page.paginator.pages is defined and 'paginated' not in site.outputproperty('json', 'exclude') %}
+  {%- set pages = page.paginator.pages -%}
+{% endif %}
+
+{% set items = pages %}
+
+{% extends ['page.json.twig', '_default/page.json.twig'] %}

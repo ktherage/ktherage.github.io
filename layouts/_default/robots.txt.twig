@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+{# Disallow #}
+{# redirects #}
+{% for redirect in site.allpages|filter(p => p.redirect is defined and p.type == 'page') %}
+Disallow: {{ url(redirect, {canonical: false}) }}
+{% endfor %}
+{# 404 #}
+{% if site.pages.404 is defined %}
+Disallow: {{ url(site.pages.404, {canonical: false}) }}
+  {%- if site.pages.404.translations|default({})|length > 0 ~%}
+    {%- for translation in site.pages.404.translations ~%}
+Disallow: {{ url(translation, {canonical: false}) }}
+    {%- endfor ~%}
+  {%- endif ~%}
+{% endif %}
+{# Sitemap #}
+{% if site.pages.sitemap is defined %}
+Sitemap: {{ url('sitemap', {canonical: true}) }}
+{%- endif -%}

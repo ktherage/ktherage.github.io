@@ -1,0 +1,43 @@
+{% set author_name = site.author.name|default(site.title) %}
+{% set author_uri = site.author.url|default(site.baseurl) %}
+
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
+{%- if site.page('xsl/atom') ~%}
+<?xml-stylesheet type="text/xsl" href="{{ url('xsl/atom') }}" media="all"?>
+{%- endif ~%}
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ lang }}">
+  <id>{{ url(page, {canonical: true}) }}</id>
+  <title>{{ title|e }}</title>
+  <subtitle><![CDATA[{{ site.description }}]]></subtitle>
+  <link href="{{ url(page, {canonical: true, format: 'atom'}) }}" rel="self" type="application/atom+xml" />
+  <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
+  <updated>{{ date|date('c') }}</updated>
+  <author>
+    <name>{{ author_name }}</name>
+    <uri>{{ author_uri }}</uri>
+  </author>
+  {%- for p in pages|sort_by_date ~%}
+  <entry xml:lang="{{ lang }}">
+    {%- block entry ~%}
+    <id>{{ url(p, {canonical: true}) }}</id>
+    <title>{{ p.title|e }}</title>
+    {%- if 'txt' in p.output|default('html') ~%}
+    <content type="text">
+      <![CDATA[{{ p.content }}]]>
+    </content>
+    {%- else ~%}
+    <content type="html">
+      <![CDATA[{{ p.content }}]]>
+    </content>
+    {%- endif ~%}
+    <link href="{{ url(p, {canonical: true}) }}" rel="alternate" type="text/html" />
+    <published>{{ p.date|date('c') }}</published>
+    <updated>{{ p.updated|date('c') }}</updated>
+    {%- endblock ~%}
+  </entry>
+  {%- endfor ~%}
+</feed>
+{% endblock feed %}

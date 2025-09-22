@@ -20,3 +20,6 @@ socials:
     - name: "Github"
       icon: "fa-brands fa-github"
       url: "https://github.com/ktherage"
+    - name: "Symfony connect"
+      icon: "fa-brands fa-symfony"
+      url: "https://connect.symfony.com/profile/kevin_therage"

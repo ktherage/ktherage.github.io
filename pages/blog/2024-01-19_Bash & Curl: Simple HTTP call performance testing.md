@@ -1,8 +1,9 @@
 ---
 tags: [bash, curl, performance, testing, http, shell, web-development, command-line, devops]
+excerpt: >-
+  HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I’ll show you how I did it easily using Curl.
 ---
 HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I’ll show you how I did it easily using Curl.
-<!-- break -->
 
 **TL;DR:** You just want the code (I perfectly understand that 😉)? Scroll to the piece of code.
 

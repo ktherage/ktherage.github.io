@@ -4,7 +4,7 @@ baseline: >-
   PHP/Symfony Developer with over 9 years of experience, certified Symfony 6 and 7 Expert. Specialized in
   complex architectures and ambitious technical projects for demanding sectors: banks, public services,
   e-commerce and French press.
-description: 'Blog professionnel de Kévin THÉRAGE'
+description: 'Professionnal blog of Kévin THÉRAGE'
 url: "https://ktherage.github.io"
 baseurl: "https://ktherage.github.io"
 canonicalurl: true
@@ -54,3 +54,16 @@ optimize:
 cache:
   enabled: true
   dir: ".cache"
+
+pages:
+  body:
+    highlight: true
+    images:
+      formats: []       # adds alternative image formats as `source` (e.g. `[webp, avif]`, empty array by default)
+      resize: 800         # resizes all images to <width> (in pixels, `0` to disable)
+      responsive: true # adds responsives images them to the `srcset` attribute (`false` by default)
+      lazy: true        # adds `loading="lazy"` attribute (`true` by default)
+      decoding: true    # adds `decoding="async"` attribute (`true` by default)
+      caption: true    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
+      placeholder: 'lqip'   # fill <img> background before loading ('color' or 'lqip', empty by default)
+      class: 'img-fluid rounded mx-auto d-block'         # put default class to each image (empty by default)

@@ -1,8 +1,9 @@
 ---
 tags: [Postman, JWT, Authentication, API, JavaScript]
+excerpt: >-
+  You’ve always wondered how to get automatically authenticated toward your JWT API. I’ll tell you how I achieved this in this article.
 ---
 You’ve always wondered how to get automatically authenticated toward your JWT API. I’ll tell you how I achieved this in this article.
-<!-- break -->
 
 ---
 

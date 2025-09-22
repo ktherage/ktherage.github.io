@@ -1,0 +1,21 @@
+{#- param: vocabulary ~#}
+{%- set vocabs = [] -%}
+{%- if site.taxonomies -%}
+{%- set vocabs = site.taxonomies|filter(v => v.id == vocabulary|default or vocabulary|default is empty) -%}
+{%- endif -%}
+{%- if vocabs|length > 0 ~%}
+    <nav class="terms">
+        <ul>
+            {%- for vocab in vocabs ~%}
+                {%- set vocabulary = vocab.id ~%}
+                {%- if page[vocabulary] is defined ~%}
+                    {%- for term in page[vocabulary] ~%}
+                        <li><a class="term"
+                               href="{{ url(vocabulary ~ '/' ~ term, {language: site.language}) }}">{{ term }}</a>
+                        </li>
+                    {%- endfor ~%}
+                {%- endif ~%}
+            {%- endfor ~%}
+        </ul>
+    </nav>
+{%- endif ~%}
