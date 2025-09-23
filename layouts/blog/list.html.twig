@@ -12,9 +12,9 @@
 
             <!-- Filtres par tags -->
             {% set all_tags = [] %}
-            {% for p in pages %}
-                {% if p.tags %}
-                    {% set all_tags = all_tags|merge(p.tags) %}
+            {% for page in pages %}
+                {% if page.tags is defined %}
+                    {% set all_tags = all_tags|merge(page.tags) %}
                 {% endif %}
             {% endfor %}
 
@@ -40,7 +40,7 @@
             <div class="row g-4" id="blog-posts">
                 {% for page in pages %}
                     <div class="col-md-6 col-lg-4 blog-post-item"
-                         data-tags="{% if page.tags %}{{ page.tags|join(' ')|lower }}{% endif %}">
+                         data-tags="{% if page.tags is defined %}{{ page.tags|join(' ')|lower }}{% endif %}">
                         <div class="card h-100 shadow-sm border-0">
                             <div class="card-body d-flex flex-column">
                                 <h2 class="card-title fs-4 mb-2">
@@ -51,7 +51,7 @@
                                 <time class="text-muted small mb-3">
                                     {{ page.date|format_date('long') }}
                                 </time>
-                                {% if page.tags %}
+                                {% if page.tags is defined %}
                                     <div class="mb-3">
                                         {% for tag in page.tags %}
                                             <a href="{{ url('tags/' ~ tag) }}"

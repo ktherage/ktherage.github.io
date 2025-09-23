@@ -17,6 +17,8 @@ Table of contents :
 
 ## Enhance your API Platform APIs with Go thanks to FrankenPHP (Kévin Dunglas)
 
+**Slides of this talk are available : [https://dunglas.dev/2025/09/the-best-of-both-worlds-go-powered-grpc-for-your-php-and-api-platform-apps/](https://dunglas.dev/2025/09/the-best-of-both-worlds-go-powered-grpc-for-your-php-and-api-platform-apps/)**
+
 API Platform is celebrating its 10th anniversary this year, having been created on January 20, 2015. Originally a Symfony bundle, it is now usable with Laravel or even without any framework. With over 2,000 lines of code, 14,000 stars on GitHub, and 921 code and documentation contributors, API Platform has become an essential tool for creating APIs.
 
 Kevin highlighted that it has also been the starting point for many related projects such as Mercure and FrankenPHP, and many Symfony components were first developed for API Platform.
@@ -170,6 +172,8 @@ The speaker referenced the darkweak/wazemmes project on GitHub as a practical im
 
 ## Mercure, SSE, API Platform and an LLM Elevate a Chat(bot) (Mathieu Santostefano)
 
+**Slides of this talk are available : [https://welcomattic.github.io/slides-real-time-ai-chatbot-with-mercure/1](https://welcomattic.github.io/slides-real-time-ai-chatbot-with-mercure/1)**
+
 ### Origin of the Subject
 The initial customer need was to create paid expert chat exchanges. The first version used an API + React, but lacked message history. Mercure was chosen for secure message distribution to customers via JWT.
 
@@ -290,6 +294,8 @@ In his final words Mathieu dedicated his talk in memory of Ryan Weaver, whose co
 ---
 
 ## How API Platform 4.2 is Redefining API Development (Antoine Bluchet)
+
+**Slides of this talk are available : [https://soyuka.me/api-platform-4-2-redefining-api-development/](https://soyuka.me/api-platform-4-2-redefining-api-development/)**
 
 Looking back at version 4.0:
 - 610 commits
@@ -417,6 +423,8 @@ Planned changes:
 
 ## Design pattern the treasure is in the vendor (Smaïne Milianni)
 
+**Slides of this talk are available : [https://ismail1432.github.io/conferences/2025/apip_con/index.html](https://ismail1432.github.io/conferences/2025/apip_con/index.html)**
+
 In this talk Smaïne made a tour on Design Pattern that are commonly used without any knowledge that they are in the vendors we use on a daily basis. He also showcased small and comprehensible code PHP snippets explaining some of them.
 
 Among them were :
@@ -433,8 +441,6 @@ Among them were :
 - The Chain of Responsibility Pattern
 
 Smaïne also ended with a shoutout to Ryan Weaver.
-
-_The slides of this conference can be found there : https://ismail1432.github.io/conferences/2025/apip_con/index.html_
 
 ---
 
@@ -573,6 +579,8 @@ Tobias emphasized a crucial point: scaling decisions must be made before hitting
 ---
 
 ## API Platform, JsonStreamer and ESA for skyrocketing API (Mathias Arlaud)
+
+**Slides of this talk are available : [https://www.canva.com/design/DAGyYPxkygw/M1RzOiv8_cMp0Pa7Mh0u4g/view](https://www.canva.com/design/DAGyYPxkygw/M1RzOiv8_cMp0Pa7Mh0u4g/view)**
 
 Storytelling: imagine a bookstore. A customer orders **all** Symfony-related books. The bookseller tries to gather them all, but it's heavy—takes time, lots of books. The second time, the same request, but the pile is so large that the bookseller collapses under the weight.
 
