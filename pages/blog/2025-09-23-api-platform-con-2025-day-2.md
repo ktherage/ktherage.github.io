@@ -275,19 +275,19 @@ The Lychen project shows how to organize a monorepo with:
 
 ---
 
-# Jean-Beru presents: Fun with flags (Hubert Lenoir)
+## Jean-Beru presents: Fun with flags (Hubert Lenoir)
 
 **Slides of this talk are available : [https://jean-beru.github.io/2025_09_apiplatformcon_fun_with_flags](https://jean-beru.github.io/2025_09_apiplatformcon_fun_with_flags)**
 
 Jean-Beru (Hubert Lenoir) presented the fascinating world of feature flags and their practical implementation. As Uncle Ben said in Spider-Man: "With great power comes great responsibility" - and feature flags are indeed a powerful tool that requires careful consideration.
 
-## What are Feature Flags?
+### What are Feature Flags?
 
 Feature flags (also known as feature flipping or feature toggles) are a software development technique that allows you to turn features on or off without deploying new code. They act as conditional statements in your code that determine whether a particular feature should be enabled or disabled for specific users, environments, or conditions.
 
-## Types of Feature Flags
+### Types of Feature Flags
 
-### Release Flags
+#### Release Flags
 
 Mainly used to test new features in production environments safely.
 
@@ -295,7 +295,7 @@ Mainly used to test new features in production environments safely.
 - **Safe deployment** - Deploy code with features turned off, then enable them when ready
 - **Gradual rollout** - Enable features for small groups before full release
 
-### Experiment Flags
+#### Experiment Flags
 
 Used to compare different versions of your application.
 
@@ -305,7 +305,7 @@ Used to compare different versions of your application.
 
 This approach allows data-driven decisions about which features or implementations work best for your users.
 
-### Permission Flags
+#### Permission Flags
 
 Control access to features based on user permissions or subscription levels.
 
@@ -313,7 +313,7 @@ Control access to features based on user permissions or subscription levels.
 - **Role-based feature access** - Different features for different user types
 - **Subscription tiers** - Enable advanced features for higher-tier customers
 
-### Operational Flags
+#### Operational Flags
 
 Security belt and kill switch functionality.
 
@@ -323,17 +323,17 @@ Security belt and kill switch functionality.
 
 For more detailed information about feature flag patterns, Martin Fowler has an excellent article at [https://martinfowler.com/articles/feature-toggles.html](https://martinfowler.com/articles/feature-toggles.html).
 
-## Implementation
+### Implementation
 
 There are many feature flag providers available in the market, but the implementation doesn't necessarily need to use Symfony's Security component.
 
-### Why Not Security Component?
+#### Why Not Security Component?
 
 - **Restricted to current user context** - Limitations when flags need to work across different user contexts
 - **Authentication timing issues** - Authentication happens after routing, which can lead to unwanted forbidden error codes
 - **Flexibility needs** - Custom implementations can better integrate with existing providers like Unleash
 
-### Requirements for a Good Implementation
+#### Requirements for a Good Implementation
 
 A solid feature flag system should provide:
 
@@ -343,20 +343,20 @@ A solid feature flag system should provide:
 - **Various provider support** - Work with different feature flag services
 - **Cacheable** - Performance optimization through caching mechanisms
 
-### Symfony Integration
+#### Symfony Integration
 
 There's a work-in-progress FeatureFlag component for Symfony (PR #53213). This component aims to provide native support for feature flags within the Symfony ecosystem.
 
-## With API Platform
+### With API Platform
 
 Feature flags can be easily tested via a separated bundle: [ajgarlag/feature-flag-bundle](https://github.com/ajgarlag/feature-flag-bundle).
 
-### Implementation Steps
+#### Implementation Steps
 
 1. **Decoration of API Platform provider** - Use the decorator pattern to wrap existing providers with feature flag logic
 2. **Use FeatureFlag WIP component interface** - Integrate with the upcoming Symfony FeatureFlag component
 
-### Example with GitLab Provider
+#### Example with GitLab Provider
 
 GitLab provides a feature flag service that uses Unleash in the background. This integration allows you to:
 
@@ -364,7 +364,7 @@ GitLab provides a feature flag service that uses Unleash in the background. This
 - **Leverage Unleash capabilities** - Powerful feature flag engine under the hood
 - **Integrate with CI/CD pipelines** - Automatic flag management as part of deployment process
 
-### Profiler Integration
+#### Profiler Integration
 
 The implementation includes Symfony Profiler integration, providing:
 
@@ -372,26 +372,26 @@ The implementation includes Symfony Profiler integration, providing:
 - **Performance insights** - Monitor the impact of feature flag checks
 - **Development workflow** - Easy testing and debugging of flag behavior
 
-## Advantages
+### Advantages
 
 Implementing feature flags brings several significant benefits:
 
-### Deploy Continuously
+#### Deploy Continuously
 - **Decouple deployment from release** - Deploy code safely with features disabled
 - **Reduce deployment risk** - Lower chance of breaking production
 - **Faster iteration cycles** - More frequent, smaller deployments
 
-### Progressive Testing
+#### Progressive Testing
 - **A/B testing capabilities** - Compare different approaches with real users
 - **Gradual rollouts** - Start with small user groups and expand
 - **Data-driven decisions** - Make choices based on actual usage metrics
 
-### Quick Turn Off
+#### Quick Turn Off
 - **No redeployment needed** - Instantly disable problematic features
 - **Emergency response** - Rapid reaction to production issues
 - **Business continuity** - Keep core functionality working while fixing problems
 
-### Separate Code from Feature Release
+#### Separate Code from Feature Release
 - **Independent timelines** - Development and business release schedules can differ
 - **Marketing coordination** - Align feature releases with marketing campaigns
 - **Stakeholder management** - Give business teams control over when features go live
@@ -400,16 +400,16 @@ Feature flags represent a powerful paradigm shift in how we think about software
 
 ---
 
-# PIE : The next Big Thing (Alexandre Daubois)
+## PIE : The next Big Thing (Alexandre Daubois)
 
-## Extensions ?
+### Extensions ?
 
 Extensions are like composer packages, but written in C, C++, Rust, and now Go.  
 They live at a lower level, which makes them much faster than pure PHP code.
 
 Frameworks like **Phalcon** are themselves shipped as extensions.
 
-## Installing a third-party lib
+### Installing a third-party lib
 
 Traditionally, installing an extension is much more painful than a `composer install`.  
 It usually involves:
@@ -421,14 +421,14 @@ It usually involves:
 
 This workflow makes extensions harder to distribute and standardize compared to Composer packages.
 
-## PECL
+### PECL
 
 - Clunky and outdated.
 - Slow to install.
 - Lacks proper security (no package signing).
 - Not officially backed by PHP, and some in the community want to phase it out.
 
-## docker-php-extension-installer
+### docker-php-extension-installer
 
 A widely used community project that simplifies extension installation inside Docker images.  
 Instead of writing complex `apt-get` + `phpize` + `make` commands, you just add:
@@ -441,7 +441,7 @@ RUN install-php-extensions xdebug redis
 
 This is great, but still not perfect—it remains Docker-specific and doesn’t integrate with Composer or Packagist.
 
-## Project to replace PECL
+### Project to replace PECL
 
 The **pie-design** repository defines the foundations of **PIE**, a new way to install extensions as easily as PHP packages.
 
@@ -450,7 +450,7 @@ The **pie-design** repository defines the foundations of **PIE**, a new way to i
 - PIE is distributed as a single `phar` file: just download it and use it.
 - All extension metadata is stored in Packagist.
 
-### Command options
+#### Command options
 
 - `pie install ext-xdebug` → installs an extension and updates `php.ini`.
 - `pie uninstall ext-redis` → removes an extension.
@@ -466,7 +466,7 @@ Other features:
 - OS compatibility restrictions.
 - Symfony CLI integration: `symfony pie install`.
 
-## The future of extensions
+### The future of extensions
 
 PIE is the theoretical replacement for PECL.  
 An RFC vote was held, closing on **September 20, 2025**.  
@@ -474,15 +474,15 @@ Almost everyone voted *yes*, which means PIE is now the official successor to PE
 
 ---
 
-# Make your devs happy by normalizing your API errors (Clément Herreman)
+## Make your devs happy by normalizing your API errors (Clément Herreman)
 
 Errors are not just bugs. They’re an opportunity to give users autonomy through clear feedback.
 
-## What is an error?
+### What is an error?
 
 An error is any behavior—intentional or not—that prevents the user from completing their task.
 
-## Why normalize errors?
+### Why normalize errors?
 
 1. To react properly to a precise issue:
     - Retrying a token.
@@ -494,7 +494,7 @@ An error is any behavior—intentional or not—that prevents the user from comp
     - Precise identification to ease support.
     - Keeping some details vague for security reasons.
 
-## How?
+### How?
 
 Errors can be classified into three categories:
 
@@ -502,7 +502,7 @@ Errors can be classified into three categories:
 2. Errors that don’t belong to your domain but still happen: wrap them with a code and enrich them.
 3. Rare/unexpected errors: keep the default JSON output.
 
-### RFC 7807: Problem Details for HTTP APIs
+#### RFC 7807: Problem Details for HTTP APIs
 
 This RFC defines a standard JSON structure for errors:
 
@@ -512,7 +512,7 @@ This RFC defines a standard JSON structure for errors:
 - `instance`: URL to the error catalog.
 - `...`: any custom fields you want.
 
-#### Example HTTP response
+##### Example HTTP response
 
 ```http
 HTTP/1.1 401 Unauthorized
@@ -526,20 +526,20 @@ Content-Type: application/problem+json
 }
 ```
 
-### API Platform
+#### API Platform
 
 API Platform provides a ready-to-use `ApiPlatform\Problem\Error` class to implement RFC 7807.
 
-### Organizing errors
+#### Organizing errors
 
 - Keep only business exceptions in the domain layer.
 - Wrap infrastructure errors before sending them to the client.
 
-### Documenting errors
+#### Documenting errors
 
 Errors can be declared as attributes on operations, making them explicit in the API docs.
 
-### Improvements: RFC 9457
+#### Improvements: RFC 9457
 
 RFC 9457 is essentially the same as RFC 7807, with some additions:
 
@@ -550,19 +550,19 @@ As Clément highlighted: RFC 9457 doesn’t bring much practical value, and some
 
 ---
 
-# Symfony and Dependency Injection: From past to future (Imen Ezzine)
+## Symfony and Dependency Injection: From past to future (Imen Ezzine)
 
 Dependency Injection (DI) is the “D” in SOLID, and it has been a cornerstone of Symfony’s design for nearly two decades.  
 This talk explored its history, evolution, and what’s next.
 
-## The early days
+### The early days
 
 **2007 – Symfony 1**
 - Services instantiated directly, often via `sfContext()` (a singleton).
 - Hard to test, rigid, tightly coupled.
 - No real container.
 
-## Symfony 2 and the paradigm shift
+### Symfony 2 and the paradigm shift
 
 **2011 – Symfony 2**
 - Introduction of a central container.
@@ -582,7 +582,7 @@ This talk explored its history, evolution, and what’s next.
 - Manual tagging mostly eliminated (providers/persisters automatically wired).
 - Symfony 3.4: services private by default.
 
-## Symfony 5 to Symfony 7
+### Symfony 5 to Symfony 7
 
 **2021 – Symfony 5.3**
 - DI powered by attributes → much less YAML.
@@ -607,7 +607,7 @@ This talk explored its history, evolution, and what’s next.
 - `#[WhenNot]` for conditional services.
 - `when` parameter in `#[AsAlias]`.
 
-## Takeaways
+### Takeaways
 
 Over 20 years, DI in Symfony evolved from:
 

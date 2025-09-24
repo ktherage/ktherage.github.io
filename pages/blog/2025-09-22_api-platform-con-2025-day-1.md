@@ -120,56 +120,6 @@ For more information on using WASM and WASI in Caddy, you can check out the [dar
 
 ---
 
-#### Extending Caddy
-
-The presenter outlined two methods for extending Caddy:
-
-1. **xcaddy build**: Command-line tool for building custom Caddy binaries with plugins
-2. **Web UI**: Browser-based interface available on Caddy's website for configuration management
-
-#### Extending Caddy with Go
-
-The session demonstrated Caddy's native Go integration, which allows direct extension development in Go. This approach provides access to Go's standard library and ecosystem while maintaining Caddy's configuration simplicity.
-
-The speaker referenced the official Caddy documentation at caddyserver.com/docs for detailed implementation guidance.
-
-#### Using Interpreters
-
-The presenter discussed limitations of traditional multi-language server architectures:
-
-- One interpreter required per language
-- Each language version requires a new interpreter
-- Separate maintenance cycles for each interpreter
-- Type systems must be reimplemented across different platforms
-
-These factors create operational complexity and maintenance overhead.
-
-#### WASM
-
-The speaker introduced WebAssembly as a "build once, run everywhere" solution, while noting current challenges with documentation quality and ecosystem stability.
-
-##### How WASM Works
-
-WebAssembly provides a binary instruction format that enables near-native performance across different runtime environments. It creates sandboxed execution contexts suitable for embedding in various systems.
-
-##### WASM in Caddy
-
-The presenter demonstrated Caddy's WebAssembly integration through:
-
-- **wasmtime**: Runtime for executing WASM modules
-- **wazero.NewModuleConfig().WithSysWalltime()**: Configuration for system time access
-- **wasm.NewMiddleware**: Middleware creation for WASM integration
-
-#### WASI
-
-The session covered WebAssembly System Interface (WASI), which extends WebAssembly beyond browser environments by providing system-level interfaces for file system access, network operations, and other OS interactions.
-
-##### WASI in Caddy
-
-The speaker referenced the darkweak/wazemmes project on GitHub as a practical implementation of WASI integration with Caddy. The project documentation is available at github.com/darkweak/wazemmes, demonstrating how to leverage WASM & WASI capabilities to build Caddy extension easily without knowing GO or using interpreters.
-
----
-
 ## Mercure, SSE, API Platform and an LLM Elevate a Chat(bot) (Mathieu Santostefano)
 
 **Slides of this talk are available : [https://welcomattic.github.io/slides-real-time-ai-chatbot-with-mercure/1](https://welcomattic.github.io/slides-real-time-ai-chatbot-with-mercure/1)**
