@@ -1,8 +1,15 @@
 ---
-title: "API Platform Con 2025 - DAY 1"
-date: 2025-09-22
+title: "API Platform con 2025 - DAY 2"
+date: 2025-09-23
+description: "API Platform con 2025 - DAY 2 - an overview of the talks I attended at the API Platform Conference in 2025."
+image: ~
 published: true
-tags: ["Conferences", "API", "API Platform Con", "2025"]
+tags:
+  - Conferences
+  - API
+  - API Platform Con
+  - 2025
+category: Conferences
 excerpt: >-
   I had the opportunity to attend the API Platform Con 2025 thanks to SensioLabs and here is what I learned through the talks I viewed.
 ---

@@ -1,5 +1,6 @@
 /* Variables CSS pour les thèmes */
 :root {
+    /* Couleurs */
     --link-color: black;
     --link-hover-color: grey;
     --btn-color: black;
@@ -8,6 +9,31 @@
     --btn-hover-color: white;
     --badge-hover-bg: black;
     --badge-hover-color: white;
+    
+    /* Typographie */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+    --font-heading: 'Montserrat', var(--font-sans);
+    --font-mono: 'Fira Code', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    
+    /* Échelle typographique modulaire */
+    --text-xs: 0.75rem;    /* 12px */
+    --text-sm: 0.875rem;   /* 14px */
+    --text-base: 1rem;     /* 16px */
+    --text-lg: 1.125rem;   /* 18px */
+    --text-xl: 1.25rem;    /* 20px */
+    --text-2xl: 1.5rem;    /* 24px */
+    --text-3xl: 1.875rem;  /* 30px */
+    --text-4xl: 2.25rem;   /* 36px */
+    --text-5xl: 3rem;      /* 48px */
+    --text-6xl: 3.75rem;   /* 60px */
+    
+    /* Hauteur de ligne */
+    --leading-none: 1;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-normal: 1.5;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
 }
 
 [data-bs-theme="light"] {
@@ -30,6 +56,130 @@
     --btn-hover-color: black;
     --badge-hover-bg: white;
     --badge-hover-color: black;
+}
+
+/* Styles de base */
+body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--bs-body-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Hiérarchie des titres */
+h1, .h1 {
+    font-family: var(--font-heading);
+    font-size: var(--text-4xl);
+    font-weight: 700;
+    line-height: var(--leading-tight);
+    margin-bottom: 1.5rem;
+}
+
+h2, .h2 {
+    font-family: var(--font-heading);
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    line-height: var(--leading-tight);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+h3, .h3 {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+h4, .h4 {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+h5, .h5, h6, .h6 {
+    font-family: var(--font-heading);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: var(--leading-snug);
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Paragraphes */
+p {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    line-height: var(--leading-relaxed);
+}
+
+/* Liens */
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration: underline;
+}
+
+/* Code et préformaté */
+code, kbd, pre, samp {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+pre {
+    line-height: var(--leading-relaxed);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    overflow-x: auto;
+}
+
+/* Citations */
+blockquote {
+    margin: 1.5rem 0;
+    padding: 0.5rem 1rem 0.5rem 1.5rem;
+    border-left: 4px solid var(--bs-border-color);
+    font-style: italic;
+    color: var(--bs-secondary-color);
+}
+
+/* Listes */
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    line-height: var(--leading-relaxed);
+}
+
+/* Petits écrans */
+@media (max-width: 768px) {
+    :root {
+        --text-4xl: 1.875rem;
+        --text-3xl: 1.5rem;
+        --text-2xl: 1.25rem;
+        --text-xl: 1.125rem;
+    }
+    
+    h1, .h1 {
+        margin-bottom: 1.25rem;
+    }
 }
 
 /* Styles généraux pour tous les liens */

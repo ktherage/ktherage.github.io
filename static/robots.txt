@@ -1,0 +1,17 @@
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://ktherage.github.io/sitemap.xml
+
+# Optimisations pour les moteurs de recherche
+Crawl-delay: 1
+
+# Bloquer les fichiers non nécessaires
+Disallow: /_site/
+Disallow: /.cache/
+Disallow: /assets/
+Disallow: *.yml
+Disallow: *.yaml
+Disallow: *.md

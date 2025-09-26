@@ -1,10 +1,10 @@
 # Options
-title: 'Kévin THÉRAGE'
+title: 'Kévin THÉRAGE | Expert Symfony Developer'
 baseline: >-
   PHP/Symfony Developer with over 9 years of experience, certified Symfony 6 and 7 Expert. Specialized in
   complex architectures and ambitious technical projects for demanding sectors: banks, public services,
   e-commerce and French press.
-description: 'Professionnal blog of Kévin THÉRAGE'
+description: 'Technical blog over web development, Symfony, PHP and best practices. Find tutorials and advices for developers.'
 url: "https://ktherage.github.io"
 baseurl: "https://ktherage.github.io"
 canonicalurl: true
@@ -12,21 +12,29 @@ canonicalurl: true
 # Menus
 menus:
   main:
-    - id: 'about-me'
-      name: 'About me'
-      url: '/about-me/'
-      weight: 1
     - id: 'blog'
       name: 'Blog'
       url: '/blog/'
-      weight: 2
+      weight: 10
+      description: 'Technical articles and tutorials on web development'
+    - id: 'about-me'
+      name: 'About me'
+      url: '/about-me/'
+      weight: 20
+      description: 'Presentation of Kévin THÉRAGE, web developer'
 
 theme: null
 
 author:
   name: 'Kévin THÉRAGE'
+  image: 'img/me.png'
   url: 'https://ktherage.github.io/'
-image: cecil-card.png
+  email: 'therage.kevin+professionnalblog[at]gmail.com'
+  title: 'Symfony expert web developer'
+  bio: 'Passionate developer specialized in PHP/Symfony, sharing his knowledge through tutorials and technical articles.'
+
+image: bannier.png
+
 taxonomies:
   tags: tag
 
@@ -39,17 +47,46 @@ static:
 output:
   dir: "_site"
   filename: "index"
+  format: 'html'
+  pretty: true
+  permalink: ':slug/'
+  rss: feed.xml
+  sitemap: sitemap.xml
 
+sitemap:
+  enabled: true
+  exclude: ['404']
+
+feeds:
+  enabled: true
+  formats: ['rss', 'atom', 'json']
+
+# Optimisation des assets
 optimize:
   enabled: true
+
+  # Minification HTML
   html:
-    ext: true
+    enabled: true
+    minify: true
+
+  # Minification CSS
   css:
     enabled: true
+    minify: true
+
+  # Minification JavaScript
   js:
     enabled: true
+    minify: true
+
+  # Optimisation des images
   images:
     enabled: true
+    webp: true
+
+  # Compression GZIP (si supporté par le serveur)
+  gzip: true
 
 cache:
   enabled: true
@@ -59,11 +96,40 @@ pages:
   body:
     highlight: true
     images:
-      formats: []       # adds alternative image formats as `source` (e.g. `[webp, avif]`, empty array by default)
-      resize: 800         # resizes all images to <width> (in pixels, `0` to disable)
-      responsive: true # adds responsives images them to the `srcset` attribute (`false` by default)
-      lazy: true        # adds `loading="lazy"` attribute (`true` by default)
-      decoding: true    # adds `decoding="async"` attribute (`true` by default)
-      caption: true    # puts the image in a <figure> element and adds a <figcaption> containing the title (`false` by default)
-      placeholder: 'lqip'   # fill <img> background before loading ('color' or 'lqip', empty by default)
-      class: 'img-fluid rounded mx-auto d-block'         # put default class to each image (empty by default)
+      formats: ['webp']
+      resize: 800
+      responsive: true
+      lazy: true
+      decoding: true
+      caption: true
+      placeholder: 'lqip'
+      class: 'img-fluid rounded mx-auto d-block'
+
+language: 'en'
+locale: 'en_US'
+
+social:
+  - name: "X/Twitter"
+    icon: "fa-brands fa-x-twitter"
+    url: "https://x.com/KevinTherage"
+  - name: "Mastodon"
+    icon: "fa-brands fa-mastodon"
+    url: "https://mastodon.social/@ktherage"
+  - name: "Bluesky"
+    icon: "fa-brands fa-bluesky"
+    url: "https://bsky.app/profile/ktherage.bsky.social"
+  - name: "LinkedIn"
+    icon: "fa-brands fa-linkedin-in"
+    url: "https://www.linkedin.com/in/kevin-therage"
+  - name: "Medium"
+    icon: "fa-brands fa-medium"
+    url: "https://medium.com/@therage.kevin"
+  - name: "Dev.to"
+    icon: "fa-brands fa-dev"
+    url: "https://dev.to/ktherage"
+  - name: "Github"
+    icon: "fa-brands fa-github"
+    url: "https://github.com/ktherage"
+  - name: "Symfony connect"
+    icon: "fa-brands fa-symfony"
+    url: "https://connect.symfony.com/profile/kevin_therage"
