@@ -6,38 +6,47 @@
 {% endblock %}
 
 {%- block content ~%}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-12 col-xl-10">
-            <article class="blog-post">
-                <header class="mb-4 pb-4 border-bottom">
-                    <h1 class="display-5 fw-bold mb-3">{{ page.title|e }}</h1>
-                    <div class="d-flex flex-wrap align-items-center gap-3 text-muted mb-3">
-                        <time class="small">
-                            <i class="bi bi-calendar3 me-1"></i>
-                            {{ page.date|format_date('long') }}
-                        </time>
-                    </div>
-                    {% if page.tags is defined %}
-                        <div class="mb-2">
-                            {% for tag in page.tags %}
-                                <a href="{{ url('tags/' ~ tag) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
-                            {% endfor %}
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-12 col-xl-10">
+                <article class="blog-post">
+                    <header class="mb-4 pb-4 border-bottom">
+                        {# Image de cover #}
+                        {% if page.cover is defined and page.cover.image %}
+                            <div class="mb-4">
+                                <img src="{{ asset(page.cover.image) }}"
+                                     alt="{{ page.cover_alt ?? "Article cover image" }}"
+                                     class="img-fluid rounded shadow-sm w-100"
+                                     style="max-height: 400px; object-fit: cover;">
+                            </div>
+                        {% endif %}
+                        <h1 class="display-5 fw-bold mb-3">{{ page.title|e }}</h1>
+                        <div class="d-flex flex-wrap align-items-center gap-3 text-muted mb-3">
+                            <time class="small">
+                                <i class="bi bi-calendar3 me-1"></i>
+                                {{ page.date|format_date('long') }}
+                            </time>
                         </div>
-                    {% endif %}
-                </header>
+                        {% if page.tags is defined %}
+                            <div class="mb-2">
+                                {% for tag in page.tags %}
+                                    <a href="{{ url('tags/' ~ tag) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </header>
 
-                <main class="blog-content">
-                    {{ page.content }}
-                </main>
+                    <main class="blog-content">
+                        {{ page.content }}
+                    </main>
 
-                <footer class="mt-5 pt-4 border-top">
-                    {{- include('partials/page-navigation.html.twig', {page}, with_context = false) ~}}
-                </footer>
-            </article>
+                    <footer class="mt-5 pt-4 border-top">
+                        {{- include('partials/page-navigation.html.twig', {page}, with_context = false) ~}}
+                    </footer>
+                </article>
+            </div>
         </div>
     </div>
-</div>
 {%- endblock content ~%}
 
 {%- block javascripts ~%}

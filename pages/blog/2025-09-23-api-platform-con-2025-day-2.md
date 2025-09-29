@@ -2,7 +2,9 @@
 title: "API Platform con 2025 - DAY 2"
 date: 2025-09-23
 description: "API Platform con 2025 - DAY 2 - an overview of the talks I attended at the API Platform Conference in 2025."
-image: ~
+cover:
+   image: "img/54799605114_49f6d7d4e1_k.jpg"
+   alt: "Image from the API Platform con 2025 - Credits Nicolas Detrez https://ncls.tv/"
 published: true
 tags:
   - Conferences
@@ -623,3 +625,6 @@ Over 20 years, DI in Symfony evolved from:
 - Automatic configuration through **attributes**.
 
 This journey has made Symfony projects **more testable, maintainable, and developer-friendly** while reducing boilerplate.
+
+## Credits
+Cover image by [Nicolas Detrez](https://ncls.tv/)

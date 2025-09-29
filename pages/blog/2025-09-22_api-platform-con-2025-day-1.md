@@ -1,8 +1,10 @@
 ---
-title: "API Platform con 2025 - DAY 2"
+title: "API Platform con 2025 - DAY 1"
 date: 2025-09-23
-description: "API Platform con 2025 - DAY 2 - an overview of the talks I attended at the API Platform Conference in 2025."
-image: ~
+description: "API Platform con 2025 - DAY 1 - an overview of the talks I attended at the API Platform Conference in 2025."
+cover:
+  image: "img/54799605114_49f6d7d4e1_k.jpg"
+  alt: "Image from the API Platform con 2025 - Credits Nicolas Detrez https://ncls.tv/"
 published: true
 tags:
   - Conferences
@@ -175,24 +177,28 @@ Secure private chat via JWT (JSON Web Tokens) - an open standard for securely ex
 
 #### Sending a message to Mercure
 ```javascript
-// JavaScript code from Mercure documentation
-const data = encodeURIComponent(JSON.stringify({ message: 'Hello!' }));
-const response = await fetch('https://your-mercure-hub/.well-known/mercure', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
-    'Authorization': 'Bearer your-jwt-token'
-  },
-  body: `topic=https://your-topic-url&data=${data}`
+fetch(this.hubURL, {
+    method: 'POST',
+    credentials: 'include', // Send JWT cookie
+    body: new URLSearchParams({
+        topic: topic,
+        data: JSON.stringify(
+            new MercureUpdateData(
+                conversationId,
+                msg,
+            ),
+        ),
+        private: 'on' // restrict message to subscribed clients
+    })
 });
 ```
 
 #### Connecting to Mercure
-
 ```javascript
-// JavaScript code from Mercure documentation 
-const eventSource = new EventSource('https://your-mercure-hub/.well-known/mercure?topic=https://your-topic-url');
-eventSource.onmessage = e => console.log(e.data);
+const eventSource = new EventSource('/sse-endpoint');
+eventSource.onmessage = (event) => {
+  console.log('New event received: ', event.data);
+};
 ```
 
 #### Symfony SSE Client
@@ -200,49 +206,102 @@ eventSource.onmessage = e => console.log(e.data);
 Built-in EventSourceHttpClient:
 
 ```php
-// Symfony code example 
-use Symfony\Component\Mercure\EventSourceHttpClient;
-$client = new EventSourceHttpClient('https://your-mercure-hub/.well-known/mercure');
-$response = $client->subscribe(['https://your-topic-url']);
+use Symfony\Component\HttpClient\Chunk\ServerSentEvent;
+use Symfony\Component\HttpClient\EventSourceHttpClient;
+use Symfony\Component\HttpClient\HttpClient;
+
+$eventSourceClient = new EventSourceHttpClient(HttpClient::create());
+
+$connection = $eventSourceClient->connect("YOUR-MERCURE-URL");
+
+while (true) {
+    foreach ($eventSourceClient->stream($connection, 2) as $r => $chunk) {
+        if ($chunk->isTimeout()) continue; // Keep the connection alive.
+        if ($chunk->isLast()) return; // Connection closed by server.
+        if ($chunk instanceof ServerSentEvent) $this->processSSE($chunk);
+    }
+}
 ```
 #### Dispatching messages with Messenger
 
 ```php
-// Symfony code example 
-use Symfony\Component\Messenger\MessageBusInterface;
-$bus->dispatch(new YourMessage($data));
+use Symfony\Component\HttpClient\Chunk\ServerSentEvent;
+
+function processSSE(ServerSentEvent $event): void
+{
+    $data = $event->getArrayData();
+    
+    // do some checks before asking LLM
+    if (!$this->shouldProcessWithAi($data)) {
+        return;
+    }
+    
+    // Dispacth message to ask LLM
+    $this->messageBus->dispatch(
+        new ProcessAiResponseMessage(
+            conversationId: $data['conversationId'],
+            userMessage: $data['message'],
+            sseMessageId: $event->getId(),
+            timestamp: $data['timestamp']
+        ),
+    );
+}
 ```
+
 #### Symfony AI Configuration
 
 ##### YAML configuration of AI bundle with Mistral
 
 ```yaml
-framework:
-  ai:
-    providers:
-      mistral:
-        type: mistral
-        api_key: "%env(MISTRAL_API_KEY)%"
+ai:
+    platform:
+        mistral:
+            api_key: '%env(MISTRAL_API_KEY)%'
+    
+    agent:
+        default:
+            platform: 'symfony_ai.platform.mistral'
+            model:
+                class: 'Symfony\AI\Platform\Bridge\Mistral\Mistral'
+                name: !php/const Symfony\AI\Platform\Bridge\Mistral\Mistral::MISTRAL_LARGE
 ```
 
 ##### Handler Example
 
 ```php
 // Symfony AI Bundle code example
-use Symfony\Component\Ai\ClientInterface;
+use Symfony\AI\Agent\AgentInterface;
+use Symfony\AI\Agent\Chat;
+use Symfony\AI\Platform\Message\Message;
+use Symfony\AI\Platform\Message\MessageBag;
+use Symfony\AI\Store\StoreInterface;
 
 class MessageHandler
 {
-     public function __construct(private ClientInterface \$aiClient) {}
-     
-     public function __invoke(YourMessage \$message)
-     {
-         $response = this->aiClient->generateText([
-             'model' => 'mistral-tiny',
-             'prompt' => \$message->getContent()
-         ]);
-         // Processing the AI response
-     }
+    public function __construct(
+        private readonly AgentInterface $agent,
+        private readonly StoreInterface $messageStore,
+    ) {
+    }
+
+    public function __invoke(ProcessAiResponseMessage $message)
+    {
+        $chat = new Chat($this->agent, $this->messageStore, "UNIQUE_ID_TO_PROMPT");
+        $messages = $this->messageStore->load("UNIQUE_ID_TO_PROMPT");
+
+        if ($messages->count() === 0) {
+            // retrieve system prompt from somewhere ...
+
+            // Programmatic System prompt injection
+            $chat->initiate(new MessageBag(
+                Message::forSystem("SYSTEM_PROMPT_INJECTION"),
+            ));
+        }
+
+        $llmAnswer = $chat->submit(Message::ofUser($message->userMessage));
+
+        // do something with the answer
+    }
 }
 ```
 
@@ -517,9 +576,9 @@ There is no silver bullet: every application has its own constraints. Still, sev
 
 - **Read replication**  
   Here, a single primary node handles writes, while replicas serve read queries.
-    - **Synchronous replication** ensures that changes are propagated to all replicas before acknowledging the write. This guarantees consistency but adds latency, as every replica must confirm.
-    - **Asynchronous replication** acknowledges the write immediately and updates replicas later. It reduces latency but risks temporary inconsistency between nodes.  
-      In practice, most applications tolerate eventual consistency. A cache layer in front of the primary often hides replication lag. Still, studies show that 90–98% of applications encounter latency issues if relying only on replicas for reads.
+  - **Synchronous replication** ensures that changes are propagated to all replicas before acknowledging the write. This guarantees consistency but adds latency, as every replica must confirm.
+  - **Asynchronous replication** acknowledges the write immediately and updates replicas later. It reduces latency but risks temporary inconsistency between nodes.  
+    In practice, most applications tolerate eventual consistency. A cache layer in front of the primary often hides replication lag. Still, studies show that 90–98% of applications encounter latency issues if relying only on replicas for reads.
 
 - **Sharding**  
   Sharding distributes data across multiple databases. This enables *theoretically infinite scalability*. For example, users might be split across shards based on their ID.  
@@ -672,3 +731,6 @@ In practice:
 - API Platform integrates it through extension points (PropertyMetadataLoader, ValueTransformers, ObjectMapper).
 - Avoid heavy runtime transformations for best performance.
 - Design your API with these options in mind early—serialization decisions are very difficult to change later.
+
+## Credits
+Cover image by [Nicolas Detrez](https://ncls.tv/)
