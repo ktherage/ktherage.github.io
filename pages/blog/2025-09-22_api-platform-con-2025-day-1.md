@@ -26,7 +26,7 @@ Table of contents :
 
 **Slides of this talk are available : [https://dunglas.dev/2025/09/the-best-of-both-worlds-go-powered-grpc-for-your-php-and-api-platform-apps/](https://dunglas.dev/2025/09/the-best-of-both-worlds-go-powered-grpc-for-your-php-and-api-platform-apps/)**
 
-API Platform is celebrating its 10th anniversary this year, having been created on January 20, 2015. Originally a Symfony bundle, it is now usable with Laravel or even without any framework. With over 2,000 lines of code, 14,000 stars on GitHub, and 921 code and documentation contributors, API Platform has become an essential tool for creating APIs.
+API Platform is celebrating its 10th anniversary this year, having been created on January 20, 2015. Originally a Symfony bundle, it is now usable with Laravel or even without any framework. With over 14,000 stars on GitHub and 921 code and documentation contributors, API Platform has become an essential tool for creating APIs.
 
 Kevin highlighted that it has also been the starting point for many related projects such as Mercure and FrankenPHP, and many Symfony components were first developed for API Platform.
 
