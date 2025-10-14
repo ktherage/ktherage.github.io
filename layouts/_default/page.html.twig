@@ -9,27 +9,25 @@
         {%- endblock head_metatags ~%}
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+
+        {# Preload critical resources #}
+        <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">
+        <link rel="preload" href="/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="/fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="/fonts/montserrat-600.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" as="style">
+
         {%- block head_css ~%}
-            <!-- Google Fonts -->
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
-            
-            <!-- Bootstrap CSS -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-                  integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
-                  crossorigin="anonymous">
-                  
-            <!-- Font Awesome -->
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-                  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-                  crossorigin="anonymous" referrerpolicy="no-referrer"/>
-                  
-            <!-- Highlight.js -->
-            <link rel="stylesheet"
-                  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/atom-one-dark.min.css">
-                  
-            <!-- Custom CSS -->
+            {# Bootstrap 5.3.7 #}
+            <link href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" rel="stylesheet">
+
+            {# Font Awesome 6.7.2 #}
+            <link rel="stylesheet" href="{{ asset('vendor/fontawesome-6.7.2/all.min.css') }}">
+
+            {# Highlight.js 11.11.1 #}
+            <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
+
+            {# Custom CSS #}
             <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
             <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         {%- endblock head_css ~%}
@@ -42,6 +40,10 @@
     {%- endblock header ~%}
 </header>
 <main>
+    {#- debug ~#}
+    {%- if getenv('CECIL_DEBUG') %}
+        {{ d() }}
+    {% endif ~%}
     {%- block content ~%}
         <div class="container my-5">
             <div class="row justify-content-center">
@@ -51,26 +53,23 @@
             </div>
         </div>
     {%- endblock content ~%}
-    {#- debug ~#}
-    {%- if getenv('CECIL_DEBUG') %}{{ d(page) }}{% endif ~%}
 </main>
-<footer class="d-flex justify-content-center align-items-center">
+<footer class="container mt-5 mb-2">
+    <div class="d-flex justify-content-center align-items-center">
     {%- block footer ~%}
         {{- include('partials/footer.html.twig', {site}, with_context = false) ~}}
     {%- endblock footer ~%}
+    </div>
 </footer>
 {%- block javascripts ~%}
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
-            integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/js/all.min.js"
-            integrity="sha512-b+nQTCdtTBIRIbraqNEwsjB6UvL3UEMkXnhzd8awtCYh0Kcsjl9uEgwVFVbhoj3uu1DO1ZMacNvLoyJJiNfcvg=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    {# Bootstrap 5.3.7 (includes Popper) #}
+    <script src="{{ asset('vendor/bootstrap-5.3.7/bootstrap.bundle.min.js') }}"></script>
+
+    {# Highlight.js 11.11.1 #}
+    <script src="{{ asset('vendor/highlightjs-11.11.1/highlight.min.js') }}"></script>
     <script>hljs.highlightAll();</script>
+
+    {# Custom JS #}
     <script src="{{ asset('js/theme-switcher.js') }}"></script>
 {%- endblock javascripts ~%}
 </body>

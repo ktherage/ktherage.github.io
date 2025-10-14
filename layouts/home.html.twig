@@ -24,33 +24,31 @@
                 {{ site.author.name }}
             </h1>
 
-            {% if site.author.title %}
-                <h2 class="h4 text-muted mb-4">
-                    <span class="visually-hidden">Titre: </span>{{ site.author.title }}
-                </h2>
-            {% endif %}
+            <h2 class="h4 text-muted mb-4">
+                <span class="visually-hidden">Titre: </span>{{ site.author.title }}
+            </h2>
 
             <div class="lead mb-5">
                 {{ site.baseline|raw }}
             </div>
 
             <!-- Section Contact -->
-            <div class="row justify-content-center">
-                <div class="col-lg-8 text-center social-links d-flex justify-content-center gap-4 mb-5" role="list" aria-label="Réseaux sociaux">
-                    {% for social in site.social %}
-                        <div class="social-link p-2" role="listitem">
-                            <a href="{{ social.url }}"
-                               target="_blank"
-                               rel="noopener noreferrer"
-                               class="text-decoration-none"
-                               aria-label="Me suivre sur {{ social.name|capitalize }} (nouvelle fenêtre)"
-                            >
-                                <i class="{{ social.icon }} fa-4x" aria-hidden="true"></i>
-                                <span class="visually-hidden">{{ social.url }}</span>
-                            </a>
-                        </div>
-                    {% endfor %}
-                </div>
+            <div class="row d-flex flex-row justify-content-around align-items-center social-links" role="list" aria-label="Réseaux sociaux">
+                {% for social in site.social %}
+                    <a href="{{ social.url }}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="col-sm-3 col-md-1 text-decoration-none d-flex flex-row justify-content-center align-items-center flex-column text-center mx-2 my-2 text-dark"
+                        aria-label="Me suivre sur {{ social.name|capitalize }} (nouvelle fenêtre)"
+                        role="listitem"
+                        style="height: 150px;"
+                        {% if social.name == 'email' %}rel="me"{% endif %}
+                    >
+                        <i class="{{ social.icon }} fa-4x" aria-hidden="true"></i>
+                        <span>{{ social.name }}</span>
+                        <span class="visually-hidden">{{ social.url }}</span>
+                    </a>
+                {% endfor %}
             </div>
         </header>
 
@@ -58,12 +56,12 @@
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
             <h2 id="latest-posts-heading" class="h3 text-center mb-5">Last articles</h2>
             <div class="row g-4" role="list">
-                {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.date <= date() and p.id != page.id)|sort_by_date|slice(0, 3) %}
+                {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
                 {% for post in latest_posts %}
                     <div class="col-md-4" role="listitem">
                         <article class="card h-100 shadow-sm">
-                            {% if post.image is defined and post.image is not null %}
-                                {% set post_image = asset(post.image) %}
+                            {% if post.cover.image is defined and post.cover.image is not null %}
+                                {% set post_image = asset(post.cover.image) %}
                                 <div class="ratio ratio-16x9">
                                     <img
                                         src="{{ url(post_image|resize(400, 225, 'cover')) }}"
@@ -71,7 +69,7 @@
                                                 {{ url(post_image|resize(800, 450, 'cover')) }} 800w"
                                         sizes="(max-width: 768px) 100vw, 400px"
                                         class="card-img-top object-fit-cover"
-                                        alt=""
+                                        alt="{{ post.cover.alt|default('Cover image for ' ~ post.title) }}"
                                         loading="lazy"
                                         width="400"
                                         height="225"
