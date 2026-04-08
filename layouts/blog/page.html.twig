@@ -13,11 +13,14 @@
                     <header class="mb-4 pb-4 border-bottom">
                         {# Image de cover #}
                         {% if page.cover is defined and page.cover.image %}
-                            <div class="mb-4">
+                            <div class="d-flex flex-wrap align-items-center justify-content-center mb-4">
                                 <img src="{{ asset(page.cover.image) }}"
-                                     alt="{{ page.cover_alt ?? "Article cover image" }}"
-                                     class="img-fluid rounded shadow-sm w-100"
-                                     style="max-height: 400px; object-fit: cover;">
+                                    alt="{{ post.cover.alt|default('Cover image for ' ~ page.title) }}"
+                                    class="img-fluid rounded shadow-sm w-100"
+                                    style="max-height: 400px; object-fit: cover;">
+                                {% if page.cover.caption is defined and page.cover.caption is not null %}
+                                    <p class="text-muted text-center mb-0">{{ page.cover.caption|raw }}</p>
+                                {% endif %}
                             </div>
                         {% endif %}
                         <h1 class="display-5 fw-bold mb-3">{{ page.title|e }}</h1>

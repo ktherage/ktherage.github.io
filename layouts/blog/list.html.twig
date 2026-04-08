@@ -37,38 +37,67 @@
                 </div>
             {% endif %}
 
-            <div class="row g-4" id="blog-posts">
+            <div class="row g-4" role="list" id="blog-posts">
                 {% for page in pages %}
-                    <div class="col-md-6 col-lg-4 blog-post-item"
-                         data-tags="{% if page.tags is defined %}{{ page.tags|join(' ')|lower }}{% endif %}">
-                        <div class="card h-100 shadow-sm border-0">
+                    <div class="col-md-4" role="listitem">
+                        <article class="card h-100 shadow-sm blog-post-item" data-tags="{% if page.tags is defined %}{{ page.tags|join(' ')|lower }}{% endif %}">
+                            {% if page.cover.image is defined and page.cover.image is not null %}
+                                {% set page_image = asset(page.cover.image) %}
+                                <div class="ratio ratio-16x9">
+                                    <img
+                                        src="{{ url(page_image|resize(400, 225, 'cover')) }}"
+                                        srcset="{{ url(page_image|resize(400, 225, 'cover')) }} 400w,
+                                                {{ url(page_image|resize(800, 450, 'cover')) }} 800w"
+                                        sizes="(max-width: 768px) 100vw, 400px"
+                                        class="card-img-top object-fit-cover"
+                                        alt="{{ page.cover.alt|default('Cover image for ' ~ page.title) }}"
+                                        loading="lazy"
+                                        width="400"
+                                        height="225"
+                                        decoding="async"
+                                        {% if loop.first %}
+                                            fetchpriority="high"
+                                        {% else %}
+                                            fetchpriority="low"
+                                        {% endif %}
+                                    >
+                                </div>
+                            {% endif %}
                             <div class="card-body d-flex flex-column">
-                                <h2 class="card-title fs-4 mb-2">
-                                    <a href="{{ url(page) }}" class="text-decoration-none">
-                                        {{ page.title|e }}
+                                <h3 class="h5 card-title">
+                                    <a href="{{ url(page) }}" class="text-decoration-none stretched-link"
+                                    >
+                                        <span class="visually-hidden">Read article: </span>{{ page.title }}
                                     </a>
-                                </h2>
-                                <time class="text-muted small mb-3">
-                                    {{ page.date|format_date('long') }}
-                                </time>
+                                </h3>
+                                <div class="text-muted small mb-3">
+                                    <time datetime="{{ page.date|date('c') }}">
+                                        <span class="visually-hidden">Published at</span>{{ page.date|format_date('long') }}
+                                    </time>
+                                    <span class="mx-2" aria-hidden="true">•</span>
+                                    {% set reading_time = (page.content|striptags|split(' ')|length / 200)|round %}
+                                    {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
+                                    <span class="reading-time">{{ reading_time }} minute reading</span>
+                                    <meta content="PT{{ reading_time }}M">
+                                </div>
                                 {% if page.tags is defined %}
                                     <div class="mb-3">
                                         {% for tag in page.tags %}
                                             <a href="{{ url('tags/' ~ tag) }}"
-                                               class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                                                class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
-                                {% if page.excerpt is defined %}
-                                <p class="card-text">
-                                    {{ page.excerpt }}
+                                <p class="card-text flex-grow-1">
+                                    {{ page.excerpt|default('')|striptags }}
+                                    <span class="visually-hidden">Read article "{{ page.title }}"</span>
                                 </p>
-                                {% endif %}
-                                <a href="{{ url(page) }}" class="btn btn-outline-light mt-auto text-decoration-none">
-                                    Read more
+                                <a href="{{ url(page) }}" class="btn btn-outline-primary mt-auto align-self-start"
+                                    aria-label="Read article : {{ page.title }}">
+                                    Read more <span class="visually-hidden">: {{ page.title }}</span>
                                 </a>
                             </div>
-                        </div>
+                        </article>
                     </div>
                 {% endfor %}
             </div>

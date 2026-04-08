@@ -1,2 +1,0 @@
-- Prefer twig comment over html comments as they don't appear in html at the end.
-- Use relative path for bash commands and DON'T EVER GET OUT OF THE PROJECT

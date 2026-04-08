@@ -108,7 +108,9 @@ cache:
   enabled: true
   dir: ".cache"
 
+# Disable pagination - show all posts on one page
 pages:
+  pagination: false
   body:
     highlight: true
     images:

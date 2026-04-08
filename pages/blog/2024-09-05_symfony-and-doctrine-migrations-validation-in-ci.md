@@ -1,7 +1,10 @@
 ---
 title: "Symfony & Doctrine Migrations: Validation in CI"
 description: "API Platform con 2025 - DAY 2 - an overview of the talks I attended at the API Platform Conference in 2025."
-image: ~
+cover:
+  image: "img/birds-migration.jpg"
+  alt: "Flock of birds forming V shape in flight"
+  caption: "Photo by <a href=\"https://www.pexels.com/@kai-filmer/\">Kai Filmer</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
 tags: [Symfony, Doctrine, Migrations, CI, Database, PHP, Bash, Devops, Automation, Testing]
 excerpt: >-

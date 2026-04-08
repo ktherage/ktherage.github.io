@@ -1,11 +1,14 @@
 ---
 title: "Postman : Automatic JWT authentication with expired token refresh"
 description: "A quick and simple way to test the performance of your HTTP calls."
-image: ~
+cover:
+  image: "img/padlock-fence.jpg"
+  alt: "Silver padlocks on green steel fence"
+  caption: "Photo by <a href=\"https://www.pexels.com/@frank-mcintyre/\">Frank McIntyre</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
 tags: [Postman, JWT, Authentication, API, JavaScript]
 excerpt: >-
-  You’ve always wondered how to get automatically authenticated toward your JWT API. I’ll tell you how I achieved this in this article.
+  You've always wondered how to get automatically authenticated toward your JWT API. I'll tell you how I achieved this in this article.
 ---
 You’ve always wondered how to get automatically authenticated toward your JWT API. I’ll tell you how I achieved this in this article.
 

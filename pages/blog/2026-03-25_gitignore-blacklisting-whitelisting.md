@@ -3,9 +3,8 @@ title: "Debugging Git's .gitignore: Why Whitelisting Files in Subdirectories Fai
 description: "A deep dive into Git's .gitignore directory traversal rules and how to avoid common pitfalls when whitelisting files in subdirectories."
 cover:
   image: "img/pexels-photo-577585.jpeg"
-  alt: >
-    Image from <a href="https://www.pexels.com">www.pexels.com</a> -
-    Credits <a href="https://www.pexels.com/@kevin-ku-92347/">Kevin Ku</a>
+  alt: "Image from www.pexels.com - Credits Kevin Ku"
+  caption: "Image from <a href=\"https://www.pexels.com\">www.pexels.com</a> - Credits <a href=\"https://www.pexels.com/@kevin-ku-92347/\">Kevin Ku</a>"
 published: true
 tags: [Git]
 excerpt: >-

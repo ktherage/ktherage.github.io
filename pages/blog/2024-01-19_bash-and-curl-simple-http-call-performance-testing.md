@@ -1,11 +1,14 @@
 ---
 title: "Bash & Curl: Simple HTTP call performance testing"
 description: "A quick and simple way to test the performance of your HTTP calls."
-image: ~
+cover:
+  image: "img/terminal-code.jpg"
+  alt: "Computer program language text"
+  caption: "Photo by <a href=\"https://www.pexels.com/@nathan Dumlao/\">Nathan Dumlao</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
 tags: [Bash, Curl, Performance, Testing, Http, Shell, Web-Development, Command-Line, Devops]
 excerpt: >-
-  HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I’ll show you how I did it easily using Curl.
+  HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I'll show you how I did it easily using Curl.
 ---
 HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I’ll show you how I did it easily using Curl.
 
