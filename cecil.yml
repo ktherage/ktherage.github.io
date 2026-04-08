@@ -52,6 +52,18 @@ output:
   permalink: ':slug/'
   rss: feed.xml
   sitemap: sitemap.xml
+  formats:
+    - name: rss
+      mediatype: application/rss+xml
+      filename: feed
+      extension: xml
+    - name: atom
+      mediatype: application/atom+xml
+      filename: atom
+      extension: xml
+  pagetypeformats:
+    homepage: [html, rss, atom]
+    section: [html, rss, atom]
 
 sitemap:
   enabled: true

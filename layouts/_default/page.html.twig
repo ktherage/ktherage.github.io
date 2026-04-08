@@ -10,6 +10,10 @@
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
 
+        {# RSS/Atom feeds #}
+        <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ url('feed.xml') }}">
+        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="{{ url('atom.xml') }}">
+
         {# Preload critical resources #}
         <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">
         <link rel="preload" href="/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
