@@ -225,3 +225,8 @@ a:hover {
     background-color: grey !important;
     color: white !important;
 }
+
+/* Social links in home page */
+.social-links a {
+    color: var(--link-color) !important;
+}
