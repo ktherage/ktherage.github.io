@@ -8,12 +8,13 @@
                 </a>
             </div>
             <div class="nav-item px-2 dropdown">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="RSS/Atom feeds" aria-label="RSS/Atom feeds">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="Feeds" aria-label="Feeds">
                     <i class="fas fa-rss"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ url('feed.xml') }}">RSS Feed</a></li>
                     <li><a class="dropdown-item" href="{{ url('atom.xml') }}">Atom Feed</a></li>
+                    <li><a class="dropdown-item" href="{{ url('feed.json') }}">JSON Feed</a></li>
                 </ul>
             </div>
         </div>

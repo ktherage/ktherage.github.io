@@ -61,9 +61,13 @@ output:
       mediatype: application/atom+xml
       filename: atom
       extension: xml
+    - name: json
+      mediatype: application/json
+      filename: feed
+      extension: json
   pagetypeformats:
-    homepage: [html, rss, atom]
-    section: [html, rss, atom]
+    homepage: [html, rss, atom, json]
+    section: [html, rss, atom, json]
 
 sitemap:
   enabled: true
