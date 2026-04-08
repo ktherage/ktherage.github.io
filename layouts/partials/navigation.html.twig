@@ -7,7 +7,7 @@
                     <i class="fas fa-moon"></i>
                 </a>
             </div>
-<            <div class="nav-item px-2 dropdown">
+            <div class="nav-item px-2 dropdown">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="RSS/Atom feeds" aria-label="RSS/Atom feeds">
                     <i class="fas fa-rss"></i>
                 </a>
@@ -15,7 +15,7 @@
                     <li><a class="dropdown-item" href="{{ url('feed.xml') }}">RSS Feed</a></li>
                     <li><a class="dropdown-item" href="{{ url('atom.xml') }}">Atom Feed</a></li>
                 </ul>
-            </div>>
+            </div>
         </div>
         <div class="navbar-nav d-flex flex-row align-items-center">
             {%- for item in site.menus[menu]|sort_by_weight ~%}
