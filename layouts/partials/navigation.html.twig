@@ -1,9 +1,18 @@
 {%- if menu|length > 1 ~%}
 <nav class="navbar navbar-expand-lg">
     <div class="container d-flex flex-row justify-content-between align-items-center">
-        <button type="button" class="btn" data-theme-toggle title="Changer de thème">
-            <i class="fas fa-moon"></i>
-        </button>
+        <div class="navbar-nav d-flex flex-row align-items-center">
+            <div class="nav-item px-2">
+                <a href="#" data-theme-toggle title="Change theme">
+                    <i class="fas fa-moon"></i>
+                </a>
+            </div>
+<            <div class="nav-item px-2">
+                <a href="{{ url('feed.xml') }}" title="RSS feed">
+                    <i class="fas fa-rss"></i>
+                </a>
+            </div>>
+        </div>
         <div class="navbar-nav d-flex flex-row align-items-center">
             {%- for item in site.menus[menu]|sort_by_weight ~%}
                 <div class="nav-item px-2">
