@@ -1,7 +1,7 @@
 ---
 title: "Debugging Git's .gitignore: Why Whitelisting Files in Subdirectories Fails"
 description: "A deep dive into Git's .gitignore directory traversal rules and how to avoid common pitfalls when whitelisting files in subdirectories."
-image: ~
+image: img/pexels-photo-577585.jpeg
 published: true
 tags: [Git]
 excerpt: >-
