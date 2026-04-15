@@ -1,0 +1,31 @@
+{%- if menu|length > 1 ~%}
+<nav class="navbar navbar-expand-lg">
+    <div class="container d-flex flex-row justify-content-between align-items-center">
+        <div class="navbar-nav d-flex flex-row align-items-center">
+            <div class="nav-item px-2">
+                <a href="#" data-theme-toggle title="Change theme">
+                    <i class="fas fa-moon"></i>
+                </a>
+            </div>
+            <div class="nav-item px-2 dropdown">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="Feeds" aria-label="Feeds">
+                    <i class="fas fa-rss"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{{ url('feed.xml') }}">RSS Feed</a></li>
+                    <li><a class="dropdown-item" href="{{ url('atom.xml') }}">Atom Feed</a></li>
+                    <li><a class="dropdown-item" href="{{ url('feed.json') }}">JSON Feed</a></li>
+                    <li><a class="dropdown-item" href="{{ url('feed.md') }}">LLM Feed</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="navbar-nav d-flex flex-row align-items-center">
+            {%- for item in site.menus[menu]|sort_by_weight ~%}
+                <div class="nav-item px-2">
+                    <a class="nav-link" href="{{ url(item.url) }}">{{ item.name }}</a>
+                </div>
+            {%- endfor ~%}
+        </div>
+    </div>
+</nav>
+{%- endif ~%}
