@@ -1,0 +1,157 @@
+# Options
+title: 'Kévin THÉRAGE | Expert Symfony Developer'
+baseline: >-
+  PHP/Symfony Developer with over 9 years of experience, certified Symfony 6 and 7 Expert. Specialized in
+  complex architectures and ambitious technical projects for demanding sectors: banks, public services,
+  e-commerce and French press.
+description: 'Technical blog over web development, Symfony, PHP and best practices. Find tutorials and advices for developers.'
+url: "https://ktherage.github.io"
+baseurl: "https://ktherage.github.io"
+canonicalurl: true
+
+# Menus
+menus:
+  main:
+    - id: 'blog'
+      name: 'Blog'
+      url: '/blog/'
+      weight: 10
+      description: 'Technical articles and tutorials on web development'
+    - id: 'about-me'
+      name: 'About me'
+      url: '/about-me/'
+      weight: 20
+      description: 'Presentation of Kévin THÉRAGE, web developer'
+
+theme: null
+
+author:
+  name: 'Kévin THÉRAGE'
+  image: 'img/me.png'
+  url: 'https://ktherage.github.io/'
+  email: 'therage.kevin+professionnalblog[at]gmail.com'
+  title: 'Symfony expert web developer'
+  bio: 'Passionate developer specialized in PHP/Symfony, sharing his knowledge through tutorials and technical articles.'
+
+image: bannier.png
+
+taxonomies:
+  tags: tag
+
+static:
+  exclude:
+    - "*.md"
+    - "*.yml"
+    - "*.yaml"
+
+output:
+  dir: "_site"
+  filename: "index"
+  format: 'html'
+  pretty: true
+  permalink: ':slug/'
+  rss: feed.xml
+  sitemap: sitemap.xml
+  formats:
+    - name: rss
+      mediatype: application/rss+xml
+      filename: feed
+      extension: xml
+    - name: atom
+      mediatype: application/atom+xml
+      filename: atom
+      extension: xml
+    - name: json
+      mediatype: application/json
+      filename: feed
+      extension: json
+    - name: md
+      mediatype: text/markdown
+      filename: feed
+      extension: md
+  pagetypeformats:
+    homepage: [html, rss, atom, json, md]
+    section: [html, rss, atom, json, md]
+
+sitemap:
+  enabled: true
+  exclude: ['404']
+
+feeds:
+  enabled: true
+  formats: ['rss', 'atom', 'json']
+
+# Optimisation des assets
+optimize:
+  enabled: true
+
+  # Minification HTML
+  html:
+    enabled: true
+    minify: true
+
+  # Minification CSS
+  css:
+    enabled: true
+    minify: true
+
+  # Minification JavaScript
+  js:
+    enabled: true
+    minify: true
+
+  # Optimisation des images
+  images:
+    enabled: true
+    webp: true
+
+  # Compression GZIP (si supporté par le serveur)
+  gzip: true
+
+cache:
+  enabled: true
+  dir: ".cache"
+
+# Disable pagination - show all posts on one page
+pages:
+  pagination: false
+  body:
+    highlight: true
+    images:
+      formats: ['webp']
+      resize: 800
+      responsive: true
+      lazy: true
+      decoding: true
+      caption: true
+      placeholder: 'lqip'
+      class: 'img-fluid rounded mx-auto d-block'
+
+language: 'en'
+locale: 'en_US'
+
+social:
+  - name: "X/Twitter"
+    icon: "fa-brands fa-x-twitter"
+    url: "https://x.com/KevinTherage"
+  - name: "Mastodon"
+    icon: "fa-brands fa-mastodon"
+    url: "https://mastodon.social/@ktherage"
+  - name: "Bluesky"
+    icon: "fa-brands fa-bluesky"
+    url: "https://bsky.app/profile/ktherage.bsky.social"
+  - name: "LinkedIn"
+    icon: "fa-brands fa-linkedin-in"
+    url: "https://www.linkedin.com/in/kevin-therage"
+  - name: "Medium"
+    icon: "fa-brands fa-medium"
+    url: "https://medium.com/@therage.kevin"
+  - name: "Dev.to"
+    icon: "fa-brands fa-dev"
+    url: "https://dev.to/ktherage"
+  - name: "Github"
+    icon: "fa-brands fa-github"
+    url: "https://github.com/ktherage"
+  - name: "Symfony connect"
+    icon: "fa-brands fa-symfony"
+    url: "https://connect.symfony.com/profile/kevin_therage"

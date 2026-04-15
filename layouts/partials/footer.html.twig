@@ -1,0 +1,8 @@
+{%- set powered_by -%}
+    <a href="{{ cecil.url }}">Cecil</a> &amp; <a href="https://getbootstrap.com/">Bootstrap</a> &amp; <a href="https://fontawesome.com/">Font Awesome</a>
+{%- endset ~%}
+<small>
+    <a href="{{ site.url }}">&copy; {{ "now"|date("Y") }} Kévin THÉRAGE</a>
+    — Generated with <a href="https://www.php.net/">PHP</a> &Backslash; {% trans %}Powered by %powered_by%{% endtrans %}
+    — <a href="/legal/">Legal</a>
+</small>
