@@ -127,8 +127,15 @@ pages:
       placeholder: 'lqip'
       class: 'img-fluid rounded mx-auto d-block'
 
-language: 'en'
 locale: 'en_US'
+language: 'en'
+languages:
+  - code: en
+    name: English
+    locale: en_EN
+  - code: fr
+    name: Français
+    locale: fr_FR
 
 social:
   - name: "X/Twitter"
