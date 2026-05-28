@@ -18,6 +18,18 @@
                     <li><a class="dropdown-item" href="{{ url('feed.md') }}">LLM Feed</a></li>
                 </ul>
             </div>
+            <div class="nav-item px-2">
+                {%- set targetLang = site.language == 'fr' ? 'en' : 'fr' -%}
+                {%- set translation = page.translations|filter(t => t.language == targetLang)|first -%}
+                {%- if translation -%}
+                    {%- set targetUrl = url(translation) -%}
+                {%- else -%}
+                    {%- set targetUrl = targetLang == 'fr' ? url('fr/' ~ page.id) : url(page.id) -%}
+                {%- endif -%}
+                <a href="{{ targetUrl }}" title="{{ targetLang == 'fr' ? 'Passer en français' : 'Switch to English' }}">
+                    {{- targetLang == 'fr' ? '🇫🇷' : '🇬🇧' -}}
+                </a>
+            </div>
         </div>
         <div class="navbar-nav d-flex flex-row align-items-center">
             {%- for item in site.menus[menu]|sort_by_weight ~%}
