@@ -42,7 +42,7 @@
 <body class="container d-flex flex-column" style="min-height: 100vh;">
 <header>
     {%- block header ~%}
-        {{- include('partials/navigation.html.twig', {menu: site.menus.main}, with_context = false) ~}}
+        {{- include('partials/navigation.html.twig', {page, menu: site.menus.main}, with_context = false) ~}}
     {%- endblock header ~%}
 </header>
 <main>
@@ -77,6 +77,7 @@
 
     {# Custom JS #}
     <script src="{{ asset('js/theme-switcher.js') }}"></script>
+    <script src="{{ asset('js/language-switcher.js') }}"></script>
 {%- endblock javascripts ~%}
 </body>
 </html>
