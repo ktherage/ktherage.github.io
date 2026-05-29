@@ -1,3 +1,10 @@
+---
+title: "À propos"
+menu:
+  main:
+    weight: 110
+    name: "À propos"
+---
 # À propos
 
 Je suis un développeur PHP/Symfony avec plus de 9 ans d'expérience dans le développement web. Actuellement chez SensioLabs, j'ai eu l'opportunité de travailler sur divers projets pour des secteurs exigeants : banques, services publics, e-commerce et presse française.

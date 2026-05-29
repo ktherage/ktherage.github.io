@@ -3,20 +3,9 @@
     <div class="container d-flex flex-row justify-content-between align-items-center">
         <div class="navbar-nav d-flex flex-row align-items-center">
             <div class="nav-item px-2">
-                <a href="#" data-theme-toggle title="Change theme">
+                <a href="#" data-theme-toggle title="{{ 'change_theme'|trans }}">
                     <i class="fas fa-moon"></i>
                 </a>
-            </div>
-            <div class="nav-item px-2 dropdown">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="Feeds" aria-label="Feeds">
-                    <i class="fas fa-rss"></i>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="{{ url('feed.xml') }}">RSS Feed</a></li>
-                    <li><a class="dropdown-item" href="{{ url('atom.xml') }}">Atom Feed</a></li>
-                    <li><a class="dropdown-item" href="{{ url('feed.json') }}">JSON Feed</a></li>
-                    <li><a class="dropdown-item" href="{{ url('feed.md') }}">LLM Feed</a></li>
-                </ul>
             </div>
             <div class="nav-item px-2">
                 {%- set targetLang = site.language == 'fr' ? 'en' : 'fr' -%}
@@ -26,15 +15,27 @@
                 {%- else -%}
                     {%- set targetUrl = targetLang == 'fr' ? url('fr/' ~ page.id) : url(page.id) -%}
                 {%- endif -%}
-                <a href="{{ targetUrl }}" title="{{ targetLang == 'fr' ? 'Passer en français' : 'Switch to English' }}">
+                <a href="{{ targetUrl }}" title="{{ targetLang == 'fr' ? 'switch_to_french'|trans : 'switch_to_english'|trans }}">
                     {{- targetLang == 'fr' ? '🇫🇷' : '🇬🇧' -}}
                 </a>
             </div>
+            <div class="nav-item px-2 dropdown">
+                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="{{ 'feeds'|trans }}" aria-label="{{ 'feeds'|trans }}">
+                    <i class="fas fa-rss"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="{{ url('feed.xml') }}">{{ 'rss_feed'|trans }}</a></li>
+                    <li><a class="dropdown-item" href="{{ url('atom.xml') }}">{{ 'atom_feed'|trans }}</a></li>
+                    <li><a class="dropdown-item" href="{{ url('feed.json') }}">{{ 'json_feed'|trans }}</a></li>
+                    <li><a class="dropdown-item" href="{{ url('feed.md') }}">{{ 'llm_feed'|trans }}</a></li>
+                </ul>
+            </div>
         </div>
+        {%- set menu_keys = {index: 'home', blog: 'blog', 'about-me': 'about_me', legal: 'legal'} ~%}
         <div class="navbar-nav d-flex flex-row align-items-center">
             {%- for item in site.menus[menu]|sort_by_weight ~%}
                 <div class="nav-item px-2">
-                    <a class="nav-link" href="{{ url(item.url) }}">{{ item.name }}</a>
+                    <a class="nav-link" href="{{ url(item.id, {language: site.language}) }}">{{ attribute(menu_keys, item.id)|default('menu_' ~ item.id)|trans }}</a>
                 </div>
             {%- endfor ~%}
         </div>

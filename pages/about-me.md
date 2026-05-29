@@ -1,3 +1,10 @@
+---
+title: "About me"
+menu:
+  main:
+    weight: 110
+    name: "About me"
+---
 # About Me
 
 I am a PHP/Symfony developer with over 9 years of experience in web development. Currently at SensioLabs, I have had the opportunity to work on various projects for demanding sectors: banks, public services, e-commerce and French press.

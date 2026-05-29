@@ -12,16 +12,15 @@ canonicalurl: true
 # Menus
 menus:
   main:
+    - id: 'index'
+      name: 'Home'
+      url: '/'
+      weight: 10
     - id: 'blog'
       name: 'Blog'
       url: '/blog/'
-      weight: 10
-      description: 'Technical articles and tutorials on web development'
-    - id: 'about-me'
-      name: 'About me'
-      url: '/about-me/'
       weight: 20
-      description: 'Presentation of Kévin THÉRAGE, web developer'
+      description: 'Technical articles and tutorials on web development'
 
 theme: null
 

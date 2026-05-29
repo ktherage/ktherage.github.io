@@ -29,7 +29,7 @@
             {% if unique_tags %}
                 <div class="mb-4 text-center">
                     <span class="badge bg-secondary me-2 mb-2 filter-badge active" data-filter="all"
-                          style="cursor: pointer;">Tous</span>
+                          style="cursor: pointer;">{{ 'all_label'|trans }}</span>
                     {% for tag in unique_tags %}
                         <span class="badge bg-secondary me-2 mb-2 filter-badge" data-filter="{{ tag|lower }}"
                               style="cursor: pointer;">{{ tag }}</span>
@@ -50,7 +50,7 @@
                                                 {{ url(page_image|resize(800, 450, 'cover')) }} 800w"
                                         sizes="(max-width: 768px) 100vw, 400px"
                                         class="card-img-top object-fit-cover"
-                                        alt="{{ page.cover.alt|default('Cover image for ' ~ page.title) }}"
+                                        alt="{{ page.cover.alt|default('cover_image_for'|trans({'%title%': page.title})) }}"
                                         loading="lazy"
                                         width="400"
                                         height="225"
@@ -67,17 +67,17 @@
                                 <h3 class="h5 card-title">
                                     <a href="{{ url(page) }}" class="text-decoration-none stretched-link"
                                     >
-                                        <span class="visually-hidden">Read article: </span>{{ page.title }}
+                                        <span class="visually-hidden">{{ 'read_article'|trans }}: </span>{{ page.title }}
                                     </a>
                                 </h3>
                                 <div class="text-muted small mb-3">
                                     <time datetime="{{ page.date|date('c') }}">
-                                        <span class="visually-hidden">Published at</span>{{ page.date|format_date('long') }}
+                                        <span class="visually-hidden">{{ 'published_at'|trans }}</span>{{ page.date|format_date('long') }}
                                     </time>
                                     <span class="mx-2" aria-hidden="true">•</span>
                                     {% set reading_time = (page.content|striptags|split(' ')|length / 200)|round %}
                                     {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
-                                    <span class="reading-time">{{ reading_time }} minute{{ reading_time > 1 ? 's' : ''}} reading</span>
+                                    <span class="reading-time">{{ reading_time > 1 ? 'minutes_reading'|trans({'%count%': reading_time}) : 'minute_reading'|trans({'%count%': reading_time}) }}</span>
                                     <meta content="PT{{ reading_time }}M">
                                 </div>
                                 {% if page.tags is defined %}
@@ -90,11 +90,10 @@
                                 {% endif %}
                                 <p class="card-text flex-grow-1">
                                     {{ page.excerpt|default('')|striptags }}
-                                    <span class="visually-hidden">Read article "{{ page.title }}"</span>
                                 </p>
                                 <a href="{{ url(page) }}" class="btn btn-outline-primary mt-auto align-self-start"
-                                    aria-label="Read article : {{ page.title }}">
-                                    Read more <span class="visually-hidden">: {{ page.title }}</span>
+                                    aria-label="{{ 'read_article'|trans }} : {{ page.title }}">
+                                    {{ 'read_more'|trans }} <span class="visually-hidden">: {{ page.title }}</span>
                                 </a>
                             </div>
                         </article>
