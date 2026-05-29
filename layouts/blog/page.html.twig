@@ -15,7 +15,7 @@
                         {% if page.cover is defined and page.cover.image %}
                             <div class="d-flex flex-wrap align-items-center justify-content-center mb-4">
                                 <img src="{{ asset(page.cover.image) }}"
-                                    alt="{{ post.cover.alt|default('Cover image for ' ~ page.title) }}"
+                                    alt="{{ post.cover.alt|default('cover_image_for'|trans({'%title%': page.title})) }}"
                                     class="img-fluid rounded shadow-sm w-100"
                                     style="max-height: 400px; object-fit: cover;">
                                 {% if page.cover.caption is defined and page.cover.caption is not null %}

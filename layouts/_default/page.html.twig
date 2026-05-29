@@ -11,10 +11,10 @@
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
 
         {# RSS/Atom/JSON/LLM feeds #}
-        <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="{{ url('feed.xml') }}">
-        <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="{{ url('atom.xml') }}">
-        <link rel="alternate" type="application/json" title="JSON Feed" href="{{ url('feed.json') }}">
-        <link rel="alternate" type="text/markdown" title="LLM Feed" href="{{ url('feed.md') }}">
+        <link rel="alternate" type="application/rss+xml" title="{{ 'rss_feed'|trans }}" href="{{ url('feed.xml') }}">
+        <link rel="alternate" type="application/atom+xml" title="{{ 'atom_feed'|trans }}" href="{{ url('atom.xml') }}">
+        <link rel="alternate" type="application/json" title="{{ 'json_feed'|trans }}" href="{{ url('feed.json') }}">
+        <link rel="alternate" type="text/markdown" title="{{ 'llm_feed'|trans }}" href="{{ url('feed.md') }}">
 
         {# Preload critical resources #}
         <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">

@@ -2,14 +2,14 @@
     {%- set links = page.paginator.links ~%}
     <div class="page-nav">
         {%- if links.prev is defined ~%}
-            <a class="page-nav prev" href="{{ url(links.prev) }}">{% trans %}Previous{% endtrans %}</a>
+            <a class="page-nav prev" href="{{ url(links.prev) }}">{{ 'previous'|trans }}</a>
         {%- else ~%}
-            <span class="page-nav prev">{% trans %}Previous{% endtrans %}</span>
+            <span class="page-nav prev">{{ 'previous'|trans }}</span>
         {%- endif ~%}
         {%- if links.next is defined ~%}
-            <a class="page-nav next" href="{{ url(links.next) }}">{% trans %}Next{% endtrans %}</a>
+            <a class="page-nav next" href="{{ url(links.next) }}">{{ 'next'|trans }}</a>
         {%- else ~%}
-            <span class="page-nav next">{% trans %}Next{% endtrans %}</span>
+            <span class="page-nav next">{{ 'next'|trans }}</span>
         {%- endif ~%}
     </div>
 {%- endif ~%}

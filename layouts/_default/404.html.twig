@@ -4,9 +4,9 @@
   {%- if page.content is not empty ~%}
       {{- page.content ~}}
   {%- else ~%}
-      <h1>{% trans %}Page not found{% endtrans %}</h1>
-      <p>{% trans %}Looks like you've followed a broken link or entered a URL that doesn't exist on this site.{% endtrans %}
+      <h1>{{ 'page_not_found'|trans }}</h1>
+      <p>{{ 'broken_link'|trans }}
       <p>
-      <p><a href="{{ url(site.home) }}">{% trans %}Back to home page{% endtrans %}</a></p>
+      <p><a href="{{ url(site.home) }}">{{ 'back_to_home'|trans }}</a></p>
   {%- endif ~%}
 {%- endblock ~%}

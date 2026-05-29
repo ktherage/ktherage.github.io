@@ -25,21 +25,21 @@
             </h1>
 
             <h2 class="h4 text-muted mb-4">
-                <span class="visually-hidden">Titre: </span>{{ site.author.title }}
+                <span class="visually-hidden">{{ 'title_prefix'|trans }} </span>{{ 'author_title'|trans }}
             </h2>
 
             <div class="lead mb-5">
-                {{ site.baseline|raw }}
+                {{ 'baseline'|trans|raw }}
             </div>
 
             <!-- Section Contact -->
-            <div class="row d-flex flex-row justify-content-around align-items-center social-links" role="list" aria-label="Réseaux sociaux">
+            <div class="row d-flex flex-row justify-content-around align-items-center social-links" role="list" aria-label="{{ 'social_links'|trans }}">
                 {% for social in site.social %}
                     <a href="{{ social.url }}"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="col-sm-3 col-md-1 text-decoration-none d-flex flex-row justify-content-center align-items-center flex-column text-center mx-2 my-2"
-                        aria-label="Me suivre sur {{ social.name|capitalize }} (nouvelle fenêtre)"
+                        aria-label="{{ 'follow_on'|trans({'%name%': social.name|capitalize}) }}"
                         role="listitem"
                         style="height: 150px;"
                         {% if social.name == 'email' %}rel="me"{% endif %}
@@ -54,7 +54,7 @@
 
         <!-- Last articles -->
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
-            <h2 id="latest-posts-heading" class="h3 text-center mb-5">Last articles</h2>
+            <h2 id="latest-posts-heading" class="h3 text-center mb-5">{{ 'last_articles'|trans }}</h2>
             <div class="row g-4" role="list">
                 {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
                 {% for post in latest_posts %}
@@ -69,7 +69,7 @@
                                                 {{ url(post_image|resize(800, 450, 'cover')) }} 800w"
                                         sizes="(max-width: 768px) 100vw, 400px"
                                         class="card-img-top object-fit-cover"
-                                        alt="{{ post.cover.alt|default('Cover image for ' ~ post.title) }}"
+                                        alt="{{ post.cover.alt|default('cover_image_for'|trans({'%title%': post.title})) }}"
                                         loading="lazy"
                                         width="400"
                                         height="225"
@@ -86,35 +86,34 @@
                                 <h3 class="h5 card-title">
                                     <a href="{{ url(post) }}" class="text-decoration-none stretched-link"
                                     >
-                                        <span class="visually-hidden">Read article: </span>{{ post.title }}
+                                        <span class="visually-hidden">{{ 'read_article'|trans }}: </span>{{ post.title }}
                                     </a>
                                 </h3>
                                 <div class="text-muted small mb-3">
                                     <time datetime="{{ post.date|date('c') }}">
-                                        <span class="visually-hidden">Published at</span>{{ post.date|format_date('long') }}
+                                        <span class="visually-hidden">{{ 'published_at'|trans }} </span>{{ post.date|format_date('long') }}
                                     </time>
                                     <span class="mx-2" aria-hidden="true">•</span>
                                     {% set reading_time = (post.content|striptags|split(' ')|length / 200)|round %}
                                     {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
-                                    <span class="reading-time">{{ reading_time }} minute reading</span>
+                                    <span class="reading-time">{{ reading_time > 1 ? 'minutes_reading'|trans({'%count%': reading_time}) : 'minute_reading'|trans({'%count%': reading_time}) }}</span>
                                     <meta content="PT{{ reading_time }}M">
                                 </div>
                                 <p class="card-text flex-grow-1">
                                     {{ post.excerpt|default('')|striptags }}
-                                    <span class="visually-hidden">Read article "{{ post.title }}"</span>
                                 </p>
-                                <a href="{{ url(post) }}" class="btn btn-outline-primary mt-auto align-self-start"
-                                   aria-label="Read article : {{ post.title }}">
-                                    Read more <span class="visually-hidden">: {{ post.title }}</span>
-                                </a>
+                                    <a href="{{ url(post) }}" class="btn btn-outline-primary mt-auto align-self-start"
+                                       aria-label="{{ 'read_article'|trans }} : {{ post.title }}">
+                                        {{ 'read_more'|trans }} <span class="visually-hidden">: {{ post.title }}</span>
+                                    </a>
                             </div>
                         </article>
                     </div>
                 {% endfor %}
             </div>
             <div class="text-center mt-5">
-                <a href="{{ url('blog/') }}" class="btn btn-primary" aria-label="View articles">
-                    View articles <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                <a href="{{ url('blog/') }}" class="btn btn-primary" aria-label="{{ 'view_articles'|trans }}">
+                    {{ 'view_articles'|trans }} <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
                 </a>
             </div>
         </section>
