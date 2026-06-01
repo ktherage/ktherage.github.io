@@ -40,7 +40,7 @@
     {%- endblock head ~%}
 </head>
 <body class="container d-flex flex-column" style="min-height: 100vh;">
-<header>
+<header class="sticky-top">
     {%- block header ~%}
         {{- include('partials/navigation.html.twig', {page, menu: site.menus.main}, with_context = false) ~}}
     {%- endblock header ~%}
