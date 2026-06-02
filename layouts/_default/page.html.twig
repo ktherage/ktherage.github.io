@@ -5,7 +5,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {%- block head_metatags ~%}
-            {{- include('partials/metatags.html.twig', {page, site}, with_context = false) ~}}
+            {{- include('partials/metatags.html.twig', {page, site, _page_description: _page_description|default(null)}, with_context = false) ~}}
+            <meta name="twitter:site" content="@KevinTherage">
+            <meta name="twitter:creator" content="@KevinTherage">
         {%- endblock head_metatags ~%}
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">

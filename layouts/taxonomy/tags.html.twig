@@ -1,5 +1,7 @@
 {% extends '_default/page.html.twig' %}
 
+{%- set _page_description = 'all_articles_grouped_by_tag'|trans({'%count%': (page.terms|length)}) -%}
+
 {% block content %}
     <div class="container my-5">
         <header class="mb-5 text-center">

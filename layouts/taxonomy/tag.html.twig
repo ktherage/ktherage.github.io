@@ -1,5 +1,8 @@
 {% extends '_default/page.html.twig' %}
 
+{%- set term_obj = site.taxonomies.get(page.plural).get(page.term) -%}
+{%- set _page_description = 'articles_tagged_x'|trans({'%tag%': (term_obj.name|default(page.term)), '%count%': (page.pages|length)}) -%}
+
 {% block content %}
     <div class="container my-5">
         <header class="mb-5 text-center">
