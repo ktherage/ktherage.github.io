@@ -1,7 +1,7 @@
 # Options
 title: 'Kévin THÉRAGE | Expert Symfony Developer'
 baseline: >-
-  PHP/Symfony Developer with over 9 years of experience, certified Symfony 6 and 7 Expert. Specialized in
+  PHP/Symfony Developer with over 10 years of experience, certified Symfony 6 and 7 Expert. Specialized in
   complex architectures and ambitious technical projects for demanding sectors: banks, public services,
   e-commerce and French press.
 description: 'Technical blog over web development, Symfony, PHP and best practices. Find tutorials and advices for developers.'
@@ -21,6 +21,10 @@ menus:
       url: '/blog/'
       weight: 20
       description: 'Technical articles and tutorials on web development'
+    - id: 'tags'
+      name: 'Tags'
+      url: '/tags/'
+      weight: 30
 
 theme: null
 
@@ -135,6 +139,9 @@ languages:
   - code: fr
     name: Français
     locale: fr_FR
+    config:
+      taxonomies:
+        tags: tag
 
 social:
   - name: "X/Twitter"

@@ -1,0 +1,61 @@
+{% for page in pages %}
+    <div class="col-md-4 blog-post-item" role="listitem" data-tags="{% if page.tags is defined %}{{ page.tags|map(t => t|slugify)|join(',') }}{% endif %}">
+        <article class="card h-100 shadow-sm">
+            {% if page.cover.image is defined and page.cover.image is not null %}
+                {% set page_image = asset(page.cover.image) %}
+                <div class="ratio ratio-16x9">
+                    <img
+                        src="{{ url(page_image|resize(400, 225, 'cover')) }}"
+                        srcset="{{ url(page_image|resize(400, 225, 'cover')) }} 400w,
+                                {{ url(page_image|resize(800, 450, 'cover')) }} 800w"
+                        sizes="(max-width: 768px) 100vw, 400px"
+                        class="card-img-top object-fit-cover"
+                        alt="{{ page.cover.alt|default('cover_image_for'|trans({'%title%': page.title})) }}"
+                        loading="lazy"
+                        width="400"
+                        height="225"
+                        decoding="async"
+                        {% if loop.first %}
+                            fetchpriority="high"
+                        {% else %}
+                            fetchpriority="low"
+                        {% endif %}
+                    >
+                </div>
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h3 class="h5 card-title">
+                    <a href="{{ url(page) }}" class="text-decoration-none stretched-link"
+                    >
+                        <span class="visually-hidden">{{ 'read_article'|trans }}: </span>{{ page.title }}
+                    </a>
+                </h3>
+                <div class="text-muted small mb-3">
+                    <time datetime="{{ page.date|date('c') }}">
+                        <span class="visually-hidden">{{ 'published_at'|trans }}</span>{{ page.date|format_date('long') }}
+                    </time>
+                    <span class="mx-2" aria-hidden="true">•</span>
+                    {% set reading_time = (page.content|striptags|split(' ')|length / 200)|round %}
+                    {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
+                    <span class="reading-time">{{ reading_time > 1 ? 'minutes_reading'|trans({'%count%': reading_time}) : 'minute_reading'|trans({'%count%': reading_time}) }}</span>
+                    <meta content="PT{{ reading_time }}M">
+                </div>
+                {% if page.tags is defined %}
+                    <div class="mb-3">
+                        {% for tag in page.tags %}
+                            <a href="{{ url('tags/' ~ tag|slugify) }}"
+                                class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <p class="card-text flex-grow-1">
+                    {{ page.excerpt|default('')|striptags }}
+                </p>
+                <a href="{{ url(page) }}" class="btn btn-outline-primary mt-auto align-self-start"
+                    aria-label="{{ 'read_article'|trans }} : {{ page.title }}">
+                    {{ 'read_more'|trans }} <span class="visually-hidden">: {{ page.title }}</span>
+                </a>
+            </div>
+        </article>
+    </div>
+{% endfor %}

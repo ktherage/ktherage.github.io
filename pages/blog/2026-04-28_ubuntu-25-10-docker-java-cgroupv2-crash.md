@@ -6,7 +6,7 @@ cover:
   alt: "Container cranes at a bustling port during sunset"
   caption: "Photo by <a href=\"[https://www.pexels.com/@thorl5/](https://www.pexels.com/@thorl5/)\">thorl5</a> on <a href=\"[https://www.pexels.com](https://www.pexels.com)\">Pexels</a>"
 published: true
-tags: [Ubuntu, Docker, Java, DevOps, Debug, cgroupv2]
+tags: [Ubuntu, Docker, cgroupv2, Debug]
 excerpt: >-
   After updating my operating system from Ubuntu 24.04 to 25.10, my selenium/standalone-chrome Docker container started crashing with a cryptic NullPointerException. Here is my story.
 ---

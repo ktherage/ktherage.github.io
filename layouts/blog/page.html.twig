@@ -42,7 +42,7 @@
                         {% if page.tags is defined %}
                             <div class="mb-2">
                                 {% for tag in page.tags %}
-                                    <a href="{{ url('tags/' ~ tag) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                                    <a href="{{ url('tags/' ~ tag|slugify) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
                                 {% endfor %}
                             </div>
                         {% endif %}

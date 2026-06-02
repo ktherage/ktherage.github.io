@@ -6,7 +6,7 @@ cover:
   alt: "Computer program language text"
   caption: "Photo by <a href=\"https://www.pexels.com/@nathan Dumlao/\">Nathan Dumlao</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Bash, Curl, Performance, Testing, Http, Shell, Web-Development, Command-Line, Devops]
+tags: [Bash, Curl, Performance, Testing]
 excerpt: >-
   HTTP calls are essential to the functioning of the web and are critical to any web development project. You may have wondered how to quickly see how your HTTP call is performing. I'll show you how I did it easily using Curl.
 ---

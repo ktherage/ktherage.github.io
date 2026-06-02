@@ -6,7 +6,7 @@ cover:
   alt: "White jigsaw puzzle with one missing piece revealing a blue background"
   caption: "Photo by <a href=\"https://www.pexels.com/@karolina-grabowska/\">Karolina Grabowska</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [PHP, PHPStan, PHPUnit, QA Tools, Clean Code, Testing]
+tags: [PHPStan, PHPUnit, QA Tools, Testing]
 excerpt: >-
   Shoving PHPStan into a separate subdirectory is great for avoiding dependency hell—until you upgrade to PHPUnit 13 and your static analysis pipeline goes completely blind. Here is how to fix it.
 ---

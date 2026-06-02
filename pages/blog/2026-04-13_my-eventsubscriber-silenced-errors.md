@@ -6,7 +6,7 @@ cover:
   alt: "Computer program language text"
   caption: "Photo by <a href=\"https://www.pexels.com/@nathan-dumlao/\">Nathan Dumlao</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Symfony, PHP, Debug, EventSubscriber, Security]
+tags: [Symfony, Debug, Security]
 excerpt: >-
   My whitelist route EventSubscriber was throwing AccessDenied errors in logs with no apparent reason. Here's how I discovered it was actually hiding the real error behind the scenes.
 ---

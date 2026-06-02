@@ -1,0 +1,47 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+    <div class="container my-5">
+        <header class="mb-5 text-center">
+            <h1 class="display-5 fw-bold">{{ page.title }}</h1>
+            {% if page.content %}
+                <p class="lead text-muted">{{ page.content }}</p>
+            {% endif %}
+        </header>
+
+        {% set tag_icons = site.data['tag-icons']|default({}) %}
+
+        {% if page.terms is defined and page.terms|length > 0 %}
+            <div class="row g-3 justify-content-center">
+                {% for term in page.terms|sort((a, b) => a.name <=> b.name) %}
+                    {% set count = term|length %}
+                    {% set icon = attribute(tag_icons, term.name)|default(null) %}
+                    <div class="col-6 col-lg-3 col-md-4">
+                        <a href="{{ url('tags/' ~ term.id) }}"
+                           class="card h-100 text-decoration-none text-body shadow-sm">
+                            <div class="card-body text-center">
+                                <div class="mb-2 tag-icon" aria-hidden="true">
+                                    {% if icon and icon.type == 'logo' %}
+                                        <img src="{{ asset('img/logos/' ~ icon.file ~ '.svg') }}"
+                                             alt="" width="48" height="48"
+                                             class="tag-icon-logo">
+                                    {% elseif icon and icon.type == 'fa' %}
+                                        {% set style = icon.style|default('solid') %}
+                                        <i class="fa-{{ style }} {{ icon.class }} fa-2x"></i>
+                                    {% else %}
+                                        <i class="fa-solid fa-tag fa-2x text-muted"></i>
+                                    {% endif %}
+                                </div>
+                                <h2 class="h6 mb-2">#{{ term.name }}</h2>
+                                <p class="text-muted small mb-0">
+                                    {{ count }}
+                                    {{ (count > 1 ? 'articles' : 'article')|trans }}
+                                </p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

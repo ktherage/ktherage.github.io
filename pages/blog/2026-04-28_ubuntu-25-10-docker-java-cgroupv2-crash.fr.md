@@ -6,7 +6,7 @@ cover:
   alt: "Container cranes at a bustling port during sunset"
   caption: "Photo by <a href=\"https://www.pexels.com/@thorl5/\">thorl5</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Ubuntu, Docker, Java, DevOps, Debug, cgroupv2]
+tags: [Ubuntu, Docker, cgroupv2, Debug]
 excerpt: >-
   Après la mise à jour de mon système d'exploitaion d'Ubuntu 24.04 vers 25.10, mon conteneur Docker selenium/standalone-chrome s'est mis à planter avec un NullPointerException incompréhensible. Voici mon histoire.
 ---

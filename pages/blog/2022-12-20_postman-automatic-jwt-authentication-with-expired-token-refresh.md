@@ -6,7 +6,7 @@ cover:
   alt: "Silver padlocks on green steel fence"
   caption: "Photo by <a href=\"https://www.pexels.com/@frank-mcintyre/\">Frank McIntyre</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Postman, JWT, Authentication, API, JavaScript]
+tags: [Postman, Authentication, API, JavaScript]
 excerpt: >-
   You've always wondered how to get automatically authenticated toward your JWT API. I'll tell you how I achieved this in this article.
 ---

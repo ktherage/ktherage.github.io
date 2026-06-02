@@ -8,10 +8,9 @@ cover:
   caption: "Image from the API Platform con 2025 - Credits <a href=\"https://ncls.tv/\">Nicolas Detrez</a>"
 published: true
 tags:
-  - Conferences
+  - Conference
   - API
-  - API Platform Con
-  - 2025
+  - Symfony
 category: Conferences
 excerpt: >-
   I had the opportunity to attend the API Platform Con 2025 thanks to SensioLabs and here is what I learned through the talks I viewed.

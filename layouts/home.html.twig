@@ -57,59 +57,7 @@
             <h2 id="latest-posts-heading" class="h3 text-center mb-5">{{ 'last_articles'|trans }}</h2>
             <div class="row g-4" role="list">
                 {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
-                {% for post in latest_posts %}
-                    <div class="col-md-4" role="listitem">
-                        <article class="card h-100 shadow-sm">
-                            {% if post.cover.image is defined and post.cover.image is not null %}
-                                {% set post_image = asset(post.cover.image) %}
-                                <div class="ratio ratio-16x9">
-                                    <img
-                                        src="{{ url(post_image|resize(400, 225, 'cover')) }}"
-                                        srcset="{{ url(post_image|resize(400, 225, 'cover')) }} 400w,
-                                                {{ url(post_image|resize(800, 450, 'cover')) }} 800w"
-                                        sizes="(max-width: 768px) 100vw, 400px"
-                                        class="card-img-top object-fit-cover"
-                                        alt="{{ post.cover.alt|default('cover_image_for'|trans({'%title%': post.title})) }}"
-                                        loading="lazy"
-                                        width="400"
-                                        height="225"
-                                        decoding="async"
-                                        {% if loop.first %}
-                                            fetchpriority="high"
-                                        {% else %}
-                                            fetchpriority="low"
-                                        {% endif %}
-                                    >
-                                </div>
-                            {% endif %}
-                            <div class="card-body d-flex flex-column">
-                                <h3 class="h5 card-title">
-                                    <a href="{{ url(post) }}" class="text-decoration-none stretched-link"
-                                    >
-                                        <span class="visually-hidden">{{ 'read_article'|trans }}: </span>{{ post.title }}
-                                    </a>
-                                </h3>
-                                <div class="text-muted small mb-3">
-                                    <time datetime="{{ post.date|date('c') }}">
-                                        <span class="visually-hidden">{{ 'published_at'|trans }} </span>{{ post.date|format_date('long') }}
-                                    </time>
-                                    <span class="mx-2" aria-hidden="true">•</span>
-                                    {% set reading_time = (post.content|striptags|split(' ')|length / 200)|round %}
-                                    {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
-                                    <span class="reading-time">{{ reading_time > 1 ? 'minutes_reading'|trans({'%count%': reading_time}) : 'minute_reading'|trans({'%count%': reading_time}) }}</span>
-                                    <meta content="PT{{ reading_time }}M">
-                                </div>
-                                <p class="card-text flex-grow-1">
-                                    {{ post.excerpt|default('')|striptags }}
-                                </p>
-                                    <a href="{{ url(post) }}" class="btn btn-outline-primary mt-auto align-self-start"
-                                       aria-label="{{ 'read_article'|trans }} : {{ post.title }}">
-                                        {{ 'read_more'|trans }} <span class="visually-hidden">: {{ post.title }}</span>
-                                    </a>
-                            </div>
-                        </article>
-                    </div>
-                {% endfor %}
+                {% include 'partials/post-card.html.twig' with {pages: latest_posts} %}
             </div>
             <div class="text-center mt-5">
                 <a href="{{ url('blog/') }}" class="btn btn-primary" aria-label="{{ 'view_articles'|trans }}">
@@ -167,6 +115,7 @@
     }
     </script>
 
+    {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
     {% if latest_posts is defined %}
     <script type="application/ld+json">
     {
