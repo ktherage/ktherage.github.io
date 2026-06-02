@@ -7,7 +7,7 @@ menu:
 ---
 # À propos
 
-Je suis un développeur PHP/Symfony avec plus de 9 ans d'expérience dans le développement web. Actuellement chez SensioLabs, j'ai eu l'opportunité de travailler sur divers projets pour des secteurs exigeants : banques, services publics, e-commerce et presse française.
+Je suis un développeur PHP/Symfony avec plus de 10 ans d'expérience dans le développement web. Actuellement chez SensioLabs, j'ai eu l'opportunité de travailler sur divers projets pour des secteurs exigeants : banques, services publics, e-commerce et presse française.
 
 Ma spécialisation en Symfony (certifié Expert versions 6 et 7) me permet d'intervenir sur des architectures complexes, des migrations critiques et des chantiers techniques d'envergure. J'apprécie particulièrement les défis techniques qui sortent du cadre habituel : Domain-Driven Design, déploiements AWS Lambda, intégrations avec des technologies comme ElasticSearch, Redis ou RabbitMQ.
 

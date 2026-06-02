@@ -6,7 +6,7 @@ cover:
   alt: "Flock of birds forming V shape in flight"
   caption: "Photo by <a href=\"https://www.pexels.com/@kai-filmer/\">Kai Filmer</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Symfony, Doctrine, Migrations, CI, Database, PHP, Bash, Devops, Automation, Testing]
+tags: [Symfony, Doctrine, Migrations, CI, DevOps]
 excerpt: >-
   I had the opportunity to work on a project with a team that was relatively new to Doctrine migrations. To help them get used to it, and to discard the possibility of having pull (or merge) requests with changes to doctrine entities without generating a migration.
 

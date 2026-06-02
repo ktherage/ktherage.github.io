@@ -6,7 +6,7 @@ cover:
   alt: "Puzzle blanc avec une pièce manquante révélant un fond bleu"
   caption: "Photo par <a href=\"[https://www.pexels.com/@karolina-grabowska/](https://www.pexels.com/@karolina-grabowska/)\">Karolina Grabowska</a> sur <a href=\"[https://www.pexels.com](https://www.pexels.com)\">Pexels</a>"
 published: true
-tags: [PHP, PHPStan, PHPUnit, QA Tools, Clean Code, Testing]
+tags: [PHPStan, PHPUnit, QA Tools, Testing]
 excerpt: >-
   Isoler PHPStan dans un sous-dossier séparé est une excellente idée pour éviter l'enfer des dépendances—jusqu'à ce que vous passiez à PHPUnit 13 et que votre pipeline d'analyse statique devienne complètement aveugle. Voici comment y remédier.
 ---
@@ -58,7 +58,7 @@ La console renvoie `🟢 OUI`. La classe est bien là. Alors, pourquoi PHPStan e
 
 ---
 
-## Pourquoi cela fonctionnait-il très bien avec PHPUnit 9 ?
+## Pourquoi cela fonctionnait-il très bien avec PHPUnit 10 ?
 
 Si vous avez exactement cette même configuration sur un projet plus ancien tournant sous PHPUnit 9.5, tout fonctionne sans accroc. Qu'est-ce qui a changé ?
 

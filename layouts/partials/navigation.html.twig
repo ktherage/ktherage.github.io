@@ -31,7 +31,7 @@
                 </ul>
             </div>
         </div>
-        {%- set menu_keys = {index: 'home', blog: 'blog', 'about-me': 'about_me', legal: 'legal'} ~%}
+        {%- set menu_keys = {index: 'home', blog: 'blog', 'about-me': 'about_me', legal: 'legal', tags: 'tags_label'} ~%}
         <div class="navbar-nav d-flex flex-row align-items-center">
             {%- for item in site.menus[menu]|sort_by_weight ~%}
                 <div class="nav-item px-2">

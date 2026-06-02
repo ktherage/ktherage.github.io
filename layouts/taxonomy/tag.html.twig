@@ -1,0 +1,26 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+    <div class="container my-5">
+        <header class="mb-5 text-center">
+            <p class="text-muted text-uppercase small mb-1">{{ page.plural|trans|default(page.plural) }}</p>
+            {% set term_obj = site.taxonomies.get(page.plural).get(page.term) %}
+            <h1 class="display-5 fw-bold">#{{ term_obj.name|default(page.term) }}</h1>
+            <p class="lead text-muted">
+                {{ page.pages|length }}
+                {{ (page.pages|length > 1 ? 'articles' : 'article')|trans }}
+            </p>
+        </header>
+
+        <div class="row g-4" role="list" id="blog-posts">
+            {% include 'partials/post-card.html.twig' with {pages: page.pages} %}
+        </div>
+
+        <p class="text-center mt-5">
+            <a href="{{ url('tags') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-1" aria-hidden="true"></i>
+                {{ 'all_label'|trans }} {{ page.plural }}
+            </a>
+        </p>
+    </div>
+{% endblock content %}

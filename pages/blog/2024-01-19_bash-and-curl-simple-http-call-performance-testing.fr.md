@@ -6,7 +6,7 @@ cover:
   alt: "Texte de langage de programmation informatique"
   caption: "Photo par <a href=\"https://www.pexels.com/@nathan Dumlao/\">Nathan Dumlao</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Bash, Curl, Performance, Tests, HTTP, Shell, Développement Web, Ligne de commande, DevOps]
+tags: [Bash, Curl, Performance, Testing]
 excerpt: >-
   Les appels HTTP sont essentiels au fonctionnement du Web et sont critiques pour tout projet de développement web. Vous vous êtes peut-être demandé comment visualiser rapidement les performances de vos appels HTTP. Je vais vous montrer comment j'ai fait simplement avec Curl.
 ---

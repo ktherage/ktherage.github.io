@@ -6,7 +6,7 @@ cover:
   alt: "Cadenas argentés sur une clôture en acier vert"
   caption: "Photo par <a href=\"https://www.pexels.com/@frank-mcintyre/\">Frank McIntyre</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Postman, JWT, Authentification, API, JavaScript]
+tags: [Postman, Authentication, API, JavaScript]
 excerpt: >-
   Vous vous êtes toujours demandé comment vous authentifier automatiquement auprès de votre API JWT. Je vais vous dire comment j'ai fait dans cet article.
 ---

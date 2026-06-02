@@ -6,7 +6,7 @@ cover:
   alt: "Texte de langage de programmation informatique"
   caption: "Photo par <a href=\"https://www.pexels.com/@nathan-dumlao/\">Nathan Dumlao</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Symfony, PHP, Débogage, EventSubscriber, Sécurité]
+tags: [Symfony, Debug, Security]
 excerpt: >-
   Mon EventSubscriber de liste blanche de routes levait des exceptions AccessDenied dans les logs sans raison apparente. Voici comment j'ai découvert qu'il cachait en réalité la véritable erreur en coulisses.
 ---

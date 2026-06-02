@@ -8,10 +8,9 @@ cover:
   caption: "Image de l'API Platform con 2025 - Crédits <a href=\"https://ncls.tv/\">Nicolas Detrez</a>"
 published: true
 tags:
-  - Conférences
+  - Conference
   - API
-  - API Platform Con
-  - 2025
+  - Symfony
 category: Conférences
 excerpt: >-
   J'ai eu l'opportunité d'assister à l'API Platform Con 2025 grâce à SensioLabs et voici ce que j'ai appris lors des conférences auxquelles j'ai assisté.

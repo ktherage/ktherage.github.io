@@ -1,0 +1,77 @@
+# Icon mapping for tag terms displayed on the /tags/ vocabulary index.
+#
+# - type: "logo" → uses assets/img/logos/<file>.svg (original brand color)
+# - type: "fa"  → uses Font Awesome class "fa-<class>" (already loaded)
+#
+# Brand logos are sourced from SimpleIcons (https://simpleicons.org/), CC0.
+# Abstract concepts use Font Awesome 6.7.2 free icons.
+API:
+  type: fa
+  class: fa-plug
+Authentication:
+  type: fa
+  class: fa-key
+Bash:
+  type: fa
+  class: fa-terminal
+CI:
+  type: fa
+  class: fa-arrows-spin
+Conference:
+  type: fa
+  class: fa-microphone
+cgroupv2:
+  type: fa
+  class: fa-microchip
+Curl:
+  type: fa
+  class: fa-wave-square
+Debug:
+  type: fa
+  class: fa-bug
+DevOps:
+  type: fa
+  class: fa-infinity
+Docker:
+  type: logo
+  file: docker
+Doctrine:
+  type: fa
+  class: fa-database
+Git:
+  type: logo
+  file: git
+JavaScript:
+  type: fa
+  style: brands
+  class: fa-js
+Migrations:
+  type: fa
+  class: fa-arrows-up-down-left-right
+Performance:
+  type: fa
+  class: fa-gauge-high
+PHPStan:
+  type: fa
+  class: fa-microscope
+PHPUnit:
+  type: fa
+  class: fa-flask
+Postman:
+  type: logo
+  file: postman
+"QA Tools":
+  type: fa
+  class: fa-screwdriver-wrench
+Security:
+  type: fa
+  class: fa-shield-halved
+Symfony:
+  type: logo
+  file: symfony
+Testing:
+  type: fa
+  class: fa-vial
+Ubuntu:
+  type: logo
+  file: ubuntu

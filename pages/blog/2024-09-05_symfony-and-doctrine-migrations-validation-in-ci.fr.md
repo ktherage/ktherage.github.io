@@ -6,7 +6,7 @@ cover:
   alt: "Vol d'oiseaux formant un V en plein vol"
   caption: "Photo par <a href=\"https://www.pexels.com/@kai-filmer/\">Kai Filmer</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
-tags: [Symfony, Doctrine, Migrations, CI, Base de données, PHP, Bash, DevOps, Automatisation, Tests]
+tags: [Symfony, Doctrine, Migrations, CI, DevOps]
 excerpt: >-
   J'ai eu l'opportunité de travailler sur un projet avec une équipe relativement novice en matière de migrations Doctrine. Pour les aider à s'y habituer et écarter la possibilité d'avoir des pull (ou merge) requests avec des modifications d'entités Doctrine sans migration générée.
 

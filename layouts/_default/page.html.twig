@@ -17,11 +17,14 @@
         <link rel="alternate" type="text/markdown" title="{{ 'llm_feed'|trans }}" href="{{ url('feed.md') }}">
 
         {# Preload critical resources #}
+        <link rel="preload" href="{{ asset('css/style.css') }}" as="style">
+        <link rel="preload" href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" as="style">
         <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">
         <link rel="preload" href="/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="/fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
+        <link rel="preload" href="/fonts/inter-700.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="/fonts/montserrat-600.ttf" as="font" type="font/ttf" crossorigin>
-        <link rel="preload" href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" as="style">
+        <link rel="preload" href="/fonts/montserrat-700.ttf" as="font" type="font/ttf" crossorigin>
 
         {%- block head_css ~%}
             {# Bootstrap 5.3.7 #}
@@ -30,8 +33,10 @@
             {# Font Awesome 6.7.2 #}
             <link rel="stylesheet" href="{{ asset('vendor/fontawesome-6.7.2/all.min.css') }}">
 
-            {# Highlight.js 11.11.1 #}
-            <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
+            {# Highlight.js 11.11.1 (individual blog posts with code blocks only) #}
+            {%- if page.section == 'blog' and page.virtual == false ~%}
+                <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
+            {%- endif ~%}
 
             {# Custom CSS #}
             <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
@@ -71,9 +76,11 @@
     {# Bootstrap 5.3.7 (includes Popper) #}
     <script src="{{ asset('vendor/bootstrap-5.3.7/bootstrap.bundle.min.js') }}"></script>
 
-    {# Highlight.js 11.11.1 #}
-    <script src="{{ asset('vendor/highlightjs-11.11.1/highlight.min.js') }}"></script>
-    <script>hljs.highlightAll();</script>
+    {# Highlight.js 11.11.1 (individual blog posts with code blocks only) #}
+    {%- if page.section == 'blog' and page.virtual == false ~%}
+        <script src="{{ asset('vendor/highlightjs-11.11.1/highlight.min.js') }}"></script>
+        <script>hljs.highlightAll();</script>
+    {%- endif ~%}
 
     {# Custom JS #}
     <script src="{{ asset('js/theme-switcher.js') }}"></script>

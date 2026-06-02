@@ -10,95 +10,21 @@
                 {% endif %}
             </header>
 
-            <!-- Filtres par tags -->
-            {% set all_tags = [] %}
-            {% for page in pages %}
-                {% if page.tags is defined %}
-                    {% set all_tags = all_tags|merge(page.tags) %}
-                {% endif %}
-            {% endfor %}
-
-            {% set unique_tags = [] %}
-            {% for tag in all_tags %}
-                {% if tag not in unique_tags %}
-                    {% set unique_tags = unique_tags|merge([tag]) %}
-                {% endif %}
-            {% endfor %}
-            {% set unique_tags = unique_tags|sort %}
-
-            {% if unique_tags %}
+            {# Tag cloud — sourced from Cecil's vocabulary, so the badge list is always in sync with the taxonomy #}
+            {% set tags_vocab = site.taxonomies.get('tags') %}
+            {% if tags_vocab and tags_vocab|length > 0 %}
                 <div class="mb-4 text-center">
                     <span class="badge bg-secondary me-2 mb-2 filter-badge active" data-filter="all"
                           style="cursor: pointer;">{{ 'all_label'|trans }}</span>
-                    {% for tag in unique_tags %}
-                        <span class="badge bg-secondary me-2 mb-2 filter-badge" data-filter="{{ tag|lower }}"
-                              style="cursor: pointer;">{{ tag }}</span>
+                    {% for term in tags_vocab|sort_by_title %}
+                        <span class="badge bg-secondary me-2 mb-2 filter-badge" data-filter="{{ term.name|slugify }}"
+                              style="cursor: pointer;">{{ term.name }}</span>
                     {% endfor %}
                 </div>
             {% endif %}
 
             <div class="row g-4" role="list" id="blog-posts">
-                {% for page in pages %}
-                    <div class="col-md-4 blog-post-item" role="listitem" data-tags="{% if page.tags is defined %}{{ page.tags|join(' ')|lower }}{% endif %}">
-                        <article class="card h-100 shadow-sm">
-                            {% if page.cover.image is defined and page.cover.image is not null %}
-                                {% set page_image = asset(page.cover.image) %}
-                                <div class="ratio ratio-16x9">
-                                    <img
-                                        src="{{ url(page_image|resize(400, 225, 'cover')) }}"
-                                        srcset="{{ url(page_image|resize(400, 225, 'cover')) }} 400w,
-                                                {{ url(page_image|resize(800, 450, 'cover')) }} 800w"
-                                        sizes="(max-width: 768px) 100vw, 400px"
-                                        class="card-img-top object-fit-cover"
-                                        alt="{{ page.cover.alt|default('cover_image_for'|trans({'%title%': page.title})) }}"
-                                        loading="lazy"
-                                        width="400"
-                                        height="225"
-                                        decoding="async"
-                                        {% if loop.first %}
-                                            fetchpriority="high"
-                                        {% else %}
-                                            fetchpriority="low"
-                                        {% endif %}
-                                    >
-                                </div>
-                            {% endif %}
-                            <div class="card-body d-flex flex-column">
-                                <h3 class="h5 card-title">
-                                    <a href="{{ url(page) }}" class="text-decoration-none stretched-link"
-                                    >
-                                        <span class="visually-hidden">{{ 'read_article'|trans }}: </span>{{ page.title }}
-                                    </a>
-                                </h3>
-                                <div class="text-muted small mb-3">
-                                    <time datetime="{{ page.date|date('c') }}">
-                                        <span class="visually-hidden">{{ 'published_at'|trans }}</span>{{ page.date|format_date('long') }}
-                                    </time>
-                                    <span class="mx-2" aria-hidden="true">•</span>
-                                    {% set reading_time = (page.content|striptags|split(' ')|length / 200)|round %}
-                                    {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}
-                                    <span class="reading-time">{{ reading_time > 1 ? 'minutes_reading'|trans({'%count%': reading_time}) : 'minute_reading'|trans({'%count%': reading_time}) }}</span>
-                                    <meta content="PT{{ reading_time }}M">
-                                </div>
-                                {% if page.tags is defined %}
-                                    <div class="mb-3">
-                                        {% for tag in page.tags %}
-                                            <a href="{{ url('tags/' ~ tag) }}"
-                                                class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
-                                        {% endfor %}
-                                    </div>
-                                {% endif %}
-                                <p class="card-text flex-grow-1">
-                                    {{ page.excerpt|default('')|striptags }}
-                                </p>
-                                <a href="{{ url(page) }}" class="btn btn-outline-primary mt-auto align-self-start"
-                                    aria-label="{{ 'read_article'|trans }} : {{ page.title }}">
-                                    {{ 'read_more'|trans }} <span class="visually-hidden">: {{ page.title }}</span>
-                                </a>
-                            </div>
-                        </article>
-                    </div>
-                {% endfor %}
+                {% include 'partials/post-card.html.twig' with {pages: pages} %}
             </div>
 
             <footer class="mt-5">
@@ -126,7 +52,7 @@
 
                         // Filtrage des articles
                         blogPosts.forEach(post => {
-                            const tags = post.getAttribute('data-tags');
+                            const tags = (post.getAttribute('data-tags') || '').split(',').filter(Boolean);
                             if (filter === 'all' || tags.includes(filter)) {
                                 post.style.display = 'block';
                             } else {
