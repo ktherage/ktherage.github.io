@@ -41,6 +41,9 @@ image: bannier.png
 taxonomies:
   tags: tag
 
+metatags:
+  data: true
+
 static:
   exclude:
     - "*.md"
@@ -142,6 +145,20 @@ languages:
     config:
       taxonomies:
         tags: tag
+      menus:
+        main:
+          - id: 'index'
+            name: 'Accueil'
+            url: '/'
+            weight: 10
+          - id: 'blog'
+            name: 'Blog'
+            url: '/blog/'
+            weight: 20
+          - id: 'tags'
+            name: 'Étiquettes'
+            url: '/tags/'
+            weight: 30
 
 social:
   - name: "X/Twitter"

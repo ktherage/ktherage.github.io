@@ -1,5 +1,6 @@
 ---
 title: "About me"
+description: "Kévin THÉRAGE — PHP/Symfony expert developer (10+ years) at SensioLabs. Symfony 6 & 7 certified Expert specializing in complex architectures, DDD, and integrations with ElasticSearch, Redis, RabbitMQ."
 menu:
   main:
     weight: 110

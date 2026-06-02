@@ -1,5 +1,7 @@
 {% extends "_default/page.html.twig" %}
 
+{%- set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) -%}
+
 {% block content %}
     <div class="container">
         <header class="d-flex flex-column justify-content-center align-items-center text-center my-5 py-4" role="banner" style="min-height: 85vh">
@@ -56,7 +58,6 @@
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
             <h2 id="latest-posts-heading" class="h3 text-center mb-5">{{ 'last_articles'|trans }}</h2>
             <div class="row g-4" role="list">
-                {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
                 {% include 'partials/post-card.html.twig' with {pages: latest_posts} %}
             </div>
             <div class="text-center mt-5">
@@ -70,65 +71,17 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "@id": "{{ url('', {canonical: true}) }}#person",
-        "name": "{{ site.author.name }}",
-        "url": "{{ url('', {canonical: true}) }}",
-        "sameAs": [
-            {% for social in site.social %}
-                {% if social.name != 'email' %}"{{ social.url }}"{% if not loop.last %},{% endif %}{% endif %}
-            {% endfor %}
-        ],
-        "jobTitle": "{{ site.author.title }}",
-        "image": "{{ url(site.author.image|resize(512), {canonical: true}) }}",
-        "description": "{{ site.description|e('js') }}",
-        "worksFor": {
-            "@type": "Organization",
-            "name": "{{ site.title }}",
-            "url": "{{ url('', {canonical: true}) }}"
-        },
-        "mainEntityOfPage": {
-            "@type": "WebPage",
-            "@id": "{{ url('', {canonical: true}) }}"
-        }
-    }
-    </script>
 
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "url": "{{ url('', {canonical: true}) }}",
-        "name": "{{ site.title }}",
-        "description": "{{ site.description|e('js') }}",
-        "publisher": {
-            "@id": "{{ url('', {canonical: true}) }}#person"
-        },
-        "potentialAction": {
-            "@type": "SearchAction",
-            "target": "{{ url('search') }}?q={search_term_string}",
-            "query-input": "required name=search_term_string"
-        }
-    }
-    </script>
-
-    {% set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) %}
-    {% if latest_posts is defined %}
+    {%- if latest_posts is defined and latest_posts|length > 0 -%}
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "Blog",
         "@id": "{{ url('blog/', {canonical: true}) }}#blog",
         "name": "Blog de {{ site.author.name }}",
-        "description": "Articles sur {{ site.description|e('js') }}",
-        "publisher": {
-            "@id": "{{ url('', {canonical: true}) }}#person"
-        },
+        "description": "{{ site.description|e('js') }}",
         "blogPost": [
-            {% for post in latest_posts %}
+            {%- for post in latest_posts %}
             {
                 "@type": "BlogPosting",
                 "headline": "{{ post.title|e('js') }}",
@@ -136,12 +89,6 @@
                 "datePublished": "{{ post.date|date('c') }}",
                 "dateModified": "{{ post.updated|default(post.date)|date('c') }}",
                 "description": "{{ post.description|default(post.excerpt|striptags)|e('js') }}",
-                "author": {
-                    "@id": "{{ url('', {canonical: true}) }}#person"
-                },
-                "publisher": {
-                    "@id": "{{ url('', {canonical: true}) }}#person"
-                },
                 "mainEntityOfPage": {
                     "@type": "WebPage",
                     "@id": "{{ url(post, {canonical: true}) }}"
@@ -153,9 +100,9 @@
                     "height": "630"
                 }{% endif %}
             }{% if not loop.last %},{% endif %}
-            {% endfor %}
+            {%- endfor %}
         ]
     }
     </script>
-    {% endif %}
+    {%- endif -%}
 {% endblock %}

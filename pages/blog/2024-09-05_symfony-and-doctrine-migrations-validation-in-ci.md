@@ -1,6 +1,6 @@
 ---
 title: "Symfony & Doctrine Migrations: Validation in CI"
-description: "API Platform con 2025 - DAY 2 - an overview of the talks I attended at the API Platform Conference in 2025."
+description: "How to detect when a Doctrine entity change ships without a generated migration: a simple CI check that fails fast on inconsistent schema vs. mapping state."
 cover:
   image: "img/birds-migration.jpg"
   alt: "Flock of birds forming V shape in flight"
