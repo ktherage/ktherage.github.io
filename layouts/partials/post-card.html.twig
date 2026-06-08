@@ -34,6 +34,12 @@
                     <time datetime="{{ page.date|date('c') }}">
                         <span class="visually-hidden">{{ 'published_at'|trans }}</span>{{ page.date|format_date('long') }}
                     </time>
+                    {%- if page.updated is defined and page.updated is not null and page.updated|date('U') != page.date|date('U') %}
+                    <span class="mx-2" aria-hidden="true">•</span>
+                    <time datetime="{{ page.updated|date('c') }}">
+                        <span class="visually-hidden">{{ 'updated_on'|trans }} </span><span aria-hidden="true">{{ 'updated_on'|trans }} </span>{{ page.updated|format_date('long') }}
+                    </time>
+                    {%- endif %}
                     <span class="mx-2" aria-hidden="true">•</span>
                     {% set reading_time = (page.content|striptags|split(' ')|length / 200)|round %}
                     {% if reading_time < 1 %}{% set reading_time = 1 %}{% endif %}

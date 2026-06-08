@@ -9,6 +9,12 @@
             <meta name="twitter:site" content="@KevinTherage">
             <meta name="twitter:creator" content="@KevinTherage">
         {%- endblock head_metatags ~%}
+
+        {# JSON-LD structured data #}
+        <script type="application/ld+json">
+        {{- include('partials/jsonld.html.twig', {site}, with_context = false) ~}}
+        </script>
+
         <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
         <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
 
