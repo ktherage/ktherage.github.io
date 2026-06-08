@@ -15,19 +15,19 @@
                     width="200"
                     height="200"
                     class="rounded-circle profile-image"
-                    alt=""
-                    aria-hidden="true"
+                    alt="{{ site.author.name }} – {{ site.author.title }}"
+                    aria-hidden="false"
                     decoding="async"
                     fetchpriority="high"
                 >
             </div>
 
-            <h1 class="display-4 fw-bold mb-3">
+            <h1 class="display-4 fw-bold my-0">
                 {{ site.author.name }}
             </h1>
 
-            <h2 class="h4 text-muted mb-4">
-                <span class="visually-hidden">{{ 'title_prefix'|trans }} </span>{{ 'author_title'|trans }}
+            <h2 class="text-muted mt-0 mb-4">
+                {{ site.author.title|capitalize }}
             </h2>
 
             <div class="lead mb-5">
@@ -54,9 +54,23 @@
             </div>
         </header>
 
+        <!-- Expertise section -->
+        <section class="expertise border-top py-5" aria-labelledby="expertise-heading">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <h3 id="expertise-heading" class="text-center mb-4">{{ 'expertise_heading'|trans }}</h3>
+                    <p class="mb-3">{{ 'expertise_intro'|trans }}</p>
+                    <p class="mb-4">{{ 'expertise_outro'|trans }}</p>
+                    <a href="{{ url('about-me/') }}" class="btn btn-outline-primary">
+                        {{ 'read_more_about_me'|trans }} <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Last articles -->
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
-            <h2 id="latest-posts-heading" class="h3 text-center mb-5">{{ 'last_articles'|trans }}</h2>
+            <h3 id="latest-posts-heading" class="text-center mb-5">{{ 'last_articles'|trans }}</h3>
             <div class="row g-4" role="list">
                 {% include 'partials/post-card.html.twig' with {pages: latest_posts} %}
             </div>
