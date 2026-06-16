@@ -34,22 +34,21 @@
         <link rel="preload" href="/fonts/montserrat-600.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="/fonts/montserrat-700.ttf" as="font" type="font/ttf" crossorigin>
 
-        {%- block head_css ~%}
-            {# Bootstrap 5.3.7 #}
-            <link href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" rel="stylesheet">
+        {# Load #}
+        {# Bootstrap 5.3.7 #}
+        <link href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" rel="stylesheet">
 
-            {# Font Awesome 6.7.2 #}
-            <link rel="stylesheet" href="{{ asset('vendor/fontawesome-6.7.2/all.min.css') }}">
+        {# Font Awesome 6.7.2 #}
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome-6.7.2/all.min.css') }}">
 
-            {# Highlight.js 11.11.1 (individual blog posts with code blocks only) #}
-            {%- if page.section == 'blog' and page.virtual == false ~%}
-                <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
-            {%- endif ~%}
+        {# Highlight.js 11.11.1 (individual blog posts with code blocks only) #}
+        {%- if page.section == 'blog' and page.virtual == false ~%}
+            <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
+        {%- endif ~%}
 
-            {# Custom CSS #}
-            <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-            <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        {%- endblock head_css ~%}
+        {# Custom CSS #}
+        <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     {%- endblock head ~%}
 </head>
 <body class="container d-flex flex-column" style="min-height: 100vh;">
@@ -83,12 +82,6 @@
 {%- block javascripts ~%}
     {# Bootstrap 5.3.7 (includes Popper) #}
     <script src="{{ asset('vendor/bootstrap-5.3.7/bootstrap.bundle.min.js') }}"></script>
-
-    {# Highlight.js 11.11.1 (individual blog posts with code blocks only) #}
-    {%- if page.section == 'blog' and page.virtual == false ~%}
-        <script src="{{ asset('vendor/highlightjs-11.11.1/highlight.min.js') }}"></script>
-        <script>hljs.highlightAll();</script>
-    {%- endif ~%}
 
     {# Custom JS #}
     <script src="{{ asset('js/theme-switcher.js') }}"></script>
