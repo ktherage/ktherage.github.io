@@ -6,6 +6,7 @@ cover:
   alt: "Container cranes at a bustling port during sunset"
   caption: "Photo by <a href=\"[https://www.pexels.com/@thorl5/](https://www.pexels.com/@thorl5/)\">thorl5</a> on <a href=\"[https://www.pexels.com](https://www.pexels.com)\">Pexels</a>"
 published: true
+updated: 2026-06-18
 tags: [Ubuntu, Docker, cgroupv2, Debug]
 excerpt: >-
   After updating my operating system from Ubuntu 24.04 to 25.10, my selenium/standalone-chrome Docker container started crashing with a cryptic NullPointerException. Here is my story.
@@ -114,11 +115,17 @@ services:
       - JAVA_OPTS=-XX:-UseContainerSupport
 ```
 
+:::warning
+**Beware:** if you have existing options defined, mind to separate them with a space. Exemple : `JAVA_OPTS="SOME_EXISTING_OPTIONS -XX:-UseContainerSupport`
+:::
+
+:::caution
 **⚠️ Important Warning:**
 
 - **DO NOT DO THIS IN PRODUCTION.** In my case, this is a **local development** container.
 - Without `UseContainerSupport`, Java is unaware of its limits and can be terminated by the host system's OOM Killer.
 - This solution is a **temporary band-aid** while waiting for an update.
+:::
 
 ## The Morale of the Story
 
