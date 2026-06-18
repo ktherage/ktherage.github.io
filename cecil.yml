@@ -58,6 +58,8 @@ output:
   permalink: ':slug/'
   rss: feed.xml
   sitemap: sitemap.xml
+  postprocessors:
+    BootstrapAlerts: Cecil\Renderer\PostProcessor\BootstrapAlerts
   formats:
     - name: rss
       mediatype: application/rss+xml
