@@ -6,6 +6,7 @@ cover:
   alt: "Container cranes at a bustling port during sunset"
   caption: "Photo by <a href=\"https://www.pexels.com/@thorl5/\">thorl5</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
+updated: 2026-06-18
 tags: [Ubuntu, Docker, cgroupv2, Debug]
 excerpt: >-
   Après la mise à jour de mon système d'exploitaion d'Ubuntu 24.04 vers 25.10, mon conteneur Docker selenium/standalone-chrome s'est mis à planter avec un NullPointerException incompréhensible. Voici mon histoire.
@@ -135,11 +136,17 @@ services:
       - JAVA_OPTS=-XX:-UseContainerSupport
 ```
 
+:::warning
+**Attention:** Si vous cummulez plusieurs options, pensez a les séparer par des espaces. Exemple : `JAVA_OPTS="SOME_EXISTING_OPTIONS -XX:-UseContainerSupport`
+:::
+
+:::caution
 **⚠️ Avertissement important :**
 
 - **NE FAITES PAS ÇA EN PRODUCTION.**, dans mon cas il s'agit d'un container de **developpement** en locale.
 - Sans `UseContainerSupport`, Java ne connaît pas ses limites et peut se faire killer par le OOM Killer du système hôte.
 - Cette solution est un **pansement temporaire** en attendant la mise à jour.
+:::
 
 ## La morale de cette histoire
 
