@@ -64,7 +64,7 @@
 {% endif %}
 {# image #}
 {% if image is empty and (page.metatags.image ?? site.metatags.image ?? true) %}
-  {%- set image = page.image|default(site.image|default) %}
+  {%- set image = page.image|default(page.cover.image|default(site.image|default)) %}
 {% endif %}
 {# video #}
 {% if page.videos is defined and page.videos[0] %}
@@ -111,7 +111,7 @@
     {%- deprecated 'The Open Graph image "' ~ image_asset.file ~ '" (' ~ image_asset.width ~ 'x' ~ image_asset.height ~ ' px) should be square or larger' %}
   {%- endif %}
   {#- if image is large, turn it in cover image #}
-  {%- if image_asset is image_large %}
+  {%- if image_asset is image_large or page.section == site.metatags.articles|default('blog') %}
     {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 1200, height: 630, remove_animation: true)}) %}
   {%- else %}
     {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 512, remove_animation: true)}) %}

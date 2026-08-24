@@ -1,5 +1,6 @@
 ---
 title: "Le cache qui ne fonctionnait pas : une histoire de sérialisation chez Symfony"
+date: 2026-06-10
 description: "Comment une Closure dans getInfo(), une exception silencieuse, et une valeur de retour non vérifiée ont créé un faux succès parfait."
 cover:
   image: "img/pexels-black-hole-23522813.jpeg"

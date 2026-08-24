@@ -35,18 +35,17 @@
             </div>
 
             <!-- Section Contact -->
-            <div class="row d-flex flex-row justify-content-around align-items-center social-links" role="list" aria-label="{{ 'social_links'|trans }}">
+            <div class="row g-2 g-md-3 justify-content-center social-links" role="list" aria-label="{{ 'social_links'|trans }}">
                 {% for social in site.social %}
                     <a href="{{ social.url }}"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="col-sm-3 col-md-1 text-decoration-none d-flex flex-row justify-content-center align-items-center flex-column text-center mx-2 my-2"
+                        class="col-6 col-sm-4 col-md-3 col-lg-2 text-decoration-none d-flex flex-column justify-content-center align-items-center text-center py-3 social-link"
                         aria-label="{{ 'follow_on'|trans({'%name%': social.name|capitalize}) }}"
                         role="listitem"
-                        style="height: 150px;"
                         {% if social.name == 'email' %}rel="me"{% endif %}
                     >
-                        <i class="{{ social.icon }} fa-4x" aria-hidden="true"></i>
+                        <i class="{{ social.icon }}" aria-hidden="true"></i>
                         <span>{{ social.name }}</span>
                         <span class="visually-hidden">{{ social.url }}</span>
                     </a>
@@ -106,7 +105,13 @@
                 "mainEntityOfPage": {
                     "@type": "WebPage",
                     "@id": "{{ url(post, {canonical: true}) }}"
-                }{% if post.image is defined and post.image is not null %},
+                }{% if post.cover.image is defined and post.cover.image is not null %},
+                "image": {
+                    "@type": "ImageObject",
+                    "url": "{{ url(asset(post.cover.image), {canonical: true}) }}",
+                    "width": "1200",
+                    "height": "630"
+                }{% elseif post.image is defined and post.image is not null %},
                 "image": {
                     "@type": "ImageObject",
                     "url": "{{ url(asset(post.image), {canonical: true}) }}",

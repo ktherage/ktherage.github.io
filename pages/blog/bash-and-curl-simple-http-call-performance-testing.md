@@ -1,5 +1,6 @@
 ---
 title: "Bash & Curl: Simple HTTP call performance testing"
+date: 2024-01-19
 description: "A quick and simple way to test the performance of your HTTP calls."
 cover:
   image: "img/terminal-code.jpg"

@@ -1,5 +1,6 @@
 ---
 title: "Dealing with Isolated PHPStan 1 and the PHPUnit 13 Blindspot"
+date: 2026-05-29
 description: "How isolating your QA tools can cause phantom 'unknown class TestCase' errors after upgrading to PHPUnit 13, and how upgrading to PHPStan 2.0 solves it."
 cover:
   image: "img/pexels-puzzle-missing-piece.jpg"

@@ -1,10 +1,11 @@
 {%- if menu|length > 1 ~%}
-<nav class="navbar navbar-expand-lg">
-    <div class="container d-flex flex-row justify-content-between align-items-center">
-        <div class="navbar-nav d-flex flex-row align-items-center">
+<nav class="navbar navbar-expand-md">
+    <div class="container">
+        {# Left: always visible controls #}
+        <div class="navbar-nav flex-row align-items-center">
             <div class="nav-item px-2">
-                <a href="#" data-theme-toggle title="{{ 'change_theme'|trans }}">
-                    <i class="fas fa-moon"></i>
+                <a href="#" data-theme-toggle title="{{ 'change_theme'|trans }}" aria-label="{{ 'change_theme'|trans }}">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
                 </a>
             </div>
             <div class="nav-item px-2">
@@ -31,13 +32,20 @@
                 </ul>
             </div>
         </div>
+        {# Toggler: visible on < md #}
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         {%- set menu_keys = {index: 'home', blog: 'blog', 'about-me': 'about_me', legal: 'legal', tags: 'tags_label'} ~%}
-        <div class="navbar-nav d-flex flex-row align-items-center">
-            {%- for item in site.menus[menu]|sort_by_weight ~%}
-                <div class="nav-item px-2">
-                    <a class="nav-link" href="{{ url(item.id, {language: site.language}) }}">{{ attribute(menu_keys, item.id)|default('menu_' ~ item.id)|trans }}</a>
-                </div>
-            {%- endfor ~%}
+        <div class="collapse navbar-collapse flex-grow-0" id="mainNav">
+            <div class="navbar-nav ms-auto align-items-md-center">
+                {%- for item in site.menus[menu]|sort_by_weight ~%}
+                    <div class="nav-item px-2">
+                        {%- set is_current = page.id == item.id or page.section == item.id -%}
+                        <a class="nav-link{% if is_current %} active{% endif %}" href="{{ url(item.id, {language: site.language}) }}"{% if is_current %} aria-current="page"{% endif %}>{{ attribute(menu_keys, item.id)|default('menu_' ~ item.id)|trans }}</a>
+                    </div>
+                {%- endfor ~%}
+            </div>
         </div>
     </div>
 </nav>

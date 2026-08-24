@@ -1,5 +1,6 @@
 ---
 title: "Gérer l'isolation de PHPStan 1 et l'angle mort de PHPUnit 13"
+date: 2026-05-29
 description: "Comment l'isolation de vos outils de QA peut causer des erreurs fantômes 'unknown class TestCase' après une mise à jour vers PHPUnit 13, et comment la version 2.0 de PHPStan résout le problème."
 cover:
   image: "img/pexels-puzzle-missing-piece.jpg"

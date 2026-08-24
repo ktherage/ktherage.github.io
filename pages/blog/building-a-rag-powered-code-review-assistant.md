@@ -1,5 +1,6 @@
 ---
 title: "Building a RAG-Powered Code Review Assistant with PHP, Ollama, and Qdrant"
+date: 2026-08-10
 description: "How I turned 20 years of Symfony code reviews into a local AI assistant with PHP, Ollama, and Qdrant — no GPU required."
 cover:
   image: "img/pexels-cottonbro-6153344.jpg"
@@ -7,6 +8,7 @@ cover:
   caption: "Photo by <a href=\"https://www.pexels.com/@cottonbro/\">cottonbro studio</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
 published: true
 tags: [AI, Symfony, PHP, RAG, MCP, LLM, Ollama, Qdrant]
+repository: "https://github.com/ktherage/symfony-review-mcp"
 excerpt: >-
   Ask an LLM to review your code and you'll get generic advice. Give it 10,000 Symfony Core code reviews
   as reference — and it'll produce reviews that sound like nicolas-grekas and stof reviewed your PR.

@@ -1,5 +1,6 @@
 ---
 title: "Symfony & Doctrine Migrations : Validation en CI"
+date: 2024-09-05
 description: "Comment détecter qu'un changement d'entité Doctrine est livré sans migration générée : un check CI simple qui échoue vite sur une incohérence schéma/mapping."
 cover:
   image: "img/birds-migration.jpg"

@@ -1,5 +1,6 @@
 ---
 title: "Symfony & Doctrine Migrations: Validation in CI"
+date: 2024-09-05
 description: "How to detect when a Doctrine entity change ships without a generated migration: a simple CI check that fails fast on inconsistent schema vs. mapping state."
 cover:
   image: "img/birds-migration.jpg"
