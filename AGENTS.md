@@ -7,6 +7,7 @@
 - Dev server (with watcher): `php cecil.phar serve --config=cecil.dev.yml` (or `make dev`)
 - Clear cache: `php cecil.phar clear` (or `make clear`)
 - Regenerate banner PNG from SVG: `make banner`
+- Validate LLM feed: `make validate-llmstxt` (builds, then parses the 4 `llms.txt` with the official Answer.AI `llms_txt2ctx` — install: `pip install llms-txt`)
 - Update Cecil: `php cecil.phar self-update`
 
 ## Structure
@@ -42,6 +43,20 @@ Optional: `updated` (set when edited), `slug`, `alias` (old URL(s) to redirect f
 - The tag-filter on `blog/list` (and `assets/js/blog/tag-filter.js`) uses `<button>` badges with `aria-pressed` + an `aria-live="polite"` region; keep it keyboard/screen-reader accessible when editing.
 - `cecil.dev.yml` imports `cecil.yml`, so prod config (nested sections, languages) also applies in dev.
 
+## LLM Feed (llms.txt)
+- Standard: **llms.txt v2** (Answer.AI / llmstxt.org, Aug 2026). Provide `/llms.txt` (EN) + `/fr/llms.txt` (FR), plus `/blog/llms.txt` (section) and a per-page Markdown dump (`feed.md`) for every post.
+- `cecil.yml`: custom `output.formats` `llms` (`mediatype: text/plain`, `filename: llms`, `extension: txt`) and `md` (`mediatype: text/markdown`, `filename: feed`, `extension: md`). `pagetypeformats`: `homepage`/`section` include `llms`; `page` is `[html, md]` so each page emits a `feed.md`.
+- Templates: `layouts/_default/list.llms.twig` (section pages), `layouts/home.llms.twig` (homepage — required separately because homepage uses `layout: home`, resolved to `home.llms.twig`, NOT `_default/list.llms.twig`), `layouts/_default/page.md.twig` + `layouts/blog/page.md.twig` (per-page Markdown via `url(page, {format: 'md'})`).
+- `layouts/_default/page.html.twig`: each page `<head>` gets `rel="describedby" href="{{ url('llms.txt') }}"` + `rel="alternate" type="text/markdown"` pointing at its `feed.md`.
+- Validate: `make validate-llmstxt` builds, then parses the 4 `llms.txt` files with the **official Answer.AI `llms_txt2ctx`** CLI (install: `pip install llms-txt`). A malformed file fails the parse (exit ≠ 0). It does NOT check URL reachability (no network).
+- **Twig/Cecil gotchas (re-discovered the hard way — do not repeat):**
+  - On a Page object, `item.url` / `item.id` / `item.path` are **protected / not accessible** → use the `url(item)` function (returns an absolute URL).
+  - `contains` is **not** a Twig operator → use `matches` (regex) or `starts with` / `ends with`.
+  - `site.pages` items expose protected properties and error in Twig → iterate `page.pages` (a Page's `.pages` collection) instead.
+  - `{% for x in y if cond %}` inline `if` is **unsupported** in this Twig version → use a separate `{% if %}`.
+  - Homepage `page.pages` = all leaf pages (posts + about-me + legal), not sections → filter blog posts via `url(item) matches '/blog/'` (matches EN `/blog/` and FR `/fr/blog/`).
+  - `{% include '_default/list.llms.twig' %}` does **not** render for `.llms.twig` templates → duplicate the content in `home.llms.twig`.
+
 ## SEO
 - **JSON-LD dates**: in `layouts/partials/jsonld.js.twig`, format dates with Twig `date('c')` (valid ISO 8601). Do **NOT** use `date('Y-m-d\TH:i:sP')` — the `\T` is stripped by Twig/PHP, yielding an invalid `...UTC00:00:00+00:00` timestamp that makes Google drop `NewsArticle`/`VideoObject` rich results. The `Blog` block already uses `date('c')`.
 - **`social` config must be a map**, not a list: `cecil.yml` `social:` should be keyed by network (`twitter:`, `mastodon:`, `facebook:`), each carrying `site`/`creator`/`id` as needed. Cecil's metatags read `site.social.twitter.site`, `site.social.mastodon.creator`, `site.social.facebook.id`. Keep `name`/`icon`/`url` on every entry — the homepage social section iterates `site.social` by those keys. A flat list breaks Twitter/Mastodon/Facebook metatags. No root-level `twitter:` key (non-standard).
@@ -51,8 +66,8 @@ Optional: `updated` (set when edited), `slug`, `alias` (old URL(s) to redirect f
 - After any SEO/template change, **rebuild and verify the actual `_site` HTML** (minified, unquoted attributes). Grep for `datePublished`, `twitter:site`, `fediverse:creator`, `rel=me`, etc. — don't trust the template alone (cache/Cecil can mask a change). Confirm non-standard config against Context7 before assuming it is idiomatic Cecil.
 
 ## Stack
-- Cecil v9.x (9.0.1), Twig, Bootstrap 5.3.7, Font Awesome 6.7.2, Highlight.js 11.11.1
-- PHP 8.5, Docker, Docker Compose
+- Cecil v9.x (9.0.1), Twig, Bootstrap 5.3.8, Font Awesome 7.3.1, Highlight.js 11.12.0, Mermaid 11.17.2
+- PHP 8.5
 
 ## Commits
 - Never add a `Co-Authored-By` trailer (or any AI attribution) to commit messages.
