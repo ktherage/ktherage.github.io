@@ -1,15 +1,15 @@
-{% extends "_default/page.html.twig" %}
+{% extends '_default/page.html.twig' %}
 
 {% block head %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('css/home/social.css') }}">
 {% endblock %}
 
-{%- set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) -%}
+{%- set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) -%}
 
 {% block content %}
     <div class="container">
-        <header class="d-flex flex-column justify-content-center align-items-center text-center my-5 py-4" role="banner" style="min-height: 85vh">
+        <header class="d-flex flex-column justify-content-center align-items-center text-center my-5 py-4 hero-banner" role="banner">
             <div class="profile-image-container mb-4" aria-hidden="true">
                 <img
                     src="{{ url(site.author.image|resize(256)) }}"
@@ -20,7 +20,7 @@
                     width="200"
                     height="200"
                     class="rounded-circle profile-image"
-                    alt="{{ site.author.name }} – {{ site.author.title }}"
+                    alt="{{ site.author.name }} – {{ 'author_title'|trans }}"
                     aria-hidden="false"
                     decoding="async"
                     fetchpriority="high"
@@ -32,7 +32,7 @@
             </h1>
 
             <h2 class="text-muted mt-0 mb-4">
-                {{ site.author.title|capitalize }}
+                {{ 'author_title'|trans }}
             </h2>
 
             <div class="lead mb-5">
@@ -76,7 +76,7 @@
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
             <h3 id="latest-posts-heading" class="text-center mb-5">{{ 'last_articles'|trans }}</h3>
             <div class="row g-4" role="list">
-                {% include 'partials/post-card.html.twig' with {pages: latest_posts} %}
+                {{ include('partials/post-card.html.twig', {pages: latest_posts}) }}
             </div>
             <div class="text-center mt-5">
                 <a href="{{ url('blog/') }}" class="btn btn-primary" aria-label="{{ 'view_articles'|trans }}">
@@ -89,44 +89,4 @@
 
 {% block javascripts %}
     {{ parent() }}
-
-    {%- if latest_posts is defined and latest_posts|length > 0 -%}
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Blog",
-        "@id": "{{ url('blog/', {canonical: true}) }}#blog",
-        "name": "Blog de {{ site.author.name }}",
-        "description": "{{ site.description|e('js') }}",
-        "blogPost": [
-            {%- for post in latest_posts %}
-            {
-                "@type": "BlogPosting",
-                "headline": "{{ post.title|e('js') }}",
-                "url": "{{ url(post, {canonical: true}) }}",
-                "datePublished": "{{ post.date|date('c') }}",
-                "dateModified": "{{ post.updated|default(post.date)|date('c') }}",
-                "description": "{{ post.description|default(post.excerpt|striptags)|e('js') }}",
-                "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "{{ url(post, {canonical: true}) }}"
-                }{% if post.cover.image is defined and post.cover.image is not null %},
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "{{ url(asset(post.cover.image), {canonical: true}) }}",
-                    "width": "1200",
-                    "height": "630"
-                }{% elseif post.image is defined and post.image is not null %},
-                "image": {
-                    "@type": "ImageObject",
-                    "url": "{{ url(asset(post.image), {canonical: true}) }}",
-                    "width": "1200",
-                    "height": "630"
-                }{% endif %}
-            }{% if not loop.last %},{% endif %}
-            {%- endfor %}
-        ]
-    }
-    </script>
-    {%- endif -%}
 {% endblock %}

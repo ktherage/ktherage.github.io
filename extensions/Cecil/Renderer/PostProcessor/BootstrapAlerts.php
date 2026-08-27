@@ -20,13 +20,12 @@ class BootstrapAlerts extends AbstractPostProcessor
             return $output;
         }
 
-        $output = str_replace('</aside>', '</div>', $output);
-
         return preg_replace_callback(
-            '/<aside class="note(?: note-(\w+))?">/',
+            '/<aside class="note(?: note-(\w+))?">(.*?)<\/aside>/s',
             fn ($m) => sprintf(
-                '<div class="alert alert-%s" role="alert">',
-                $this->map[$m[1] ?? ''] ?? 'secondary'
+                '<div class="alert alert-%s" role="note">%s</div>',
+                $this->map[$m[1] ?? ''] ?? 'secondary',
+                $m[2]
             ),
             $output
         );

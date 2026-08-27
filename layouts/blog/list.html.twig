@@ -1,7 +1,7 @@
 {% extends '_default/list.html.twig' %}
 
 {% block content %}
-    <main class="d-flex flex-column flex-grow-1">
+    <div class="d-flex flex-column flex-grow-1">
         <div class="container my-5">
             <header class="mb-5 text-center">
                 <h1 class="display-5 fw-bold">{{ page.title }}</h1>
@@ -13,25 +13,25 @@
             {# Tag cloud — sourced from Cecil's vocabulary, so the badge list is always in sync with the taxonomy #}
             {% set tags_vocab = site.taxonomies.get('tags') %}
             {% if tags_vocab and tags_vocab|length > 0 %}
-                <div class="mb-4 text-center">
-                    <span class="badge bg-secondary me-2 mb-2 filter-badge active" data-filter="all"
-                          style="cursor: pointer;">{{ 'all_label'|trans }}</span>
+                <div class="mb-4 text-center" role="group" aria-label="{{ 'filter_by_tag'|trans }}">
+                    <button type="button" class="badge bg-secondary me-2 mb-2 filter-badge active border-0" data-filter="all"
+                            aria-pressed="true">{{ 'all_label'|trans }}</button>
                     {% for term in tags_vocab|sort_by_title %}
-                        <span class="badge bg-secondary me-2 mb-2 filter-badge" data-filter="{{ term.name|slugify }}"
-                              style="cursor: pointer;">{{ term.name }}</span>
+                        <button type="button" class="badge bg-secondary me-2 mb-2 filter-badge border-0" data-filter="{{ term.name|slugify }}"
+                                aria-pressed="false">{{ term.name }}</button>
                     {% endfor %}
                 </div>
             {% endif %}
 
-            <div class="row g-4" role="list" id="blog-posts">
-                {% include 'partials/post-card.html.twig' with {pages: pages} %}
+            <div class="row g-4" role="list" id="blog-posts" aria-live="polite">
+                {{ include('partials/post-card.html.twig', {pages: pages}) }}
             </div>
 
             <footer class="mt-5">
-                {{ include('partials/paginator.html.twig', {page}, with_context = false) }}
+                {{ include('partials/paginator.html.twig', {page: page}, with_context: false) }}
             </footer>
         </div>
-    </main>
+    </div>
 
     {% block javascripts %}
         {{ parent() }}

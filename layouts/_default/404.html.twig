@@ -1,12 +1,11 @@
 {% extends ['page.html.twig', '_default/page.html.twig'] %}
 
 {%- block content ~%}
-  {%- if page.content is not empty ~%}
-      {{- page.content ~}}
-  {%- else ~%}
-      <h1>{{ 'page_not_found'|trans }}</h1>
-      <p>{{ 'broken_link'|trans }}
-      <p>
-      <p><a href="{{ url(site.home) }}">{{ 'back_to_home'|trans }}</a></p>
-  {%- endif ~%}
+    {%- if page.content is not empty ~%}
+        {{- page.content ~}}
+    {%- else ~%}
+        <h1>{{ 'page_not_found'|trans }}</h1>
+        <p>{{ 'broken_link'|trans }}</p>
+        <p><a href="{{ url(site.home) }}">{{ 'back_to_home'|trans }}</a></p>
+    {%- endif ~%}
 {%- endblock ~%}

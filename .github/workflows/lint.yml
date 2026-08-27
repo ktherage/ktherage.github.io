@@ -1,0 +1,55 @@
+name: Lint
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, xml, ctype, iconv, intl, dom, filter, gd, json, pdo
+
+      - name: Install Twig CS Fixer
+        run: |
+          curl -sSL https://github.com/vincentlanglet/twig-cs-fixer/releases/latest/download/twig-cs-fixer.phar -o twig-cs-fixer.phar
+          chmod +x twig-cs-fixer.phar
+
+      - name: Lint Twig templates
+        run: php twig-cs-fixer.phar lint layouts/
+
+      - name: Build site
+        run: |
+          curl -LO https://cecil.app/cecil.phar
+          chmod +x cecil.phar
+          php cecil.phar build
+
+      - name: HTML checks (structured data & landmarks)
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            n=$(grep -c 'application/ld+json' "$f")
+            m=$(grep -c '<main' "$f")
+            if [ "$n" -gt 1 ] || [ "$m" -gt 1 ]; then
+              echo "FAIL: $f (ld+json=$n, main=$m)"
+              fail=1
+            fi
+          done < <(find _site -name '*.html')
+          if grep -rn '<a href="#"' layouts/; then
+            echo "FAIL: <a href=\"#\"> found in layouts/"
+            fail=1
+          fi
+          exit $fail

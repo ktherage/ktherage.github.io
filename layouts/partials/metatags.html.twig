@@ -10,13 +10,13 @@
   {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
   {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
   {%- set title = page.title|trans|e %}
-  {%- set title_html = title ~ title_divider ~ site.title|e %}
+  {%- set title_html = title ~ title_divider ~ 'site_name'|trans|e %}
   {%- if title_only %}
     {%- set title_html = title %}
   {%- endif %}
   {#- homepage title #}
   {%- if page.type == 'homepage' %}
-    {%- set title = site.title|e %}
+    {%- set title = 'site_name'|trans|e %}
     {%- set title_html = title ~ title_divider ~ site.baseline|default|e %}
     {%- if title_only or site.baseline|default is empty %}
       {%- set title_html = title %}
@@ -26,7 +26,7 @@
   {%- if page.paginator.current|default(0) > 1 %}
     {%- if title_pagination_shownumber %}
       {%- set title = page.title|e ~ ' (' ~ title_pagination_label|format(page.paginator.current) ~ ')' %}
-      {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ title_divider ~ site.title|e %}
+      {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ title_divider ~ 'site_name'|trans|e %}
       {%- if title_only %}
         {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
       {%- endif %}
@@ -43,10 +43,10 @@
 {% endif %}
 {% if author is not empty %}
   {%- if author is not iterable %}
-    {%- set author = {'name': author} %}
+    {%- set author = {name: author} %}
   {%- endif %}
   {%- if author.firstname is defined and author.lastname is defined %}
-    {%- set author = author|merge({'name': author.firstname|e ~ ' ' ~ author.lastname|e}) %}
+    {%- set author = author|merge({name: author.firstname|e ~ ' ' ~ author.lastname|e}) %}
   {%- endif %}
 {% endif %}
 {# robots #}
@@ -57,7 +57,7 @@
 {# favicon #}
 {% if page.metatags.favicon ?? site.metatags.favicon ?? true %}
   {%- set favicon_defaults = {
-    'icon': [32, 57, 76, 96, 128, 192, 228],
+    icon: [32, 57, 76, 96, 128, 192, 228],
     'shortcut icon': [128, 196],
     'apple-touch-icon': [120, 152, 180],
   } -%}
@@ -78,27 +78,27 @@
 {% endif %}
 {# Open Graph #}
 {% set opengraph = {
-  'locale': site.language.locale,
-  'site_name': site.title,
-  'type': 'website',
-  'title': title,
-  'description': description,
-  'url': url(page, {canonical: true}),
+  locale: site.language.locale,
+  site_name: 'site_name'|trans,
+  type: 'website',
+  title: title,
+  description: description,
+  url: url(page, {canonical: true}),
 } %}
 {#- OG: video #}
 {% if video is not empty %}
   {%- set video_asset = asset(video) %}
-  {%- set opengraph = opengraph|merge({'type': 'video'}) %}
-  {%- set opengraph = opengraph|merge({'video': video_asset}) %}
+  {%- set opengraph = opengraph|merge({type: 'video'}) %}
+  {%- set opengraph = opengraph|merge({video: video_asset}) %}
 {#- OG: audio #}
 {% elseif audio is not empty %}
   {%- set audio_asset = asset(audio) %}
-  {%- set opengraph = opengraph|merge({'type': 'audio'}) %}
-  {%- set opengraph = opengraph|merge({'audio': audio_asset}) %}
+  {%- set opengraph = opengraph|merge({type: 'audio'}) %}
+  {%- set opengraph = opengraph|merge({audio: audio_asset}) %}
 {% endif %}
 {#- OG: article #}
 {% if page.section == site.metatags.articles|default('blog') %}
-  {%- set opengraph = opengraph|merge({'type': 'article'}) %}
+  {%- set opengraph = opengraph|merge({type: 'article'}) %}
 {% endif %}
 {#- OG: image #}
 {% if image is not empty %}
@@ -112,9 +112,9 @@
   {%- endif %}
   {#- if image is large, turn it in cover image #}
   {%- if image_asset is image_large or page.section == site.metatags.articles|default('blog') %}
-    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 1200, height: 630, remove_animation: true)}) %}
+    {%- set opengraph = opengraph|merge({image: image_asset|resize(width: 1200, height: 630, remove_animation: true)}) %}
   {%- else %}
-    {%- set opengraph = opengraph|merge({'image': image_asset|resize(width: 512, remove_animation: true)}) %}
+    {%- set opengraph = opengraph|merge({image: image_asset|resize(width: 512, remove_animation: true)}) %}
   {%- endif %}
 {% endif %}
 {# merge page.opengraph #}
@@ -122,15 +122,15 @@
   {%- set opengraph = opengraph|merge(page.opengraph ?? site.opengraph ?? []) %}
 {% endif %}
 {# Facebook #}
-{% set facebook = {'id': site.social.facebook.id|default(page.social.facebook.id|default)} %}
+{% set facebook = {id: site.social.facebook.id|default(page.social.facebook.id|default)} %}
 {# Twitter #}
 {% set twitter = {
-  'site': site.social.twitter.site|default,
-  'creator': page.social.twitter ?? site.social.twitter.creator|default,
+  site: site.social.twitter.site|default,
+  creator: page.social.twitter ?? site.social.twitter.creator|default,
 } %}
 {# Mastodon #}
 {% set mastodon = {
-  'creator': page.social.mastodon ?? site.social.mastodon.creator|default,
+  creator: page.social.mastodon ?? site.social.mastodon.creator|default,
 } %}
 {%- block content %}
     {#~ template ~#}
@@ -195,11 +195,11 @@
   {%- endif -%}
   {#- template: alternates ~#}
   {%- block metatags_alternates ~%}
-  {{- include('partials/alternates.html.twig', {title, page}, with_context = false) ~}}
+  {{- include('partials/alternates.html.twig', {title: title, page: page}, with_context: false) ~}}
   {%- endblock metatags_alternates ~%}
-  {{- include('partials/feeds-from-section.html.twig', {title, page}, with_context = false) ~}}
+  {{- include('partials/feeds-from-section.html.twig', {title: title, page: page}, with_context: false) ~}}
   {#- template: alternates languages ~#}
-  {{- include('partials/alternates-languages.html.twig', {page}, with_context = false) ~}}
+  {{- include('partials/alternates-languages.html.twig', {page: page}, with_context: false) ~}}
   {#- template: preload ~#}
   {#- `as="video"` is no more supported by browsers
   {%- if video_asset is defined ~%}
@@ -306,7 +306,7 @@
   {#- template: structured data ~#}
   {%- block metatags_structured_data ~%}
   {%- if page.metatags.data ?? config.metatags.data ?? config.metatags.jsonld ?? false ~%}
-  {{- include('partials/jsonld.js.twig', {author}) ~}}
+  {{- include('partials/jsonld.js.twig', {author: author}) ~}}
   {%- endif ~%}
   {%- endblock metatags_structured_data ~%}
 {%- endblock content -%}

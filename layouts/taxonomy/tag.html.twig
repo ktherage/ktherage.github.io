@@ -16,7 +16,7 @@
         </header>
 
         <div class="row g-4" role="list" id="blog-posts">
-            {% include 'partials/post-card.html.twig' with {pages: page.pages} %}
+            {{ include('partials/post-card.html.twig', {pages: page.pages}) }}
         </div>
 
         <p class="text-center mt-5">

@@ -1,4 +1,8 @@
 /* Social links in home page – responsive 2×2 / 3×3 (desktop identique: fa-4x, 150px) */
+.hero-banner {
+    min-height: 85vh;
+}
+
 .social-links .social-link {
     min-height: 150px;
     border: 1px solid transparent;

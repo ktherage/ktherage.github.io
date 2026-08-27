@@ -66,12 +66,16 @@ a {
     color: var(--link-color);
     text-decoration: none;
     transition: color 0.2s ease-in-out;
-    font-weight: bold;
 }
 
 a:hover {
     color: var(--link-hover-color);
     text-decoration: underline;
+}
+
+/* Gras réservé aux liens du contenu d'article (design intent) */
+.blog-content a {
+    font-weight: bold;
 }
 
 /* Code et préformaté */
@@ -133,12 +137,12 @@ li {
 
 /* Styles généraux pour tous les liens */
 a {
-    color: var(--link-color) !important;
-    text-decoration: none !important;
+    color: var(--link-color);
+    text-decoration: none;
 }
 
 a:hover {
-    color: var(--link-hover-color) !important;
+    color: var(--link-hover-color);
 }
 
 /* Styles pour tous les boutons Bootstrap */
@@ -174,3 +178,20 @@ a:hover {
     background-color: grey !important;
     color: white !important;
 }
+
+/* Respecte la préférence utilisateur de réduction des animations */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    [data-theme-switching] {
+        transition: none !important;
+    }
+}
+

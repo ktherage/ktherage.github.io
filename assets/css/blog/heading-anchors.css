@@ -1,4 +1,9 @@
 /* Variables spécifiques aux ancres de titres */
+.cover-image {
+    max-height: 400px;
+    object-fit: cover;
+}
+
 :root {
     --heading-anchor-color: var(--link-color);
     --heading-anchor-hover-color: var(--link-hover-color);

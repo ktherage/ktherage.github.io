@@ -27,10 +27,19 @@ Optional: `updated` (set when edited), `slug`, `alias` (old URL(s) to redirect f
 - When a post URL changes, add `alias: /old/url/` to preserve it: Cecil emits a soft meta-refresh redirect + canonical (GitHub Pages has no server-side 301).
 - Verify after content changes: rebuild, then check `_site/blog/` (nested URLs, descending date order, RSS).
 
+### Front-end
+- **Structured data (JSON-LD)**: emitted by Cecil built-in via `layouts/partials/jsonld.js.twig` only (`metatags.data: true` in `cecil.yml`). Never add a second `<script type="application/ld+json">` block (the old `jsonld.html.twig` was removed). The `Person` node lives inside `jsonld.js.twig`; keep `@context` as `https://schema.org` (not `http://`).
+- **Landmarks**: `_default/page.html.twig` already wraps content in a single `<main>`. Child templates (`blog/page`, `legal`, `blog/list`, …) MUST NOT add another `<main>` — use a `<div>` for wrapper classes.
+- **Bootstrap**: do not fight the framework with `!important` to override components; theme via Bootstrap CSS variables under `[data-bs-theme]` (e.g. `--bs-link-color`, `--bs-btn-bg`). Avoid inline `style=`; prefer Bootstrap utilities or CSS classes in `assets/css/`.
+- **Navigation controls** (theme toggle, feeds): render as `<button type="button">`, never `<a href="#">`.
+- **Design intent (do not regress)**: buttons are intentionally transparent/outline (uniform black & white theme); bold is reserved for in-article links only (`.blog-content a`).
+- **Assets**: vendor assets are self-hosted under `static/vendor/`; fonts should be WOFF2 served via `asset()` (not absolute `/fonts/...`).
+
 ## Quirks
 - `pages.sections.nested: true` is on; each year sub-section index MUST set `layout: blog/list`, or it falls back to the default list template (no tag cloud / breadcrumb).
 - Breadcrumbs render only on article pages via `layouts/partials/breadcrumb.html.twig` (first child of `<article>`), built from `page.ancestors`; order is breadcrumb → tags → cover → title → date.
 - JSON-LD `BreadcrumbList` is overridden in `layouts/partials/jsonld.js.twig` to include Home + all ancestors; the native Cecil template only emits the top section.
+- The tag-filter on `blog/list` (and `assets/js/blog/tag-filter.js`) uses `<button>` badges with `aria-pressed` + an `aria-live="polite"` region; keep it keyboard/screen-reader accessible when editing.
 - `cecil.dev.yml` imports `cecil.yml`, so prod config (nested sections, languages) also applies in dev.
 
 ## Stack

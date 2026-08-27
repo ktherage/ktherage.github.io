@@ -4,9 +4,9 @@
         {# Left: always visible controls #}
         <div class="navbar-nav flex-row align-items-center">
             <div class="nav-item px-2">
-                <a href="#" data-theme-toggle title="{{ 'change_theme'|trans }}" aria-label="{{ 'change_theme'|trans }}">
+                <button type="button" class="nav-link p-0 border-0 bg-transparent" data-theme-toggle title="{{ 'change_theme'|trans }}" aria-label="{{ 'change_theme'|trans }}">
                     <i class="fas fa-moon" aria-hidden="true"></i>
-                </a>
+                </button>
             </div>
             <div class="nav-item px-2">
                 {%- set targetLang = site.language == 'fr' ? 'en' : 'fr' -%}
@@ -16,14 +16,14 @@
                 {%- else -%}
                     {%- set targetUrl = targetLang == 'fr' ? url('fr/' ~ page.id) : url(page.id) -%}
                 {%- endif -%}
-                <a href="{{ targetUrl }}" title="{{ targetLang == 'fr' ? 'switch_to_french'|trans : 'switch_to_english'|trans }}">
-                    {{- targetLang == 'fr' ? '🇫🇷' : '🇬🇧' -}}
+                <a href="{{ targetUrl }}" title="{{ targetLang == 'fr' ? 'switch_to_french'|trans : 'switch_to_english'|trans }}" aria-label="{{ targetLang == 'fr' ? 'switch_to_french'|trans : 'switch_to_english'|trans }}">
+                    <span aria-hidden="true">{{- targetLang == 'fr' ? '🇫🇷' : '🇬🇧' -}}</span>
                 </a>
             </div>
             <div class="nav-item px-2 dropdown">
-                <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" title="{{ 'feeds'|trans }}" aria-label="{{ 'feeds'|trans }}">
+                <button type="button" class="nav-link p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown" title="{{ 'feeds'|trans }}" aria-label="{{ 'feeds'|trans }}">
                     <i class="fas fa-rss"></i>
-                </a>
+                </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ url('feed.xml') }}">{{ 'rss_feed'|trans }}</a></li>
                     <li><a class="dropdown-item" href="{{ url('atom.xml') }}">{{ 'atom_feed'|trans }}</a></li>
