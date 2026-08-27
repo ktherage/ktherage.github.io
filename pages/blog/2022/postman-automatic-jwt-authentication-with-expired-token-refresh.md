@@ -1,4 +1,5 @@
 ---
+alias: /blog/postman-automatic-jwt-authentication-with-expired-token-refresh/
 title: "Postman : Automatic JWT authentication with expired token refresh"
 date: 2022-12-20
 description: "A quick and simple way to test the performance of your HTTP calls."

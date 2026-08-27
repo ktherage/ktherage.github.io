@@ -123,6 +123,8 @@ cache:
 # Disable pagination - show all posts on one page
 pages:
   pagination: false
+  sections:
+    nested: true
   body:
     highlight: true
     images:

@@ -1,4 +1,5 @@
 ---
+alias: /blog/gitignore-blacklisting-whitelisting/
 title: "Déboguer le .gitignore de Git : Pourquoi la liste blanche dans les sous-répertoires échoue"
 date: 2026-03-25
 description: "Une plongée dans les règles de traversée des répertoires du .gitignore et comment éviter les pièges courants lors de la mise en liste blanche de fichiers dans les sous-répertoires."

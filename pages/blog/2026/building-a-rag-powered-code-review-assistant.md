@@ -1,4 +1,5 @@
 ---
+alias: /blog/building-a-rag-powered-code-review-assistant/
 title: "Building a RAG-Powered Code Review Assistant with PHP, Ollama, and Qdrant"
 date: 2026-08-10
 description: "How I turned 20 years of Symfony code reviews into a local AI assistant with PHP, Ollama, and Qdrant — no GPU required."

@@ -1,4 +1,5 @@
 ---
+alias: /blog/the-cache-that-silently-wasnt/
 title: "The Cache That Didn't Cache: A Symfony Serialization Story"
 date: 2026-06-10
 description: "How a Closure inside getInfo(), a silent exception, and an unchecked return value created a perfect false success."

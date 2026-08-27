@@ -8,7 +8,7 @@
 {% endblock %}
 
 {%- block content ~%}
-    <div class="container my-5">
+    <div class="container">
         {# Floating table of contents #}
         <aside id="toc" class="toc-floating" aria-label="{{ 'toc_title'|trans|default('On this page') }}">
             <p class="toc-title">{{ 'toc_title'|trans|default('On this page') }}</p>
@@ -17,11 +17,18 @@
         <button id="toc-toggle" class="toc-toggle" type="button" aria-label="{{ 'toc_toggle'|trans|default('Toggle table of contents') }}" aria-expanded="false">
             <i class="fas fa-list" aria-hidden="true"></i>
         </button>
-
         <div class="row justify-content-center">
             <div class="col-lg-12 col-xl-10">
                 <article class="blog-post">
+                    {{- include('partials/breadcrumb.html.twig', {page}, with_context = false) ~}}
                     <header class="mb-4 pb-4 border-bottom">
+                        {% if page.tags is defined %}
+                            <div class="mb-3">
+                                {% for tag in page.tags %}
+                                    <a href="{{ url('tags/' ~ tag|slugify) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                         {# Image de cover #}
                         {% if page.cover is defined and page.cover.image %}
                             <div class="d-flex flex-wrap align-items-center justify-content-center mb-4">
@@ -41,13 +48,6 @@
                                 {{ page.date|format_date('long') }}
                             </time>
                         </div>
-                        {% if page.tags is defined %}
-                            <div class="mb-2">
-                                {% for tag in page.tags %}
-                                    <a href="{{ url('tags/' ~ tag|slugify) }}" class="badge bg-secondary text-decoration-none me-1 mb-1">{{ tag }}</a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
                     </header>
 
                     {% if page.repository is defined and page.repository is not empty %}

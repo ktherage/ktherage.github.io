@@ -1,4 +1,5 @@
 ---
+alias: /blog/api-platform-con-2025-day-1/
 title: "API Platform con 2025 - JOUR 1"
 date: 2025-09-23
 description: "API Platform con 2025 - JOUR 1 - un aperçu des conférences auxquelles j'ai assisté à l'API Platform Conference en 2025."

@@ -1,4 +1,5 @@
 ---
+alias: /blog/gitignore-blacklisting-whitelisting/
 title: "Debugging Git's .gitignore: Why Whitelisting Files in Subdirectories Fails"
 date: 2026-03-25
 description: "A deep dive into Git's .gitignore directory traversal rules and how to avoid common pitfalls when whitelisting files in subdirectories."

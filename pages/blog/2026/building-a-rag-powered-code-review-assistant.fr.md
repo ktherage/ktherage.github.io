@@ -1,4 +1,5 @@
 ---
+alias: /blog/building-a-rag-powered-code-review-assistant/
 title: "Construire un assistant de code review RAG avec PHP, Ollama et Qdrant"
 date: 2026-08-10
 canonical_url: "https://ktherage.github.io/fr/blog/building-a-rag-powered-code-review-assistant/"

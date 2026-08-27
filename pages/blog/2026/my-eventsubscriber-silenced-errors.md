@@ -1,4 +1,5 @@
 ---
+alias: /blog/my-eventsubscriber-silenced-errors/
 title: "My EventSubscriber silenced errors, here's why"
 date: 2026-04-13
 description: "How my whitelist route EventSubscriber was hiding real errors and how I fixed it."

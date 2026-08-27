@@ -1,4 +1,5 @@
 ---
+alias: /blog/my-eventsubscriber-silenced-errors/
 title: "Mon EventSubscriber masquait les erreurs, voici pourquoi"
 date: 2026-04-13
 description: "Comment mon EventSubscriber de liste blanche de routes cachait de véritables erreurs et comment je l'ai corrigé."

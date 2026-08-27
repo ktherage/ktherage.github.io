@@ -1,4 +1,5 @@
 ---
+alias: /blog/ubuntu-25-10-docker-java-cgroupv2-crash/
 title: "Ubuntu 25.10: The Update That Bricked My Java Docker Containers"
 date: 2026-04-28
 description: "How a simple Ubuntu update crashed my Selenium containers, and why the cgroupv2 NullPointerException is a symptom of a compatibility issue between the Linux kernel and legacy Java versions."

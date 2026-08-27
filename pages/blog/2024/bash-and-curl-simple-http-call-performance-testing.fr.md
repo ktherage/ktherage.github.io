@@ -1,4 +1,5 @@
 ---
+alias: /blog/bash-and-curl-simple-http-call-performance-testing/
 title: "Bash & Curl : Test de performance simple d'appels HTTP"
 date: 2024-01-19
 description: "Une façon rapide et simple de tester les performances de vos appels HTTP."
