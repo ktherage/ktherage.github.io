@@ -85,10 +85,6 @@ sitemap:
   enabled: true
   exclude: ['404']
 
-feeds:
-  enabled: true
-  formats: ['rss', 'atom', 'json']
-
 # Optimisation des assets
 optimize:
   enabled: true
@@ -113,9 +109,6 @@ optimize:
     enabled: true
     webp: true
 
-  # Compression GZIP (si supporté par le serveur)
-  gzip: true
-
 cache:
   enabled: true
   dir: ".cache"
@@ -137,7 +130,6 @@ pages:
       placeholder: 'lqip'
       class: 'img-fluid rounded mx-auto d-block'
 
-locale: 'en_US'
 language: 'en'
 languages:
   - code: en
