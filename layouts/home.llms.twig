@@ -1,0 +1,26 @@
+# {{ site.title }}
+
+> {{ site.description }}
+
+{% macro listposts(node) %}
+{% for child in node.pages %}
+{% if child.pages|length > 0 %}
+## {{ child.title }}
+
+{{ _self.listposts(child) }}
+{% else %}
+{% if child.published and url(child, {format: 'md'}) matches '/blog/' %}- [{{ child.title }}]({{ url(child, {format: 'md'}) }}): {{ child.excerpt|striptags|default('') }}
+{% endif %}
+{% endif %}
+{% endfor %}
+{% endmacro %}
+
+{{ _self.listposts(page) }}
+
+## Pages
+- [About me]({{ url('about-me', {format: 'md'}) }})
+- [Legal]({{ url('legal', {format: 'md'}) }})
+- [Tags]({{ url('tags', {format: 'md'}) }})
+
+## Full content
+- [Complete site (Markdown)]({{ url(page, {format: 'md'}) }})

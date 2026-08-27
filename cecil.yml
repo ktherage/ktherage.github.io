@@ -77,9 +77,14 @@ output:
       mediatype: text/markdown
       filename: feed
       extension: md
+    - name: llms
+      mediatype: text/plain
+      filename: llms
+      extension: txt
   pagetypeformats:
-    homepage: [html, rss, atom, json, md]
-    section: [html, rss, atom, json, md]
+    homepage: [html, rss, atom, json, md, llms]
+    section: [html, rss, atom, json, md, llms]
+    page: [html, md]
 
 sitemap:
   enabled: true
