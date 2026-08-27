@@ -25,6 +25,9 @@ Optional: `updated`, `slug`
 - Posts are sorted by `date` descending (`sort_by_date`); set `updated` when edited.
 - Verify after content changes: rebuild, then check `_site/blog/` (URLs without date, desc date order, RSS).
 
+## Commits
+- Never add a `Co-Authored-By` trailer (or any AI attribution) to commit messages.
+
 ## Stack
 - Cecil v8.x (8.117.1), Twig, Bootstrap 5.3.7, Font Awesome 6.7.2, Highlight.js 11.11.1
 - PHP 8.5, Docker, Docker Compose
