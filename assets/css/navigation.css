@@ -1,0 +1,25 @@
+/* Navbar – avoid line breaks, burger handles mobile */
+.navbar-toggler {
+    border-color: var(--bs-border-color);
+}
+
+.navbar-toggler-icon {
+    background-image: var(--bs-navbar-toggler-icon-bg);
+}
+
+@media (max-width: 767.98px) {
+    .navbar-collapse .nav-link {
+        padding-top: 0.625rem;
+        padding-bottom: 0.625rem;
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+    .navbar-collapse .nav-item:last-child .nav-link {
+        border-bottom: 0;
+    }
+}
+
+/* Sticky navigation */
+header.sticky-top {
+    background-color: var(--bs-body-bg);
+    border-bottom: 1px solid var(--bs-border-color);
+}

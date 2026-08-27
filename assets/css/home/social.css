@@ -1,0 +1,53 @@
+/* Social links in home page – responsive 2×2 / 3×3 (desktop identique: fa-4x, 150px) */
+.social-links .social-link {
+    min-height: 150px;
+    border: 1px solid transparent;
+    border-radius: 0.75rem;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.social-links .social-link:hover {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+    text-decoration: none !important;
+}
+
+.social-links .social-link i {
+    font-size: 4em; /* fa-4x – identique grand écran */
+    margin-bottom: 0.5rem;
+    line-height: 1;
+}
+
+.social-links .social-link span {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+@media (max-width: 768px) {
+    .social-links .social-link {
+        min-height: 110px;
+    }
+    .social-links .social-link i {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-links .social-link {
+        min-height: 96px;
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+    .social-links .social-link i {
+        font-size: 2rem;
+    }
+    .social-links .social-link span {
+        font-size: 0.75rem;
+    }
+}
+
+.social-links a {
+    color: var(--link-color) !important;
+}

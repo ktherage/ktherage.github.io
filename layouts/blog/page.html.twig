@@ -2,7 +2,9 @@
 
 {% block head %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('css/heading-anchors.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/blog/heading-anchors.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/blog/table-of-content.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/blog/repo-callout.css') }}">
 {% endblock %}
 
 {%- block content ~%}
@@ -82,11 +84,11 @@
 {%- block javascripts ~%}
     {{ parent() }}
     <script src="{{ asset('vendor/mermaid-11.15.0/mermaid.min.js') }}"></script>
-    <script>
-        mermaid.initialize({ theme: 'neutral' });
-    </script>
+    <script src="{{ asset('js/blog/mermaid.js') }}"></script>
     <script src="{{ asset('vendor/highlightjs-11.11.1/highlight.min.js') }}"></script>
-    <script>hljs.highlightAll();</script>
-    <script src="{{ asset('js/heading-anchors.js') }}"></script>
-    <script src="{{ asset('js/table-of-content.js') }}"></script>
+    <script src="{{ asset('js/blog/highlight.js') }}"></script>
+    <script src="{{ asset('js/blog/heading-anchors.js') }}"></script>
+    <script src="{{ asset('js/blog/table-of-content.js') }}"></script>
+    <script src="{{ asset('js/blog/giscus.js') }}"></script>
+    <script src="{{ asset('js/blog/anchor-url.js') }}"></script>
 {%- endblock javascripts ~%}

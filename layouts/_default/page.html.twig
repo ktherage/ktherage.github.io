@@ -24,9 +24,9 @@
         <link rel="alternate" type="application/json" title="{{ 'json_feed'|trans }}" href="{{ url('feed.json') }}">
         <link rel="alternate" type="text/markdown" title="{{ 'llm_feed'|trans }}" href="{{ url('feed.md') }}">
 
-        {# Preload critical resources #}
-        <link rel="preload" href="{{ asset('css/style.css') }}" as="style">
+        {# Preload critical resources — vendors first, then custom #}
         <link rel="preload" href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" as="style">
+        <link rel="preload" href="{{ asset('css/base.css') }}" as="style">
         <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">
         <link rel="preload" href="/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="/fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
@@ -34,7 +34,7 @@
         <link rel="preload" href="/fonts/montserrat-600.ttf" as="font" type="font/ttf" crossorigin>
         <link rel="preload" href="/fonts/montserrat-700.ttf" as="font" type="font/ttf" crossorigin>
 
-        {# Load #}
+        {# Vendors — always loaded before custom CSS (so custom overrides win) #}
         {# Bootstrap 5.3.7 #}
         <link href="{{ asset('vendor/bootstrap-5.3.7/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -46,9 +46,11 @@
             <link rel="stylesheet" href="{{ asset('vendor/highlightjs-11.11.1/atom-one-dark.min.css') }}">
         {%- endif ~%}
 
-        {# Custom CSS #}
+        {# Custom CSS — must come after vendors #}
         <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/base.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/navigation.css') }}">
     {%- endblock head ~%}
 </head>
 <body class="container d-flex flex-column" style="min-height: 100vh;">

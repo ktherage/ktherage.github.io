@@ -1,5 +1,10 @@
 {% extends "_default/page.html.twig" %}
 
+{% block head %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/home/social.css') }}">
+{% endblock %}
+
 {%- set latest_posts = site.pages|filter(p => p.section == 'blog' and p.title is defined and p.date <= date() and p.id != page.id and p.virtual == false)|sort_by_date|slice(0, 3) -%}
 
 {% block content %}
