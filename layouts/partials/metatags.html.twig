@@ -136,9 +136,6 @@
     {#~ template ~#}
     <title>{% block title %}{{ title_html }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{{ description }}{% endblock %}">
-  {%- if keywords and keywords is iterable ~%}
-    <meta name="keywords" content="{{ keywords|join(', ') }}">
-  {%- endif ~%}
   {%- if author ~%}
     <meta name="author" content="{{ author.name|e }}">
   {%- endif ~%}

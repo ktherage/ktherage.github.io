@@ -142,7 +142,7 @@ language: 'en'
 languages:
   - code: en
     name: English
-    locale: en_EN
+    locale: en_US
   - code: fr
     name: Français
     locale: fr_FR
@@ -165,27 +165,38 @@ languages:
             weight: 30
 
 social:
-  - name: "X/Twitter"
+  twitter:
+    name: "X/Twitter"
     icon: "fa-brands fa-x-twitter"
     url: "https://x.com/KevinTherage"
-  - name: "Mastodon"
+    site: KevinTherage
+    creator: KevinTherage
+  mastodon:
+    name: "Mastodon"
     icon: "fa-brands fa-mastodon"
     url: "https://mastodon.social/@ktherage"
-  - name: "Bluesky"
+    creator: ktherage
+  bluesky:
+    name: "Bluesky"
     icon: "fa-brands fa-bluesky"
     url: "https://bsky.app/profile/ktherage.bsky.social"
-  - name: "LinkedIn"
+  linkedin:
+    name: "LinkedIn"
     icon: "fa-brands fa-linkedin-in"
     url: "https://www.linkedin.com/in/kevin-therage"
-  - name: "Medium"
+  medium:
+    name: "Medium"
     icon: "fa-brands fa-medium"
     url: "https://medium.com/@therage.kevin"
-  - name: "Dev.to"
+  devto:
+    name: "Dev.to"
     icon: "fa-brands fa-dev"
     url: "https://dev.to/ktherage"
-  - name: "Github"
+  github:
+    name: "Github"
     icon: "fa-brands fa-github"
     url: "https://github.com/ktherage"
-  - name: "Symfony connect"
+  symfony:
+    name: "Symfony connect"
     icon: "fa-brands fa-symfony"
     url: "https://connect.symfony.com/profile/kevin_therage"
