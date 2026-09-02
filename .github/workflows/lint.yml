@@ -41,8 +41,8 @@ jobs:
         run: |
           fail=0
           while IFS= read -r f; do
-            n=$(grep -c 'application/ld+json' "$f")
-            m=$(grep -c '<main' "$f")
+            n=$(grep -c 'application/ld+json' "$f" || true)
+            m=$(grep -c '<main' "$f" || true)
             if [ "$n" -gt 1 ] || [ "$m" -gt 1 ]; then
               echo "FAIL: $f (ld+json=$n, main=$m)"
               fail=1
