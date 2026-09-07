@@ -1,3 +1,7 @@
 .cache
 .cecil
 _site
+test-results/
+playwright-report/
+reports/
+node_modules/

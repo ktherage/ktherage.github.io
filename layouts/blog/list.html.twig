@@ -14,7 +14,7 @@
             {% set tags_vocab = site.taxonomies.get('tags') %}
             {% if tags_vocab and tags_vocab|length > 0 %}
                 <div class="mb-4 text-center" role="group" aria-label="{{ 'filter_by_tag'|trans }}">
-                    <button type="button" class="badge bg-secondary me-2 mb-2 filter-badge active border-0" data-filter="all"
+                    <button type="button" class="badge bg-primary me-2 mb-2 filter-badge active border-0" data-filter="all"
                             aria-pressed="true">{{ 'all_label'|trans }}</button>
                     {% for term in tags_vocab|sort_by_title %}
                         <button type="button" class="badge bg-secondary me-2 mb-2 filter-badge border-0" data-filter="{{ term.name|slugify }}"

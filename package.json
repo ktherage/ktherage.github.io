@@ -1,0 +1,19 @@
+{
+  "name": "ktherage.github.io-e2e",
+  "private": true,
+  "scripts": {
+    "test": "npx cucumber-js",
+    "test:ui": "npx playwright test --ui --headed",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.12.1",
+    "@cucumber/cucumber": "^13.2.1",
+    "@cucumber/pretty-formatter": "^4.0.2",
+    "@playwright/test": "1.62.1",
+    "serve": "14.2.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.23.13"
+  }
+}

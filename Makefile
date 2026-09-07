@@ -29,6 +29,12 @@ lint-html: build
 	done
 	@grep -rn '<a href="#"' layouts/ && { echo "FAIL: <a href=\"#\"> found in layouts/"; exit 1; } || echo "HTML checks OK"
 
+test-e2e:                    ## Tests headless via Gherkin/Cucumber
+	npx serve _site -l 4000 & sleep 2 && npx cucumber-js; kill %1 2>/dev/null
+
+test-e2e-ui:                 ## Mode UI Playwright (http://localhost:9333)
+	npx playwright test --ui --headed
+
 validate-llmstxt: build
 	@echo "Validating llms.txt with official Answer.AI llms_txt2ctx..."
 	@command -v llms_txt2ctx >/dev/null 2>&1 || { echo "llms_txt2ctx not found. Install with: pip install llms-txt"; exit 1; }
