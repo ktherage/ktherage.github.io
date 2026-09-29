@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 6 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -43,6 +45,14 @@ jobs:
           curl -LO https://cecil.app/cecil.phar
           chmod +x cecil.phar
           sudo mv cecil.phar /usr/local/bin/cecil
+
+      - name: Install PHP dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Fetch OSS contributions
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: php scripts/fetch-oss-contributions.php
 
       - name: Build site
         run: cecil build --verbose

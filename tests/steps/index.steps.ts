@@ -47,6 +47,15 @@ Then('blog post items should be displayed', async function (this: PlaywrightWorl
   await expect(this.page.locator('.blog-post-item')).not.toHaveCount(0);
 });
 
+Then('contribution cards should be displayed', async function (this: PlaywrightWorld) {
+  await expect(this.page.locator('.oss-item')).not.toHaveCount(0);
+});
+
+Then('contribution cards should link to pull requests', async function (this: PlaywrightWorld) {
+  const link = this.page.locator('.oss-item a[href*="github.com"][href*="/pull/"]').first();
+  await expect(link).toBeVisible();
+});
+
 Then('the response status should be {int}', async function (this: PlaywrightWorld, status: number) {
   expect(this.response?.status()).toBe(status);
 });

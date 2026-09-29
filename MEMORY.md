@@ -28,6 +28,18 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-09-29 — OSS contributions section is fed by a single generated data file
+
+**Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded) from `data/oss-contributions.yaml`, generated at build time by `scripts/fetch-oss-contributions.php`. The file is gitignored and is the ONLY file the deploy workflow touches besides `_site`. Project icons use `https://github.com/<owner>.png` (avatar redirect, no extra API calls). `merged_at` is present directly in search results — no per-PR fetch needed.
+
+**Why it matters:** Pushes made with `GITHUB_TOKEN` do not trigger other workflows, so a separate "fetch then commit data" workflow would never redeploy. Fetching ephemerally inside `deploy.yml` (which also carries the weekly `schedule` + `workflow_dispatch` triggers) avoids the loop entirely.
+
+**Evidence / verification:** Verified against live search API (25 merged PRs on 2026-09-29); `e2e.yml` runs the same fetch step so CI tests see real cards.
+
+**Decision:** Script must never fail the build (writes `[]` + exit 0 on error); layout guards with `|default([])` and renders an empty state. Keep the data shape language-agnostic; labels go through translation catalogs.
+
+---
+
 ### 2026-08-28 — Cecil silently ignores several configuration keys
 
 **Insight:** In Cecil 9.0.1, `optimize.gzip`, the top-level `feeds:` block, and the top-level `locale:` key are not recognized configuration options and are silently ignored.

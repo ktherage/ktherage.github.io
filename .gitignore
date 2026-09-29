@@ -5,3 +5,6 @@ test-results/
 playwright-report/
 reports/
 node_modules/
+vendor/
+# Generated weekly by CI (scripts/fetch-oss-contributions.php) — do not commit
+data/oss-contributions.yaml

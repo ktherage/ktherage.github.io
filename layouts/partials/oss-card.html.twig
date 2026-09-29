@@ -1,0 +1,37 @@
+{% for item in contributions %}
+    <div class="col-md-4 oss-item" role="listitem">
+        <article class="card h-100 shadow-sm">
+            <div class="card-body d-flex flex-column">
+                <div class="d-flex align-items-center mb-3">
+                    {% if item.avatar is defined and item.avatar %}
+                        <img
+                            src="{{ item.avatar }}"
+                            alt=""
+                            width="40"
+                            height="40"
+                            class="rounded-circle me-2"
+                            loading="lazy"
+                            decoding="async"
+                        >
+                    {% else %}
+                        <i class="fa-brands fa-github fa-2x me-2" aria-hidden="true"></i>
+                    {% endif %}
+                    <a href="{{ item.repo_url }}" class="badge bg-secondary text-decoration-none"
+                        target="_blank" rel="noopener">{{ item.repo }}</a>
+                </div>
+                <h3 class="h5 card-title">
+                    <a href="{{ item.url }}" class="text-decoration-none stretched-link"
+                        target="_blank" rel="noopener">{{ item.title }}</a>
+                </h3>
+                <div class="text-muted small mb-3">
+                    <time datetime="{{ item.merged_at }}">{{ item.merged_at|format_date('long') }}</time>
+                </div>
+                <a href="{{ item.url }}" class="btn btn-outline-primary mt-auto align-self-start"
+                    target="_blank" rel="noopener"
+                    aria-label="{{ 'view_pull_request'|trans }} : {{ item.title|e('html_attr') }}">
+                    {{ 'view_pull_request'|trans }} <span class="visually-hidden">: {{ item.title }}</span>
+                </a>
+            </div>
+        </article>
+    </div>
+{% endfor %}

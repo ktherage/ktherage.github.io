@@ -36,7 +36,7 @@
         <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        {%- set menu_keys = {index: 'home', blog: 'blog', 'about-me': 'about_me', legal: 'legal', tags: 'tags_label'} ~%}
+        {%- set menu_keys = {index: 'home', blog: 'blog', 'open-source': 'open_source', 'about-me': 'about_me', legal: 'legal', tags: 'tags_label'} ~%}
         <div class="collapse navbar-collapse flex-grow-0" id="mainNav">
             <div class="navbar-nav ms-auto align-items-md-center">
                 {%- for item in site.menus[menu]|sort_by_weight ~%}
