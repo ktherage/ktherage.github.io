@@ -10,7 +10,7 @@
                 {% endif %}
             </header>
 
-            {# Contributions — injected by the OssContributions generator (page.contributions), fallback to generated data file #}
+            {# Contributions — injected by the OssContributionsGenerator (page.contributions), fallback to generated data file #}
             {% set contributions = page.contributions|default(site.data['oss-contributions']|default([])) %}
             {% if contributions|length > 0 %}
                 <div class="row g-4" role="list">

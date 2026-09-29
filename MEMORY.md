@@ -30,7 +30,7 @@ Use this structure for new insights:
 
 ### 2026-09-29 — OSS contributions are injected by a Cecil Generator, not a script
 
-**Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded). The fetch runs INSIDE the build via custom generator `Cecil\Generator\OssContributions` (`pages.generators: 100`), which injects a `contributions` variable into the EN+FR pages. Cecil has no pre/post-build hook system (verified in 9.4.2 source) — generators are the only sanctioned in-build extension point, and they run AFTER `Data\Load`, so the generator mutates pages rather than feeding `site.data`.
+**Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded). The fetch runs INSIDE the build via custom generator `Cecil\Generator\Oss\OssContributionsGenerator` (`pages.generators: 100`), which injects a `contributions` variable into the EN+FR pages. HTTP lives in `Cecil\Generator\Oss\GitHubContributionsHttpClient` (scoped Symfony client). Cecil has no pre/post-build hook system (verified in 9.4.2 source) — generators are the only sanctioned in-build extension point, and they run AFTER `Data\Load`, so the generator mutates pages rather than feeding `site.data`.
 
 **Why it matters:** No workflow pre-step or Makefile wrapper to keep in sync across local/CI builds; any `cecil build` refreshes when the `data/oss-contributions.yaml` cache is stale (>7d), missing, or `OSS_REFRESH=1`. Pushes made with `GITHUB_TOKEN` don't trigger other workflows, so a separate fetch-and-commit workflow could never redeploy — the generator sidesteps this entirely. Project icons use `https://github.com/<owner>.png` (no extra API calls); `merged_at` comes straight from search results.
 

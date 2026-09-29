@@ -12,7 +12,7 @@ The site needs an "Open Source" section showcasing merged pull requests authored
 
 ### Cecil custom Generator (build-hooked)
 
-A custom generator `Cecil\Generator\OssContributions` (`extensions/Cecil/Generator/OssContributions.php`, registered at `pages.generators: 100`) injects a `contributions` variable into the `open-source` pages (EN + FR) during the "Generating pages" step. No workflow pre-step, no Makefile wrapper: **any** `cecil build` refreshes the data when stale.
+A custom generator `Cecil\Generator\Oss\OssContributionsGenerator` (`extensions/Cecil/Generator/Oss/OssContributionsGenerator.php`, registered at `pages.generators: 100`) injects a `contributions` variable into the `open-source` pages (EN + FR) during the "Generating pages" step. HTTP is isolated in `Cecil\Generator\Oss\GitHubContributionsHttpClient` (scoped Symfony client with the API base URI + default headers). No workflow pre-step, no Makefile wrapper: **any** `cecil build` refreshes the data when stale.
 
 This was chosen over a standalone pre-build script because Cecil offers no pre/post-build hook system — generators (verified against Cecil 9.4.2 source: `Builder::STEPS`, `Step\Pages\Generate`, `GeneratorManager`) are the only sanctioned way to run custom logic inside the build. A standalone script would have required duplicating the invocation in every build entrypoint (Makefile, deploy.yml, e2e.yml).
 

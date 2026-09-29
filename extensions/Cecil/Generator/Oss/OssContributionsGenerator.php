@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Cecil\Generator;
+namespace Cecil\Generator\Oss;
 
-use Cecil\Generator\Oss\GitHubContributions;
+use Cecil\Generator\AbstractGenerator;
+use Cecil\Generator\GeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /*
@@ -17,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
  * Never fails the build: on any error the pages fall back to the stale
  * cache, site.data, or an empty state rendered by the layout.
  */
-class OssContributions extends AbstractGenerator implements GeneratorInterface
+class OssContributionsGenerator extends AbstractGenerator implements GeneratorInterface
 {
     private const USERNAME = 'ktherage';
 
@@ -41,7 +42,7 @@ class OssContributions extends AbstractGenerator implements GeneratorInterface
         if ($this->isFresh($file)) {
             return $this->parse($file);
         }
-        $items = GitHubContributions::fromEnvironment(self::USERNAME)->fetchMerged(
+        $items = GitHubContributionsHttpClient::fromEnvironment(self::USERNAME)->fetchMerged(
             self::PER_PAGE,
             self::MAX_PAGES,
         ) ?? $this->parse($file);
@@ -73,7 +74,7 @@ class OssContributions extends AbstractGenerator implements GeneratorInterface
 
     private function write(string $file, array $items): void
     {
-        $yaml = "# Generated during build by Cecil\\Generator\\OssContributions — do not edit by hand.\n";
+        $yaml = "# Generated during build by Cecil\\Generator\\Oss\\OssContributionsGenerator — do not edit by hand.\n";
         $yaml .= Yaml::dump($items, 2, 2);
         file_put_contents(filename: $file, data: $yaml);
     }
@@ -91,7 +92,7 @@ class OssContributions extends AbstractGenerator implements GeneratorInterface
 
     private function vendorAvailable(): bool
     {
-        $autoload = \dirname(path: __DIR__, levels: 3) . '/vendor/autoload.php';
+        $autoload = \dirname(path: __DIR__, levels: 4) . '/vendor/autoload.php';
         if (!is_file($autoload)) {
             return false;
         }

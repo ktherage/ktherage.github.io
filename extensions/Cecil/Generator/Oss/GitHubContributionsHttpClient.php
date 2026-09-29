@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Cecil\Generator\Oss;
 
 use Symfony\Component\HttpClient\HttpClient;
+use Symfony\Component\HttpClient\ScopingHttpClient;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /*
@@ -14,7 +15,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * Auth: optional GITHUB_TOKEN env var (higher rate limits); works anonymously.
  * Returns null on any error so callers can fall back to cached data.
  */
-class GitHubContributions
+class GitHubContributionsHttpClient
 {
     public function __construct(
         private readonly string $username,
@@ -51,7 +52,7 @@ class GitHubContributions
     private function fetchPage(HttpClientInterface $client, int $page, int $perPage): ?array
     {
         try {
-            $data = $client->request('GET', 'https://api.github.com/search/issues', [
+            $data = $client->request('GET', '/search/issues', [
                 'query' => [
                     'q' => 'author:' . $this->username . ' type:pr is:merged',
                     'sort' => 'updated',
@@ -102,6 +103,9 @@ class GitHubContributions
             $headers[] = 'Authorization: Bearer ' . $this->token;
         }
 
-        return HttpClient::create(['headers' => $headers, 'timeout' => 20]);
+        return ScopingHttpClient::forBaseUri(HttpClient::create(), 'https://api.github.com', [
+            'headers' => $headers,
+            'timeout' => 20,
+        ]);
     }
 }
