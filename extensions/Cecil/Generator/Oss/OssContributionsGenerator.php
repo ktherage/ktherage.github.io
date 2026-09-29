@@ -40,13 +40,22 @@ class OssContributionsGenerator extends AbstractGenerator implements GeneratorIn
     {
         $file = $this->cacheFile();
         if ($this->isFresh($file)) {
-            return $this->parse($file);
+            return $this->orderByDate($this->parse($file));
         }
         $items = GitHubContributionsHttpClient::fromEnvironment(self::USERNAME)->fetchMerged(
             self::PER_PAGE,
             self::MAX_PAGES,
         ) ?? $this->parse($file);
+        $items = $this->orderByDate($items);
         $this->write($file, $items);
+
+        return $items;
+    }
+
+    /** Newest merged PRs first. */
+    private function orderByDate(array $items): array
+    {
+        usort($items, static fn(array $a, array $b): int => $b['merged_at'] <=> $a['merged_at']);
 
         return $items;
     }
