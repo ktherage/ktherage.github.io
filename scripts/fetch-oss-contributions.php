@@ -15,26 +15,29 @@
  */
 declare(strict_types=1);
 
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\Yaml\Yaml;
 
 const OSS_USERNAME = 'ktherage';
-const OSS_OUTPUT = __DIR__.'/../data/oss-contributions.yaml';
+
+const OSS_OUTPUT = __DIR__ . '/../data/oss-contributions.yaml';
+
 const OSS_PER_PAGE = 100;
+
 const OSS_MAX_PAGES = 3;
 
 function oss_write_empty(string $reason): void
 {
-    fwrite(STDERR, 'OSS fetch: '.$reason." — writing empty list.\n");
-    file_put_contents(OSS_OUTPUT, "[]\n");
+    fwrite(STDERR, 'OSS fetch: ' . $reason . " — writing empty list.\n");
+    file_put_contents(filename: OSS_OUTPUT, data: "[]\n");
 }
 
 $headers = ['Accept: application/vnd.github+json', 'User-Agent: ktherage.github.io-oss-fetch'];
 $token = getenv('GITHUB_TOKEN');
 if (false !== $token && '' !== $token) {
-    $headers[] = 'Authorization: Bearer '.$token;
+    $headers[] = 'Authorization: Bearer ' . $token;
 }
 $client = HttpClient::create(['headers' => $headers, 'timeout' => 20]);
 
@@ -43,7 +46,7 @@ try {
     for ($page = 1; $page <= OSS_MAX_PAGES; ++$page) {
         $response = $client->request('GET', 'https://api.github.com/search/issues', [
             'query' => [
-                'q' => 'author:'.OSS_USERNAME.' type:pr is:merged',
+                'q' => 'author:' . OSS_USERNAME . ' type:pr is:merged',
                 'sort' => 'updated',
                 'order' => 'desc',
                 'per_page' => OSS_PER_PAGE,
@@ -51,7 +54,7 @@ try {
             ],
         ]);
         $data = $response->toArray();
-        if (!isset($data['items']) || !is_array($data['items'])) {
+        if (!is_array($data['items'] ?? null)) {
             oss_write_empty('unexpected API response');
             exit(0);
         }
@@ -64,17 +67,17 @@ try {
             if (0 === strcasecmp($owner, OSS_USERNAME)) {
                 continue; // own repositories are not "contributions"
             }
-            $mergedAt = (string) (($pr['pull_request'] ?? [])['merged_at'] ?? '');
+            $mergedAt = (string) ((($pr['pull_request'] ?? []))['merged_at'] ?? '');
             if ('' === $mergedAt) {
                 continue;
             }
             $items[] = [
                 'title' => (string) ($pr['title'] ?? ''),
                 'url' => (string) ($pr['html_url'] ?? ''),
-                'repo' => $owner.'/'.$repo,
-                'repo_url' => 'https://github.com/'.$owner.'/'.$repo,
-                'avatar' => 'https://github.com/'.$owner.'.png',
-                'merged_at' => substr($mergedAt, 0, 10),
+                'repo' => $owner . '/' . $repo,
+                'repo_url' => 'https://github.com/' . $owner . '/' . $repo,
+                'avatar' => 'https://github.com/' . $owner . '.png',
+                'merged_at' => substr(string: $mergedAt, offset: 0, length: 10),
             ];
         }
         if (count($data['items']) < OSS_PER_PAGE) {
