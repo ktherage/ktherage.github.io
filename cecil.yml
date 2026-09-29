@@ -121,6 +121,8 @@ cache:
 # Disable pagination - show all posts on one page
 pages:
   pagination: false
+  generators:
+    100: Cecil\Generator\OssContributions
   sections:
     nested: true
   body:

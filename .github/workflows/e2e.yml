@@ -24,12 +24,9 @@ jobs:
       - name: Install PHP dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
-      - name: Fetch OSS contributions
+      - name: Build site
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: php scripts/fetch-oss-contributions.php
-
-      - name: Build site
         run: |
           curl -LO https://cecil.app/cecil.phar
           chmod +x cecil.phar

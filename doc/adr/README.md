@@ -13,3 +13,4 @@ We use the [log4brains](https://github.com/thomvaill/log4brains) ADR format.
 | [ADR-003](003-e2e-test-architecture.md) | E2E test architecture | Accepted |
 | [ADR-004](004-deployment-and-seo.md) | Deployment and SEO | Accepted |
 | [ADR-005](005-social-media-publishing.md) | Social media publishing | Accepted |
+| [ADR-006](006-open-source-contributions.md) | Open Source contributions section | Accepted |

@@ -28,15 +28,15 @@ Use this structure for new insights:
 
 ## Key insights
 
-### 2026-09-29 — OSS contributions section is fed by a single generated data file
+### 2026-09-29 — OSS contributions are injected by a Cecil Generator, not a script
 
-**Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded) from `data/oss-contributions.yaml`, generated at build time by `scripts/fetch-oss-contributions.php`. The file is gitignored and is the ONLY file the deploy workflow touches besides `_site`. Project icons use `https://github.com/<owner>.png` (avatar redirect, no extra API calls). `merged_at` is present directly in search results — no per-PR fetch needed.
+**Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded). The fetch runs INSIDE the build via custom generator `Cecil\Generator\OssContributions` (`pages.generators: 100`), which injects a `contributions` variable into the EN+FR pages. Cecil has no pre/post-build hook system (verified in 9.4.2 source) — generators are the only sanctioned in-build extension point, and they run AFTER `Data\Load`, so the generator mutates pages rather than feeding `site.data`.
 
-**Why it matters:** Pushes made with `GITHUB_TOKEN` do not trigger other workflows, so a separate "fetch then commit data" workflow would never redeploy. Fetching ephemerally inside `deploy.yml` (which also carries the weekly `schedule` + `workflow_dispatch` triggers) avoids the loop entirely.
+**Why it matters:** No workflow pre-step or Makefile wrapper to keep in sync across local/CI builds; any `cecil build` refreshes when the `data/oss-contributions.yaml` cache is stale (>7d), missing, or `OSS_REFRESH=1`. Pushes made with `GITHUB_TOKEN` don't trigger other workflows, so a separate fetch-and-commit workflow could never redeploy — the generator sidesteps this entirely. Project icons use `https://github.com/<owner>.png` (no extra API calls); `merged_at` comes straight from search results.
 
-**Evidence / verification:** Verified against live search API (25 merged PRs on 2026-09-29); `e2e.yml` runs the same fetch step so CI tests see real cards.
+**Evidence / verification:** Verified against live search API (25 merged PRs); cache-hit/miss/force behavior tested locally; `e2e.yml`/`deploy.yml` pass `GITHUB_TOKEN` to the build step; `composer install` required before build (generator needs project `vendor/`).
 
-**Decision:** Script must never fail the build (writes `[]` + exit 0 on error); layout guards with `|default([])` and renders an empty state. Keep the data shape language-agnostic; labels go through translation catalogs.
+**Decision:** Keep the single-file cache contract; script `scripts/fetch-oss-contributions.php` removed (logic lives in the generator + `Cecil\Generator\Oss\GitHubContributions`). Layout reads `page.contributions` with `site.data` fallback. Never fail the build: stale cache → empty state.
 
 ---
 
