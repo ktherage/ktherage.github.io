@@ -65,3 +65,6 @@ articles_tagged_x: "Articles tagged #%tag% on the PHP/Symfony blog (%count% arti
 repo_callout_text: "Find the repository for this article on"
 view_pull_request: "View pull request"
 oss_empty: "No contributions found yet — check back soon."
+oss_cta_heading: "Open Source contributions"
+oss_cta_text: "I contribute to public open-source projects — Symfony, PHP and more. Browse my merged pull requests."
+oss_cta_button: "View my contributions"

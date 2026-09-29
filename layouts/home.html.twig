@@ -71,6 +71,19 @@
             </div>
         </section>
 
+        <!-- Open Source CTA -->
+        <section class="oss-cta border-top py-5" aria-labelledby="oss-cta-heading">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h3 id="oss-cta-heading" class="mb-3">{{ 'oss_cta_heading'|trans }}</h3>
+                    <p class="lead text-muted mb-4">{{ 'oss_cta_text'|trans }}</p>
+                    <a href="{{ url('open-source/') }}" class="btn btn-primary" aria-label="{{ 'oss_cta_button'|trans }}">
+                        {{ 'oss_cta_button'|trans }} <i class="fas fa-arrow-right ms-2" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
         <!-- Last articles -->
         <section class="latest-posts py-5 border-top" aria-labelledby="latest-posts-heading">
             <h3 id="latest-posts-heading" class="text-center mb-5">{{ 'last_articles'|trans }}</h3>
