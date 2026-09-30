@@ -1,0 +1,24 @@
+{% extends '_default/page.html.twig' %}
+
+{% block content %}
+    <div class="d-flex flex-column flex-grow-1">
+        <div class="container my-5">
+            <header class="mb-5 text-center">
+                <h1 class="display-5 fw-bold">{{ page.title }}</h1>
+                {% if page.content %}
+                    <div class="lead text-muted">{{ page.content }}</div>
+                {% endif %}
+            </header>
+
+            {# Contributions — injected by the OssContributionsGenerator (page.contributions), fallback to generated data file #}
+            {% set contributions = page.contributions|default(site.data['oss-contributions']|default([])) %}
+            {% if contributions|length > 0 %}
+                <div class="row g-4" role="list">
+                    {{ include('partials/oss-card.html.twig', {contributions: contributions}) }}
+                </div>
+            {% else %}
+                <p class="text-center text-muted">{{ 'oss_empty'|trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}

@@ -21,7 +21,12 @@ jobs:
         with:
           php-version: '8.5'
 
+      - name: Install PHP dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
       - name: Build site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -LO https://cecil.app/cecil.phar
           chmod +x cecil.phar

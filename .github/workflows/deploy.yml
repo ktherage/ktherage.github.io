@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  schedule:
+    - cron: '0 6 * * 1'
   workflow_dispatch:
 
 permissions:
@@ -44,7 +46,12 @@ jobs:
           chmod +x cecil.phar
           sudo mv cecil.phar /usr/local/bin/cecil
 
+      - name: Install PHP dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
       - name: Build site
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cecil build --verbose
 
       - name: Setup Pages

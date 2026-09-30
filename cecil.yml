@@ -21,6 +21,11 @@ menus:
       url: '/blog/'
       weight: 20
       description: 'Technical articles and tutorials on web development'
+    - id: 'open-source'
+      name: 'Open Source'
+      url: '/open-source/'
+      weight: 15
+      description: 'Merged pull requests on public open-source projects'
     - id: 'tags'
       name: 'Tags'
       url: '/tags/'
@@ -121,6 +126,8 @@ cache:
 # Disable pagination - show all posts on one page
 pages:
   pagination: false
+  generators:
+    100: Cecil\Generator\Oss\OssContributionsGenerator
   sections:
     nested: true
   body:
@@ -156,6 +163,10 @@ languages:
             name: 'Blog'
             url: '/blog/'
             weight: 20
+          - id: 'open-source'
+            name: 'Open Source'
+            url: '/open-source/'
+            weight: 15
           - id: 'tags'
             name: 'Étiquettes'
             url: '/tags/'
