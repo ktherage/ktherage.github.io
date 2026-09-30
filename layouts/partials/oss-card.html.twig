@@ -9,12 +9,12 @@
                             class="me-2 rounded"
                             alt="{{ item.repo }}"
                             loading="lazy"
-                            width="32"
-                            height="32"
+                            width="64"
+                            height="64"
                             decoding="async"
                         >
                     {% else %}
-                        <i class="fa-brands fa-github fa-lg text-muted me-2" aria-hidden="true"></i>
+                        <i class="fa-brands fa-github text-muted me-2" aria-hidden="true"></i>
                     {% endif %}
                     <a href="{{ item.repo_url }}" class="badge bg-secondary text-decoration-none"
                         target="_blank" rel="noopener">{{ item.repo }}</a>
