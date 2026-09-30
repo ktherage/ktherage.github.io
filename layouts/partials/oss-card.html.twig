@@ -1,25 +1,21 @@
 {% for item in contributions %}
     <div class="col-md-4 oss-item" role="listitem">
         <article class="card h-100 shadow-sm">
-            {% if item.avatar is defined and item.avatar %}
-                <div class="ratio ratio-16x9">
-                    <img
-                        src="{{ item.avatar }}"
-                        class="card-img-top object-fit-cover"
-                        alt="{{ item.repo }}"
-                        loading="lazy"
-                        width="400"
-                        height="225"
-                        decoding="async"
-                    >
-                </div>
-            {% else %}
-                <div class="ratio ratio-16x9 bg-body-secondary d-flex align-items-center justify-content-center" aria-hidden="true">
-                    <i class="fa-brands fa-github fa-3x text-muted"></i>
-                </div>
-            {% endif %}
             <div class="card-body d-flex flex-column">
-                <div class="mb-3">
+                <div class="d-flex align-items-center mb-2">
+                    {% if item.avatar is defined and item.avatar %}
+                        <img
+                            src="{{ item.avatar }}"
+                            class="me-2 rounded"
+                            alt="{{ item.repo }}"
+                            loading="lazy"
+                            width="32"
+                            height="32"
+                            decoding="async"
+                        >
+                    {% else %}
+                        <i class="fa-brands fa-github fa-lg text-muted me-2" aria-hidden="true"></i>
+                    {% endif %}
                     <a href="{{ item.repo_url }}" class="badge bg-secondary text-decoration-none"
                         target="_blank" rel="noopener">{{ item.repo }}</a>
                 </div>
