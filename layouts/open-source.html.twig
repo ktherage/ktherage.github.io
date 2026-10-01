@@ -8,6 +8,17 @@
                 {% if page.content %}
                     <div class="lead text-muted">{{ page.content }}</div>
                 {% endif %}
+                <nav class="d-flex justify-content-center gap-2 mt-4" aria-label="{{ 'oss_subscribe'|trans }}">
+                    <a href="{{ url(page, {canonical: true, format: 'atom'}) }}" class="btn btn-sm btn-outline-secondary" type="application/atom+xml">
+                        <i class="fa-solid fa-rss me-1" aria-hidden="true"></i>Atom
+                    </a>
+                    <a href="{{ url(page, {canonical: true, format: 'rss'}) }}" class="btn btn-sm btn-outline-secondary" type="application/rss+xml">
+                        <i class="fa-solid fa-rss me-1" aria-hidden="true"></i>RSS
+                    </a>
+                    <a href="{{ url(page, {canonical: true, format: 'json'}) }}" class="btn btn-sm btn-outline-secondary" type="application/json">
+                        <i class="fa-solid fa-code me-1" aria-hidden="true"></i>JSON
+                    </a>
+                </nav>
             </header>
 
             {# Contributions — injected by the OssContributionsGenerator (page.contributions), fallback to generated data file #}

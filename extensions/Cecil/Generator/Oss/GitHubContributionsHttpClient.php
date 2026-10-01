@@ -39,7 +39,12 @@ class GitHubContributionsHttpClient
             if (null === $batch) {
                 return null;
             }
-            array_push($items, ...array_map($this->toItem(...), array_filter($batch, $this->isContribution(...))));
+            $contributions = array_filter($batch, $this->isContribution(...));
+            if (null !== $this->token) {
+                $enricher = new GitHubPullRequestEnricher($this->token);
+                $contributions = array_map($enricher->enrich(...), $contributions);
+            }
+            array_push($items, ...array_map($this->toItem(...), $contributions));
             if (\count($batch) < $perPage) {
                 break;
             }
@@ -85,6 +90,10 @@ class GitHubContributionsHttpClient
         $parts = explode('/', (string) $pr['repository_url']);
         $owner = $parts[\count($parts) - 2];
         $repo = $parts[\count($parts) - 1];
+        $mergedAt = (string) ($pr['pull_request']['merged_at'] ?? '');
+        if (!str_contains($mergedAt, 'T')) {
+            $mergedAt = substr($mergedAt, offset: 0, length: 10);
+        }
 
         return [
             'title' => (string) $pr['title'],
@@ -92,7 +101,7 @@ class GitHubContributionsHttpClient
             'repo' => $owner . '/' . $repo,
             'repo_url' => 'https://github.com/' . $owner . '/' . $repo,
             'avatar' => 'https://github.com/' . $owner . '.png',
-            'merged_at' => substr(string: (string) $pr['pull_request']['merged_at'], offset: 0, length: 10),
+            'merged_at' => $mergedAt,
         ];
     }
 
