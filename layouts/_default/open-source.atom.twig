@@ -1,0 +1,32 @@
+{# Atom feed for the open-source section. Extends extended/feed.twig like the
+   built-in list.* templates (inherits title/lang/updated), but loops over the
+   raw page.contributions array instead of page.pages: contributions are not
+   Page objects, so url(item)/item.content from list.atom.twig cannot apply. #}
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ lang }}">
+  <id>{{ url(page, {canonical: true}) }}</id>
+  <title>{{ title|e }}</title>
+  <subtitle><![CDATA[{{ page.description|default(site.description) }}]]></subtitle>
+  <link href="{{ url(page, {canonical: true, format: 'atom'}) }}" rel="self" type="application/atom+xml" />
+  <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
+  <updated>{{ updated|date('c') }}</updated>
+  <author>
+    <name>{{ site.author.name|default(site.title) }}</name>
+  </author>
+  {%- for item in page.contributions|default(site.data['oss-contributions']|default([])) ~%}
+  <entry xml:lang="{{ lang }}">
+    <id>{{ item.url }}</id>
+    <title>{{ item.title|e }} ({{ item.repo|e }})</title>
+    <published>{{ item.merged_at|date('c') }}</published>
+    <updated>{{ item.merged_at|date('c') }}</updated>
+    <link href="{{ item.url }}" rel="alternate" type="text/html" />
+    <content type="html">
+      <![CDATA[Merged pull request to {{ item.repo|e }}: {{ item.title|e }}]]>
+    </content>
+  </entry>
+  {%- endfor ~%}
+</feed>
+{% endblock feed %}
