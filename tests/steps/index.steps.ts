@@ -304,3 +304,26 @@ Then('no links with href="#" should exist', async function (this: PlaywrightWorl
   const count = await this.page.locator('a[href="#"]').count();
   expect(count).toBe(0);
 });
+
+// ── Open Source feeds (raw response body via fetch: page.content() only
+// returns the browser's XML/JSON viewer wrapper, not the raw document) ──
+
+Then('the {word} feed should be valid XML', async function (this: PlaywrightWorld, type: string) {
+  expect(type).toMatch(/^(Atom|RSS)$/);
+  const raw = await this.page.evaluate(async (u: string) => (await fetch(u)).text(), this.page.url());
+  const errors = await this.page.evaluate((xml: string) => {
+    const doc = new DOMParser().parseFromString(xml, 'application/xml');
+    return doc.getElementsByTagName('parsererror').length;
+  }, raw);
+  expect(errors).toBe(0);
+});
+
+Then('the JSON feed should be valid JSON', async function (this: PlaywrightWorld) {
+  const raw = await this.page.evaluate(async (u: string) => (await fetch(u)).text(), this.page.url());
+  expect(() => JSON.parse(raw)).not.toThrow();
+});
+
+Then('the feed should contain entry for {string}', async function (this: PlaywrightWorld, url: string) {
+  const raw = await this.page.evaluate(async (u: string) => (await fetch(u)).text(), this.page.url());
+  expect(raw).toContain(url);
+});
