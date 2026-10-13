@@ -28,6 +28,26 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-10-13 — Cecil 9.11 `url()` rejects the `Site` object; CI builds unpinned latest
+
+**Insight:** `url(site)` throws (`Slugifier::slugify(): ... Cecil\Renderer\Site given`) since Cecil 9.11 — `Url` only accepts `Page`, `MenuEntry`, `Asset`, or string. `site.home` returns the `'index'` page ID string, so `url(site.home)` is the correct replacement. CI downloads `https://cecil.app/cecil.phar` unpinned on every run, so a Cecil release can break `main` with no repo change (local `cecil.phar` was 9.4.2 and still built fine).
+
+**Why it matters:** `main` was red (deploy + lint + e2e) with zero repo changes; the tags fix was merged but not deployable until this was fixed.
+
+**Evidence / verification:** Reproduced locally with Cecil 9.11.0; verified `Renderer\Site::offsetGet('home')` returns `'index'` in phar source; rebuilt with 9.11 — output `@id: /#person` byte-identical to prod.
+
+**Decision:** Never pass `site` to `url()`; use `url(site.home, …)` (use `{canonical: false}` where the old output was root-relative).
+
+### 2026-10-13 — Cecil taxonomy `term.id` already contains the vocabulary prefix
+
+**Insight:** In a vocabulary template (`page.terms` loop), `term.id` is already `tags/<slug>`, not the bare slug. Prefixing it (`url('tags/' ~ term.id)`) generates `/tags/tags/<slug>` links (404).
+
+**Why it matters:** The `/tags/` index rendered a card per tag, all pointing at doubled-prefix 404s, while post-card badges (built from raw frontmatter strings + `slugify`) were correct — so the breakage was invisible unless the index was clicked.
+
+**Evidence / verification:** Reproduced in built `_site/tags/index.html` (`tags/tags/ai`, …); fixed with `url(term.id)` and verified zero `tags/tags` site-wide plus correct EN (`/tags/cgroupv2/`) and FR (`/fr/tags/cgroupv2/`) hrefs after rebuild.
+
+**Decision:** In taxonomy templates, pass `term.id` directly to `url()`. Never re-prefix with the vocabulary name.
+
 ### 2026-09-29 — OSS contributions are injected by a Cecil Generator, not a script
 
 **Insight:** `/open-source/` lists merged external PRs (`author:ktherage type:pr is:merged`, own repos excluded). The fetch runs INSIDE the build via custom generator `Cecil\Generator\Oss\OssContributionsGenerator` (`pages.generators: 100`), which injects a `contributions` variable into the EN+FR pages. HTTP lives in `Cecil\Generator\Oss\GitHubContributionsHttpClient` (scoped Symfony client). Cecil has no pre/post-build hook system (verified in 9.4.2 source) — generators are the only sanctioned in-build extension point, and they run AFTER `Data\Load`, so the generator mutates pages rather than feeding `site.data`.
