@@ -5,9 +5,9 @@
         {
           "@context": "https://schema.org",
           "@type": "Person",
-          "@id": "{{ url(site, {canonical: true}) }}#person",
+          "@id": "{{ url(site.home, {canonical: false}) }}#person",
           "name": "{{ site.author.name|e('js') }}",
-          "url": "{{ site.author.url|default(url(site, {canonical: true})) }}",
+          "url": "{{ site.author.url|default(url(site.home, {canonical: true})) }}",
           "image": "{{ url(asset(site.author.image), {canonical: true}) }}",
           "jobTitle": "{{ 'author_title'|trans|e('js') }}",
           "description": "{{ site.author.bio|default(site.description)|e('js') }}",
