@@ -1,0 +1,25 @@
+{# RSS feed for the open-source section. Same pattern as open-source.atom.twig:
+   extends extended/feed.twig, loops over page.contributions. #}
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>{{ title|e }}</title>
+    <description><![CDATA[{{ page.description|default(site.description) }}]]></description>
+    <lastBuildDate>{{ updated|date('c') }}</lastBuildDate>
+    <link href="{{ url(page, {canonical: true, format: 'rss'}) }}" rel="self" type="application/rss+xml" />
+    <link href="{{ url(page, {canonical: true, format: 'html'}) }}" rel="alternate" type="text/html" />
+    {%- for item in page.contributions|default(site.data['oss-contributions']|default([])) ~%}
+    <item>
+      <guid isPermaLink="true">{{ item.url }}</guid>
+      <title>{{ item.title|e }} ({{ item.repo|e }})</title>
+      <pubDate>{{ item.merged_at|date('c') }}</pubDate>
+      <link href="{{ item.url }}" rel="alternate" type="text/html" />
+      <description><![CDATA[Merged pull request to {{ item.repo|e }}: {{ item.title|e }}]]></description>
+    </item>
+    {%- endfor ~%}
+  </channel>
+</rss>
+{% endblock feed %}

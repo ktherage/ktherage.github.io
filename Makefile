@@ -28,6 +28,12 @@ lint-html: build
 		fi; \
 	done
 	@grep -rn '<a href="#"' layouts/ && { echo "FAIL: <a href=\"#\"> found in layouts/"; exit 1; } || echo "HTML checks OK"
+	@echo "Feed checks: XML well-formed + JSON valid..."
+	@command -v xmllint >/dev/null 2>&1 || { echo "xmllint not found. Install with: apt install libxml2-utils"; exit 1; }
+	@command -v jq >/dev/null 2>&1 || { echo "jq not found. Install with: apt install jq"; exit 1; }
+	@find _site -name '*.xml' -exec xmllint --noout {} \;
+	@find _site -name '*.json' -exec jq empty {} \;
+	@echo "Feed checks OK"
 
 test-e2e:                    ## Tests headless via Gherkin/Cucumber
 	npx serve _site -l 4000 & sleep 2 && npx cucumber-js; kill %1 2>/dev/null

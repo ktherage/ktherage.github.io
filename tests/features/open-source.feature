@@ -24,3 +24,13 @@ Feature: Open Source contributions
   Scenario: French homepage shows call-to-action
     When I visit the "/fr/" page
     Then a "Voir mes contributions" link should be visible
+
+  Scenario: Atom feed lists contributions
+    When I visit the "/open-source/atom.xml" page
+    Then the Atom feed should be valid XML
+    And the feed should contain entry for "https://github.com/symfony/symfony-docs/pull/22832"
+
+  Scenario: French JSON feed lists contributions
+    When I visit the "/fr/open-source/feed.json" page
+    Then the JSON feed should be valid JSON
+    And the feed should contain entry for "https://github.com/symfony/symfony-docs/pull/22832"

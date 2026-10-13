@@ -1,0 +1,30 @@
+{# JSON Feed 1.1 for the open-source section. Same pattern as above; item shape
+   mirrors list.jsonfeed.twig (id/url/title/date_published/tags/authors). #}
+{% extends 'extended/feed.twig' %}
+
+{% block feed %}
+{
+  "version": "https://jsonfeed.org/version/1.1",
+  "title": {{ title|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+  "home_page_url": "{{ url(page, {canonical: true}) }}",
+  "feed_url": "{{ url(page, {canonical: true, format: 'json'}) }}",
+  "description": {{ page.description|default(site.description)|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+  "language": "{{ lang }}",
+  "items": [
+    {%- for item in page.contributions|default(site.data['oss-contributions']|default([])) ~%}
+    {
+      "id": {{ item.url|json_encode(constant('JSON_UNESCAPED_SLASHES')) }},
+      "url": "{{ item.url }}",
+      "title": {{ (item.title ~ ' (' ~ item.repo ~ ')')|json_encode(constant('JSON_UNESCAPED_UNICODE')) }},
+      "date_published": "{{ item.merged_at|date('c') }}",
+      "tags": {{ [item.repo]|json_encode }},
+      {%- if site.author.name|default ~%}
+      "authors": [{ "name": {{ site.author.name|json_encode }} }],
+      {%- endif ~%}
+      "language": "{{ lang }}"
+    }
+    {%- if not loop.last %},{% endif -%}
+    {%- endfor ~%}
+  ]
+}
+{% endblock feed %}
