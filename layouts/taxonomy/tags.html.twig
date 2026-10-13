@@ -19,7 +19,7 @@
                     {% set count = term|length %}
                     {% set icon = attribute(tag_icons, term.name)|default(null) %}
                     <div class="col-6 col-lg-3 col-md-4">
-                        <a href="{{ url('tags/' ~ term.id) }}"
+                        <a href="{{ url(term.id) }}"
                            class="card h-100 text-decoration-none text-body shadow-sm">
                             <div class="card-body text-center">
                                 <div class="mb-2 tag-icon" aria-hidden="true">
