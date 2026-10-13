@@ -1,5 +1,8 @@
 name: Deploy Cecil site to GitHub Pages
 
+env:
+  CECIL_VERSION: '9.11.0'
+
 on:
   push:
     branches: [ main ]
@@ -42,7 +45,7 @@ jobs:
 
       - name: Install Cecil
         run: |
-          curl -LO https://cecil.app/cecil.phar
+          curl -fsSL -o cecil.phar "https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar"
           chmod +x cecil.phar
           sudo mv cecil.phar /usr/local/bin/cecil
 

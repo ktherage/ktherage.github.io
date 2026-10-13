@@ -1,5 +1,8 @@
 name: Lint
 
+env:
+  CECIL_VERSION: '9.11.0'
+
 on:
   push:
     branches: [ main ]
@@ -33,7 +36,7 @@ jobs:
 
       - name: Build site
         run: |
-          curl -LO https://cecil.app/cecil.phar
+          curl -fsSL -o cecil.phar "https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar"
           chmod +x cecil.phar
           php cecil.phar build
 

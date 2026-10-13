@@ -1,5 +1,8 @@
 name: E2E Tests
 
+env:
+  CECIL_VERSION: '9.11.0'
+
 on:
   push:
     branches: [main]
@@ -28,7 +31,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -LO https://cecil.app/cecil.phar
+          curl -fsSL -o cecil.phar "https://github.com/Cecilapp/Cecil/releases/download/$CECIL_VERSION/cecil.phar"
           chmod +x cecil.phar
           php cecil.phar build
 
