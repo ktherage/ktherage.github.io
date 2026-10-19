@@ -15,3 +15,4 @@ We use the [log4brains](https://github.com/thomvaill/log4brains) ADR format.
 | [ADR-005](005-social-media-publishing.md) | Social media publishing | Accepted |
 | [ADR-006](006-open-source-contributions.md) | Open Source contributions section | Accepted |
 | [ADR-007](007-open-source-feeds.md) | Open Source section feeds (RSS/Atom/JSON) | Accepted |
+| [ADR-008](008-vendor-assets-verbatim.md) | Vendor CSS/JS bypass the asset pipeline | Accepted |
