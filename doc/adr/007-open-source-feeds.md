@@ -1,22 +1,24 @@
-# ADR-007: Open Source section feeds (rss/atom/json)
+# 007. Open Source section feeds (RSS/Atom/JSON)
 
 ## Status
 
-Accepted.
+Accepted
 
 ## Context
 
 The `/open-source/` section exposes merged PRs fetched from GitHub at build time
 (see ADR-006). The section page is type `page` (no sub-pages), so
 `pagetypeformats.page: [html, md]` gives it no feeds. We want RSS/Atom/JSON feeds
-for the section itself, without touching the blog/homepage feeds (chacun chez soi).
+for the section itself, without changing the blog/homepage feeds.
 
 ## Decision
 
 - Frontmatter override `output: [html, md, rss, atom, json]` on
   `pages/open-source.md` + `pages/open-source.fr.md` (per-page `output` wins over
-  `pagetypeformats`, cf. `Step\Pages\Render::getOutputFormats()`). `md` is kept to
-  preserve the existing `/open-source/feed.md` URL.
+  `pagetypeformats`, cf. `Step\Pages\Render::getOutputFormats()`). `md` is kept for
+  the existing `/open-source/feed.md` URL only: it is the generic page markdown
+  (title + body), not a contribution listing, yet the page advertises it as an
+  alternate.
 - Three feed templates `layouts/_default/open-source.{atom,rss,json}.twig` (first
   lookup candidate for a `page`-type layout override, cf. `Renderer\Layout::lookup()`).
   They extend `extended/feed.twig` like the built-in `list.*` templates (inheriting
@@ -31,11 +33,12 @@ for the section itself, without touching the blog/homepage feeds (chacun chez so
   which already carries the full ISO8601 timestamp. The former per-PR
   `GitHubPullRequestEnricher` (one `GET /repos/{owner}/{repo}/pulls/{number}` per
   contribution) was removed in 2026-10 as redundant.
-- Cache: `data/oss-contributions.yaml` is committed so a failed fetch can never
-  empty the page; CI sets `OSS_REFRESH=1` because a fresh checkout resets the
-  cache file mtime (which would otherwise look fresh forever), then commits the
-  refreshed file back on `main` so the fallback does not drift.
-- EN+FR feeds carry identical items (titles sourced from GitHub, English) — assumed.
+- Cache: `data/oss-contributions.yaml` is committed so a failed fetch falls back
+  to the last known data instead of an empty section; CI sets `OSS_REFRESH=1`
+  because a fresh checkout resets the cache file mtime (which would otherwise look
+  fresh forever), then commits the refreshed file back on `main` so the fallback
+  does not drift. The commit-back needs a job-scoped `contents: write` permission
+  and is skipped on pull requests.
 - Validation: `lint-html` runs `xmllint --noout` on all `_site/**/*.xml` and
   `jq empty` on all `_site/**/*.json`; E2E parses the Atom/JSON feeds and asserts a
   known PR entry.
@@ -46,3 +49,7 @@ for the section itself, without touching the blog/homepage feeds (chacun chez so
 - `xmllint` (`libxml2-utils`) and `jq` are now required for `make lint` (both
   preinstalled on GitHub-hosted runners).
 - Subscribe buttons (Atom/RSS/JSON, canonical URLs) on the section page for discovery.
+- EN and FR feeds carry the same items: contribution titles come from GitHub and
+  stay in English in both languages, by design.
+- `<updated>`/`lastBuildDate` are inherited from `extended/feed.twig` and reflect
+  the build time, not the latest `merged_at` — feeds look refreshed on every deploy.
