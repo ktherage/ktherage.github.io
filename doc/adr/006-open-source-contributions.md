@@ -8,6 +8,14 @@ Accepted
 
 The site needs an "Open Source" section showcasing merged pull requests authored by ktherage on third-party public repositories. The data must refresh automatically (weekly + on demand) without manual curation, work identically in local builds and CI, and never break the build when the GitHub API is unreachable.
 
+## Stack at decision time
+
+- PHP 8.5 (CI), Node 22
+- Cecil downloaded unpinned at build time (`curl -LO https://cecil.app/cecil.phar`); Twig bundled, version not pinned
+- Symfony `http-client ^8.1`, `symfony/yaml ^8.1` (introduced by this ADR)
+- Bootstrap 5.3.8, Font Awesome 7.3.1, Highlight.js 11.12.0, Mermaid 11.17.2 (`static/vendor/`)
+- Cucumber `^13.2.1`, Playwright `1.62.1`
+
 ## Decision
 
 ### Cecil custom Generator (build-hooked)

@@ -22,6 +22,7 @@ This is a bilingual (EN/FR) static site for Kévin THÉRAGE, built with **Cecil*
 - `data/tag-icons.yaml` — icon map used by the `/tags/` index
 - `extensions/Cecil/Renderer/PostProcessor/BootstrapAlerts.php` — custom post-processor (converts `.note` asides to Bootstrap alerts)
 - `static/` — verbatim-copied assets (fonts, vendor, favicons); `assets/` — pipeline-managed (CSS, JS, images)
+- `doc/adr/` — Architecture Decision Records (log4brains format); **hard rule: every ADR must carry a `## Stack at decision time` section** listing the versions in force when it was written (PHP, Cecil, Symfony components, vendor libs, Node toolchain)
 - `.github/workflows/` — `deploy.yml` (build+deploy), `lint.yml`
 
 ## Content (frontmatter)

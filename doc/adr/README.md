@@ -4,6 +4,10 @@ This directory contains the Architecture Decision Records (ADRs) for the ktherag
 
 We use the [log4brains](https://github.com/thomvaill/log4brains) ADR format.
 
+Every ADR must record the technical stack in force when the decision was taken, in a
+`## Stack at decision time` section (PHP, Cecil, Symfony components, vendor libraries,
+Node toolchain). Later readers need it to judge whether a decision still applies.
+
 ## Index
 
 | ADR | Title | Status |

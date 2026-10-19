@@ -11,6 +11,14 @@ The `/open-source/` section exposes merged PRs fetched from GitHub at build time
 `pagetypeformats.page: [html, md]` gives it no feeds. We want RSS/Atom/JSON feeds
 for the section itself, without changing the blog/homepage feeds.
 
+## Stack at decision time
+
+- PHP 8.5 (CI), Node 22
+- Cecil 9.11.0 (pinned in `deploy.yml`), Twig bundled
+- Symfony `http-client ^8.1`, `symfony/yaml ^8.1`
+- Bootstrap 5.3.8, Font Awesome 7.3.1, Highlight.js 11.12.0, Mermaid 11.17.2 (`static/vendor/`)
+- Cucumber `^13.2.1`, Playwright `1.62.1`
+
 ## Decision
 
 - Frontmatter override `output: [html, md, rss, atom, json]` on

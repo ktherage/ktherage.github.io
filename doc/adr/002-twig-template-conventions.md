@@ -8,6 +8,13 @@ Accepted
 
 Cecil's Twig environment has several constraints that differ from standard Twig: protected properties on Page objects, restricted `site.pages` access, missing operators, and template inheritance quirks.
 
+## Stack at decision time
+
+- PHP 8.5 (CI), Node 22 (E2E toolchain)
+- Cecil downloaded unpinned at build time (`curl -LO https://cecil.app/cecil.phar`); Twig bundled with it, version not pinned
+- Bootstrap 5.3.8, Font Awesome 7.3.1, Highlight.js 11.12.0, Mermaid 11.17.2 (`static/vendor/`)
+- Cucumber `^13.2.1`, Playwright `1.62.1`, axe-core `4.12.1`
+
 ## Decision
 
 ### Page properties

@@ -22,6 +22,15 @@ through relative `webfonts/*.woff2` URLs, and only the verbatim copy publishes
 that directory — the fonts are not referenced by any template, so nothing
 fingerprints them.
 
+## Stack at decision time
+
+- PHP 8.5 (CI), Node 22
+- Cecil 9.11.0 (pinned in `deploy.yml`), Twig 3.30.0 bundled in `cecil.phar`
+- Symfony `http-client` 8.1.7, `symfony/yaml` 8.1.6 (`composer.lock`)
+- Bootstrap 5.3.8, Font Awesome 7.3.1, Highlight.js 11.12.0, Mermaid 11.17.2 (`static/vendor/`)
+- Cucumber `^13.2.1`, Playwright `1.62.1`
+- No Cecil theme (`theme: null`)
+
 ## Decision
 
 - Reference vendor files with `url('vendor/…')`, never `asset('vendor/…')`
