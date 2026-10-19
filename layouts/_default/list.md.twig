@@ -13,7 +13,7 @@ tags: [{{ item.tags|map(t => t|json_encode)|join(', ') }}]
 excerpt: {{ item.excerpt|json_encode }}
 {% endif %}
 author: {{ site.author.name|json_encode }}
-url: {{ site.url }}
+url: {{ url(item, {canonical: true}) }}
 blog: {{ site.url }}/blog/
 ---
 

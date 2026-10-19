@@ -5,15 +5,24 @@
 #
 # Brand logos are sourced from SimpleIcons (https://simpleicons.org/), CC0.
 # Abstract concepts use Font Awesome 6.7.2 free icons.
+AI:
+  type: fa
+  class: fa-robot
 API:
   type: fa
   class: fa-plug
+API Platform:
+  type: fa
+  class: fa-diagram-project
 Authentication:
   type: fa
   class: fa-key
 Bash:
   type: fa
   class: fa-terminal
+Cache:
+  type: fa
+  class: fa-box-archive
 CI:
   type: fa
   class: fa-arrows-spin
@@ -41,16 +50,31 @@ Doctrine:
 Git:
   type: logo
   file: git
+HTTP Cache:
+  type: fa
+  class: fa-server
 JavaScript:
   type: fa
   style: brands
   class: fa-js
+LLM:
+  type: fa
+  class: fa-brain
+MCP:
+  type: fa
+  class: fa-plug-circle-bolt
 Migrations:
   type: fa
   class: fa-arrows-up-down-left-right
+Ollama:
+  type: fa
+  class: fa-desktop
 Performance:
   type: fa
   class: fa-gauge-high
+PHP:
+  type: fa
+  class: fa-code
 PHPStan:
   type: fa
   class: fa-microscope
@@ -63,9 +87,21 @@ Postman:
 "QA Tools":
   type: fa
   class: fa-screwdriver-wrench
+Qdrant:
+  type: fa
+  class: fa-cube
+RAG:
+  type: fa
+  class: fa-magnifying-glass-chart
 Security:
   type: fa
   class: fa-shield-halved
+Sérialisation:
+  type: fa
+  class: fa-right-left
+Serialization:
+  type: fa
+  class: fa-right-left
 Symfony:
   type: logo
   file: symfony

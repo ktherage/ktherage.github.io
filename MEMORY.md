@@ -28,6 +28,24 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-10-19 — `asset()` duplicates every file under `static/`
+
+**Insight:** Cecil treats `static/` as an asset root as well as a verbatim copy dir: `asset('vendor/x.css')` writes a hashed copy (`_site/vendor/x.<hash>.css`) on top of the unhashed one that `static/` already publishes. `_site/vendor/` held 15 files for 10 sources.
+
+**Why it matters:** ~500 KB of duplicate bytes, and the hashed URLs differ from what production serves, so local browser checks and HTML diffs are misleading.
+
+**Evidence / verification:** Replaced the 7 vendor references in `layouts/_default/page.html.twig` + `layouts/blog/page.html.twig` with `url('vendor/...')`; `_site/vendor/` = 10 files, Font Awesome glyphs still resolve (computed `font-family: "Font Awesome 7 Free"`), `bootstrap` global and highlight.js still load, `make test-e2e` green.
+
+**Decision:** Vendor files (versioned dir names, already minified) use `url('vendor/...')`; `asset()` is reserved for `assets/` files that need cache-busting.
+
+### 2026-10-19 — Mermaid renders `.mermaid`, not highlighted code fences
+
+**Insight:** a ` ```mermaid ` fence is emitted as `<pre><code class="language-mermaid">` (highlighted like any code block). Mermaid only scans `.mermaid` elements, so diagrams never rendered — and `mermaid.min.js` is an esbuild bundle that exposes `globalThis.mermaid` only at the very end, so a script placed after it cannot rely on `typeof mermaid` before it evaluates.
+
+**Why it matters:** the 3.4 MB bundle was loaded on every post for a feature that silently did nothing.
+
+**Decision:** `assets/js/blog/mermaid.js` promotes `pre > code.language-mermaid` into `div.mermaid` then calls `mermaid.run()`; the bundle is emitted only when `page.body` has a fence (or the rendered page has `.mermaid`). Verified with a throwaway post: `<div class="mermaid"><svg …>` after load, and zero mermaid requests on posts without diagrams.
+
 ### 2026-10-13 — Cecil 9.11 `url()` rejects the `Site` object; CI builds unpinned latest
 
 **Insight:** `url(site)` throws (`Slugifier::slugify(): ... Cecil\Renderer\Site given`) since Cecil 9.11 — `Url` only accepts `Page`, `MenuEntry`, `Asset`, or string. `site.home` returns the `'index'` page ID string, so `url(site.home)` is the correct replacement. CI downloads `https://cecil.app/cecil.phar` unpinned on every run, so a Cecil release can break `main` with no repo change (local `cecil.phar` was 9.4.2 and still built fine).

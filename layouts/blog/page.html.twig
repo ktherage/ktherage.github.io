@@ -90,10 +90,10 @@
 {%- block javascripts ~%}
     {{ parent() }}
     {% if '```mermaid' in page.body or 'class="mermaid"' in page.content %}
-        <script src="{{ asset('vendor/mermaid-11.17.2/mermaid.min.js') }}"></script>
+        <script src="{{ url('vendor/mermaid-11.17.2/mermaid.min.js') }}"></script>
         <script src="{{ asset('js/blog/mermaid.js') }}"></script>
     {% endif %}
-    <script src="{{ asset('vendor/highlightjs-11.12.0/highlight.min.js') }}"></script>
+    <script src="{{ url('vendor/highlightjs-11.12.0/highlight.min.js') }}"></script>
     <script src="{{ asset('js/blog/highlight.js') }}"></script>
     <script src="{{ asset('js/blog/heading-utils.js') }}"></script>
     <script src="{{ asset('js/blog/heading-anchors.js') }}"></script>
