@@ -91,8 +91,8 @@
     {{ parent() }}
     {# the HTML minifier reorders classes, so match the mermaid token inside the class attribute #}
     {% if '```mermaid' in page.body or page.content matches '/class="[^"]*\\bmermaid\\b/' %}
-        <script src="{{ url('vendor/mermaid-11.17.2/mermaid.min.js') }}"></script>
-        <script src="{{ asset('js/blog/mermaid.js') }}"></script>
+        {# mermaid.js injects the 3.4 MB bundle itself so it never blocks the other scripts #}
+        <script src="{{ asset('js/blog/mermaid.js') }}" data-bundle="{{ url('vendor/mermaid-11.17.2/mermaid.min.js') }}"></script>
     {% endif %}
     <script src="{{ url('vendor/highlightjs-11.12.0/highlight.min.js') }}"></script>
     <script src="{{ asset('js/blog/highlight.js') }}"></script>

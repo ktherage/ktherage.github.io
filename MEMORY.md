@@ -58,6 +58,8 @@ Use this structure for new insights:
 
 **Trap (2026-10-19):** the existing posts do not use fences at all — they embed `<pre class="mermaid d-flex …">` raw HTML. Worse, the HTML minifier reorders those classes (`class="align-items-center d-flex flex-column justify-content-center m-2 mermaid"`), so testing `'class="mermaid"' in page.content` silently emitted no script and the diagrams shipped as unstyled text. The template matches the class _token_ (`page.content matches '/class="[^"]*\\bmermaid\\b/'`) and `make lint-html` fails the build when a page carries mermaid markup without the script.
 
+**Blocking (2026-10-19):** a classic `<script src="…mermaid.min.js">` blocks every script after it, so the table of contents stayed empty until the 3.4 MB had downloaded (measured on the dev server with the bundle delayed 2 s: TOC at 699 ms once `mermaid.js` injects the bundle itself, versus still empty at 2.6 s when the tag is in the page). `mermaid.js` now reads the bundle URL from its own `data-bundle` attribute, injects a `<script>`, and renders on `load`. Also: `cecil.phar serve` answers `Cache-Control: no-store` for its assets, so every local reload refetches the 3.4 MB — expected on localhost, not a bug.
+
 ### 2026-10-13 — Cecil 9.11 `url()` rejects the `Site` object; CI builds unpinned latest
 
 **Insight:** `url(site)` throws (`Slugifier::slugify(): ... Cecil\Renderer\Site given`) since Cecil 9.11 — `Url` only accepts `Page`, `MenuEntry`, `Asset`, or string. `site.home` returns the `'index'` page ID string, so `url(site.home)` is the correct replacement. CI downloads `https://cecil.app/cecil.phar` unpinned on every run, so a Cecil release can break `main` with no repo change (local `cecil.phar` was 9.4.2 and still built fine).
