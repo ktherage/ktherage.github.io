@@ -58,7 +58,7 @@
 
         headings.forEach(function (heading) {
             if (!heading.id) {
-                heading.id = slugifyHeading(heading.textContent);
+                heading.id = uniqueHeadingId(slugifyHeading(heading.textContent));
             }
             buildItem(heading, 'toc-' + heading.tagName.toLowerCase(), null);
         });
