@@ -28,6 +28,16 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-10-19 — Do not build while `make dev` watches the same tree
+
+**Insight:** `php cecil.phar serve` rebuilds on any file change, and each build rewrites `_site` + the cache, which the watcher sees as another change. Running `php cecil.phar build` / `make lint` in parallel in the same directory therefore starts a rebuild loop.
+
+**Why it matters:** While the loop runs, the dev server answers `500` on `/` and transient `404` on valid post URLs — enough to misdiagnose a feature as broken (a "mermaid not rendering" report was actually a 404 window), and rebuild races make Playwright checks unreliable.
+
+**Evidence / verification:** The `make dev` log showed `Changes detected` → full build repeating while a separate `make lint` ran; `curl http://localhost:8000/` returned 500, then 200 after killing and restarting the server with a single builder.
+
+**Decision:** Stop `make dev` before running build/lint/e2e in the same tree (or run the build in a different copy of the tree).
+
 ### 2026-10-19 — `asset()` duplicates every file under `static/`
 
 **Insight:** Cecil treats `static/` as an asset root as well as a verbatim copy dir: `asset('vendor/x.css')` writes a hashed copy (`_site/vendor/x.<hash>.css`) on top of the unhashed one that `static/` already publishes. `_site/vendor/` held 15 files for 10 sources.
