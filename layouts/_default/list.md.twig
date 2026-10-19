@@ -1,18 +1,21 @@
-{# LLM feed template #}
+{# LLM feed template — one valid YAML front matter block per entry #}
 {% for item in page.pages %}
 {% if item.published %}
 {{ 'ai_note'|trans }}
 
 ---
-title: "{{ item.title }}"
+title: {{ item.title|json_encode }}
 date: {{ item.date|date('Y-m-d') }}
-{% if item.tags is defined %}tags: [{{ item.tags|join(', ') }}]{% endif %}
-{% if item.excerpt is defined %}excerpt: |
-  {{ item.excerpt }}
+{% if item.tags is defined %}
+tags: [{{ item.tags|map(t => t|json_encode)|join(', ') }}]
 {% endif %}
-author: {{ site.author.name }}
+{% if item.excerpt is defined %}
+excerpt: {{ item.excerpt|json_encode }}
+{% endif %}
+author: {{ site.author.name|json_encode }}
 url: {{ site.url }}
 blog: {{ site.url }}/blog/
+---
 
 {% set content = item.body %}
 

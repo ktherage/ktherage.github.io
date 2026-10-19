@@ -13,6 +13,10 @@ Before(async function (this: PlaywrightWorld) {
   this.consoleErrors = [];
   await this.init();
 
+  if (process.env.PWDEBUG) {
+    await this.page.pause();
+  }
+
   this.page.on('console', (msg) => {
     if (msg.type() === 'error') {
       this.consoleErrors.push(msg.text());

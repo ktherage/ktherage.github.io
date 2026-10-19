@@ -310,11 +310,13 @@ Move superseded knowledge here instead of silently deleting it when the historic
 
 ### 2026-09-04 — E2E tests run via npx with Cucumber.js (not Docker, not Playwright Test)
 
-**Insight:** E2E tests use Cucumber.js (`npx cucumber-js`) as the test runner with Playwright as the browser engine. No Dockerfile needed. The `--ui` mode still uses Playwright Test (`npx playwright test --ui`) on port 9333 for interactive debugging.
+**Insight:** E2E tests use Cucumber.js (`npx cucumber-js`) as the test runner with Playwright as the browser engine. No Dockerfile needed.
 
 **Why it matters:** The Gherkin feature files are the source of truth. Cucumber.js interprets them with strict semantic conventions that must be followed.
 
-**Decision:** Use `make test-e2e` (headless, cucumber-js) and `make test-e2e-ui` (interactive, playwright --ui). CI uses `actions/setup-node` + `npx playwright install --with-deps chromium`.
+**Decision:** Use `make test-e2e` (headless, cucumber-js) and `make test-e2e-ui` (headed + Playwright Inspector, pauses on each scenario). CI uses `actions/setup-node` + `npx playwright install --with-deps chromium`.
+
+**2026-10-19:** `test-e2e-ui` used to run `playwright test --ui`, which found no tests (feature files are Cucumber's, not Playwright Test's). It now exports `PWDEBUG=1` and reuses the `test-e2e` recipe; `world.ts` launches headed and `hooks.ts` calls `page.pause()`.
 
 ---
 

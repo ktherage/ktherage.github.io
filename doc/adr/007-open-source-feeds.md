@@ -27,11 +27,14 @@ for the section itself, without touching the blog/homepage feeds (chacun chez so
 - Rejected: virtual sub-pages per PR — `PagesCollection::showable()` excludes
   `isVirtual()` pages, so they would never reach any feed; non-virtual ghost pages
   would instead pollute the sitemap and the main `/atom.xml` feed.
-- `merged_at` enrichment: when `GITHUB_TOKEN` is set, the fetcher resolves each PR's
-  full ISO8601 timestamp via one extra `GET /repos/{owner}/{repo}/pulls/{number}`
-  call (isolated in `GitHubPullRequestEnricher`, silent fallback to date-only).
-  Enrichment code lives in its own class to stay under the Mago cyclomatic-complexity
-  threshold (verified: `mago lint` clean).
+- `merged_at`: read straight from the search response (`pull_request.merged_at`),
+  which already carries the full ISO8601 timestamp. The former per-PR
+  `GitHubPullRequestEnricher` (one `GET /repos/{owner}/{repo}/pulls/{number}` per
+  contribution) was removed in 2026-10 as redundant.
+- Cache: `data/oss-contributions.yaml` is committed so a failed fetch can never
+  empty the page; CI sets `OSS_REFRESH=1` because a fresh checkout resets the
+  cache file mtime (which would otherwise look fresh forever), then commits the
+  refreshed file back on `main` so the fallback does not drift.
 - EN+FR feeds carry identical items (titles sourced from GitHub, English) — assumed.
 - Validation: `lint-html` runs `xmllint --noout` on all `_site/**/*.xml` and
   `jq empty` on all `_site/**/*.json`; E2E parses the Atom/JSON feeds and asserts a

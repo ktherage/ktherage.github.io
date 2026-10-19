@@ -9,29 +9,12 @@
     const HEADING_SELECTOR = '.blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6';
     const OFFSET = 100; // sticky header + comfortable margin
 
-    function slugify(text) {
-        return text
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-|-$/g, '');
-    }
-
     function ensureId(heading) {
         if (heading.id) {
             return heading.id;
         }
-        let id = slugify(heading.textContent);
-        let base = id;
-        let counter = 1;
-        while (document.getElementById(id)) {
-            id = base + '-' + counter;
-            counter++;
-        }
-        heading.id = id;
-        return id;
+        heading.id = uniqueHeadingId(slugifyHeading(heading.textContent));
+        return heading.id;
     }
 
     function init() {

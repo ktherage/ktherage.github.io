@@ -11,7 +11,7 @@ export class PlaywrightWorld extends World {
   initialTheme?: string | null;
 
   async init() {
-    this.browser = await chromium.launch({ headless: true });
+    this.browser = await chromium.launch({ headless: !process.env.PWDEBUG });
     const context = await this.browser.newContext();
     this.page = await context.newPage();
     this.request = await context.request;

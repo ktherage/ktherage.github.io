@@ -7,26 +7,6 @@
 
     const HEADING_SELECTOR = '.blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6';
 
-    function slugify(text) {
-        return text
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-|-$/g, '');
-    }
-
-    function uniqueId(baseId) {
-        let id = baseId;
-        let counter = 1;
-        while (document.getElementById(id)) {
-            id = baseId + '-' + counter;
-            counter++;
-        }
-        return id;
-    }
-
     function showCopyNotification() {
         const existing = document.querySelector('.copy-notification');
         if (existing) {
@@ -73,7 +53,7 @@
             let id = heading.id;
 
             if (!id) {
-                id = uniqueId(slugify(heading.textContent));
+                id = uniqueHeadingId(slugifyHeading(heading.textContent));
                 heading.id = id;
             }
 

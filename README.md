@@ -73,7 +73,7 @@ make dev
 | `make dev` | Dev server with watcher on `localhost:8080` |
 | `make lint` | Twig lint + HTML structural checks |
 | `make test-e2e` | Run E2E tests (headless, Cucumber.js) |
-| `make test-e2e-ui` | Open Playwright UI on `localhost:9333` |
+| `make test-e2e-ui` | Same tests, headed + Playwright Inspector |
 | `make validate-llmstxt` | Validate LLM feed files |
 | `make banner` | Regenerate banner PNG from SVG |
 
@@ -88,7 +88,7 @@ make test-e2e
 # Run specific feature
 npx cucumber-js tests/features/theme-toggle.feature
 
-# Interactive UI mode
+# Interactive: headed browser, Playwright Inspector pauses on each scenario
 make test-e2e-ui
 ```
 

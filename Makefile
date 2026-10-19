@@ -36,10 +36,16 @@ lint-html: build
 	@echo "Feed checks OK"
 
 test-e2e:                    ## Tests headless via Gherkin/Cucumber
-	npx serve _site -l 4000 & sleep 2 && npx cucumber-js; kill %1 2>/dev/null
+	@./node_modules/.bin/serve _site -l 4000 & \
+	pid=$$!; \
+	sleep 2; \
+	./node_modules/.bin/cucumber-js; status=$$?; \
+	kill $$pid 2>/dev/null; \
+	exit $$status
 
-test-e2e-ui:                 ## Mode UI Playwright (http://localhost:9333)
-	npx playwright test --ui --headed
+# Interactive debugging: headed browser + Playwright Inspector, pauses on each scenario
+test-e2e-ui: export PWDEBUG=1
+test-e2e-ui: test-e2e
 
 validate-llmstxt: build
 	@echo "Validating llms.txt with official Answer.AI llms_txt2ctx..."

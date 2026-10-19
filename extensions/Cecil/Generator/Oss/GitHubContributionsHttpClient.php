@@ -13,6 +13,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  * repositories, via the GitHub Search API.
  *
  * Auth: optional GITHUB_TOKEN env var (higher rate limits); works anonymously.
+ * The search payload already includes pull_request.merged_at, so no per-PR
+ * detail request is needed.
  * Returns null on any error so callers can fall back to cached data.
  */
 class GitHubContributionsHttpClient
@@ -40,10 +42,6 @@ class GitHubContributionsHttpClient
                 return null;
             }
             $contributions = array_filter($batch, $this->isContribution(...));
-            if (null !== $this->token) {
-                $enricher = new GitHubPullRequestEnricher($this->token);
-                $contributions = array_map($enricher->enrich(...), $contributions);
-            }
             array_push($items, ...array_map($this->toItem(...), $contributions));
             if (\count($batch) < $perPage) {
                 break;

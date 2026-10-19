@@ -26,15 +26,11 @@
             <div class="row g-4" role="list" id="blog-posts" aria-live="polite">
                 {{ include('partials/post-card.html.twig', {pages: pages}) }}
             </div>
-
-            <footer class="mt-5">
-                {{ include('partials/paginator.html.twig', {page: page}, with_context: false) }}
-            </footer>
         </div>
     </div>
-
-    {% block javascripts %}
-        {{ parent() }}
-        <script src="{{ asset('js/blog/tag-filter.js') }}"></script>
-    {% endblock %}
 {% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/blog/tag-filter.js') }}"></script>
+{% endblock javascripts %}

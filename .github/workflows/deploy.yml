@@ -24,6 +24,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # commit the refreshed OSS contributions cache
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -54,8 +56,24 @@ jobs:
 
       - name: Build site
         env:
+          # A fresh checkout resets the cache file mtime: always refresh instead of
+          # trusting the committed cache, which is the fallback for local builds.
+          OSS_REFRESH: '1'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: cecil build --verbose
+
+      - name: Commit refreshed OSS contributions cache
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: |
+          if git diff --quiet -- data/oss-contributions.yaml; then
+            echo "No change."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/oss-contributions.yaml
+          git commit -m 'chore(open-source): refresh contributions cache'
+          git push
 
       - name: Setup Pages
         uses: actions/configure-pages@v6

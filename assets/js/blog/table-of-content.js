@@ -9,16 +9,6 @@
         return;
     }
 
-    function slugify(text) {
-        return text
-            .toLowerCase()
-            .trim()
-            .replace(/[^\w\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-|-$/g, '');
-    }
-
     function closeToc() {
         if (!tocAside.classList.contains('toc-open')) {
             return;
@@ -68,7 +58,7 @@
 
         headings.forEach(function (heading) {
             if (!heading.id) {
-                heading.id = slugify(heading.textContent);
+                heading.id = slugifyHeading(heading.textContent);
             }
             buildItem(heading, 'toc-' + heading.tagName.toLowerCase(), null);
         });

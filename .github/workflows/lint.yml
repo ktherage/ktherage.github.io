@@ -56,3 +56,8 @@ jobs:
             fail=1
           fi
           exit $fail
+
+      - name: Feed checks (XML well-formed & JSON valid)
+        run: |
+          find _site -name '*.xml' -exec xmllint --noout {} \;
+          find _site -name '*.json' -exec jq empty {} \;

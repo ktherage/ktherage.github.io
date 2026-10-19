@@ -7,8 +7,6 @@
 {% if title is empty %}
   {%- set title_divider = page.metatags.title.divider|default(site.metatags.title.divider|default(' &middot; ')) %}
   {%- set title_only = page.metatags.title.only|default(site.metatags.title.only|default(false)) %}
-  {%- set title_pagination_shownumber = page.metatags.title.pagination.shownumber|default(site.metatags.title.pagination.shownumber ?? true) %}
-  {%- set title_pagination_label = page.metatags.title.pagination.label|default(site.metatags.title.pagination.label|default('Page %s')) %}
   {%- set title = page.title|trans|e %}
   {%- set title_html = title ~ title_divider ~ 'site_name'|trans|e %}
   {%- if title_only %}
@@ -20,16 +18,6 @@
     {%- set title_html = title ~ title_divider ~ site.baseline|default|e %}
     {%- if title_only or site.baseline|default is empty %}
       {%- set title_html = title %}
-    {%- endif %}
-  {%- endif %}
-  {#- paginator title #}
-  {%- if page.paginator.current|default(0) > 1 %}
-    {%- if title_pagination_shownumber %}
-      {%- set title = page.title|e ~ ' (' ~ title_pagination_label|format(page.paginator.current) ~ ')' %}
-      {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) ~ title_divider ~ 'site_name'|trans|e %}
-      {%- if title_only %}
-        {%- set title_html = page.title|e ~ title_divider ~ title_pagination_label|format(page.paginator.current) %}
-      {%- endif %}
     {%- endif %}
   {%- endif %}
 {% endif %}
@@ -51,9 +39,6 @@
 {% endif %}
 {# robots #}
 {% set robots = page.metatags.robots|default(site.metatags.robots|default('index,follow')) %}
-{% if page.paginator.current|default(0) > 1 %}
-  {%- set robots = 'noindex,follow' %}
-{% endif %}
 {# favicon #}
 {% if page.metatags.favicon ?? site.metatags.favicon ?? true %}
   {%- set favicon_defaults = {
@@ -72,9 +57,9 @@
   {%- set video = page.videos[0] %}
 {% endif %}
 {# audio #}
-{% if page.audios is defined and page.audio[0] %}
+{% if page.audios[0]|default %}
   {# take the first audio if available #}
-  {%- set audio = page.audio[0] %}
+  {%- set audio = page.audios[0] %}
 {% endif %}
 {# Open Graph #}
 {% set opengraph = {
@@ -177,17 +162,6 @@
     {%- endif -%}
     {%- if page.next.path is defined ~%}
     <link rel="next" href="{{ url(page.next, {canonical: true}) }}">
-    {%- endif -%}
-    {#- template: paginator ~#}
-    {%- if page.paginator.pages is defined ~%}
-    <link rel="first" href="{{ url(page.paginator.links.first, {canonical: true}) }}">
-      {%- if page.paginator.links.prev is defined ~%}
-    <link rel="prev" href="{{ url(page.paginator.links.prev, {canonical: true}) }}">
-      {%- endif ~%}
-      {%- if page.paginator.links.next is defined ~%}
-    <link rel="next" href="{{ url(page.paginator.links.next, {canonical: true}) }}">
-      {%- endif ~%}
-    <link rel="last" href="{{ url(page.paginator.links.last, {canonical: true}) }}">
     {%- endif -%}
   {%- endif -%}
   {#- template: alternates ~#}
