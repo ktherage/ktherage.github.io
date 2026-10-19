@@ -44,7 +44,9 @@ Use this structure for new insights:
 
 **Why it matters:** the 3.4 MB bundle was loaded on every post for a feature that silently did nothing.
 
-**Decision:** `assets/js/blog/mermaid.js` promotes `pre > code.language-mermaid` into `div.mermaid` then calls `mermaid.run()`; the bundle is emitted only when `page.body` has a fence (or the rendered page has `.mermaid`). Verified with a throwaway post: `<div class="mermaid"><svg …>` after load, and zero mermaid requests on posts without diagrams.
+**Decision:** `assets/js/blog/mermaid.js` promotes `pre > code.language-mermaid` into `div.mermaid` then calls `mermaid.run()`; the bundle is emitted only when the post contains a diagram. Verified with a throwaway post: `<div class="mermaid"><svg …>` after load, and zero mermaid requests on posts without diagrams.
+
+**Trap (2026-10-19):** the existing posts do not use fences at all — they embed `<pre class="mermaid d-flex …">` raw HTML. Worse, the HTML minifier reorders those classes (`class="align-items-center d-flex flex-column justify-content-center m-2 mermaid"`), so testing `'class="mermaid"' in page.content` silently emitted no script and the diagrams shipped as unstyled text. The template matches the class _token_ (`page.content matches '/class="[^"]*\\bmermaid\\b/'`) and `make lint-html` fails the build when a page carries mermaid markup without the script.
 
 ### 2026-10-13 — Cecil 9.11 `url()` rejects the `Site` object; CI builds unpinned latest
 
@@ -293,6 +295,7 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** Confirmed during social media publishing for the `symfony-session-vs-http-cache` article. Each time the composer was opened and text typed, the Poster button had a different ref.
 
 **Decision:** When posting on Bluesky via browser automation:
+
 1. After typing, run `rg -n "dialog|Poster|Annuler|paragraph" <saved-output-file>` to find the current `Poster` ref
 2. Click the `Poster` ref from the grep results (not a cached one)
 3. Wait 2-3 seconds after typing for link previews to load
@@ -310,6 +313,7 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** Confirmed during social media publishing for the `symfony-session-vs-http-cache` article. Both FR and EN posts were published successfully via browsermcp.
 
 **Decision:** LinkedIn posting workflow:
+
 1. Navigate to profile page (`/in/kevin-therage/`)
 2. Click "Accueil" to go to feed
 3. Click "Commencer un post" on the feed
@@ -319,6 +323,7 @@ Move superseded knowledge here instead of silently deleting it when the historic
 7. Verify "Le post a bien été publié" alert
 
 **Known blockers and workarounds:**
+
 - **"Unable to get parent" on feed "Commencer un post"**: The button is intermittently non-interactable from the feed. Fix: navigate to profile page first, then click "Accueil" to return to feed — this resets the feed state and makes the button clickable.
 - **Post dialog closes after navigating away**: Any page navigation (e.g. fetching text from Mastodon) closes the dialog. Fix: reopen via profile → Accueil → "Commencer un post" cycle.
 - **Async link preview**: "Chargement de l'aperçu…" must finish before publishing. Fix: wait 3 seconds after typing.
@@ -341,6 +346,7 @@ Move superseded knowledge here instead of silently deleting it when the historic
 ### 2026-09-07 — Gherkin conventions: strict Given → When → Then flow
 
 **Insight:** All `.feature` files follow strict one-directional Gherkin semantics:
+
 - **`Given`** = preconditions/state (page already loaded, state captured)
 - **`When`** = actions (navigation as the test action, clicks, form submissions)
 - **`Then`** = assertions, and every `Then` step **must contain the word "should"**
@@ -352,4 +358,3 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** Established during E2E test migration from Playwright Test to Cucumber.js. Verified across 41 scenarios / 239 steps.
 
 **Decision:** All new feature files must follow these conventions. A Gherkin skill has been created at `~/.config/opencode/skills/gherkin/SKILL.md` encoding these rules for any future agent work.
-

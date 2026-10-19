@@ -28,6 +28,13 @@ lint-html: build
 		fi; \
 	done
 	@grep -rn '<a href="#"' layouts/ && { echo "FAIL: <a href=\"#\"> found in layouts/"; exit 1; } || echo "HTML checks OK"
+	@echo "Mermaid checks: diagram markup implies the mermaid bundle..."
+	@find _site -name '*.html' | while read f; do \
+		if grep -qE 'class="[^"]*\bmermaid\b' "$$f" && ! grep -q 'js/blog/mermaid\.' "$$f"; then \
+			echo "FAIL: $$f has mermaid markup but no mermaid script"; exit 1; \
+		fi; \
+	done
+	@echo "Mermaid checks OK"
 	@echo "Feed checks: XML well-formed + JSON valid..."
 	@command -v xmllint >/dev/null 2>&1 || { echo "xmllint not found. Install with: apt install libxml2-utils"; exit 1; }
 	@command -v jq >/dev/null 2>&1 || { echo "jq not found. Install with: apt install jq"; exit 1; }

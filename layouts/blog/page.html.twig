@@ -89,7 +89,8 @@
 
 {%- block javascripts ~%}
     {{ parent() }}
-    {% if '```mermaid' in page.body or 'class="mermaid"' in page.content %}
+    {# the HTML minifier reorders classes, so match the mermaid token inside the class attribute #}
+    {% if '```mermaid' in page.body or page.content matches '/class="[^"]*\\bmermaid\\b/' %}
         <script src="{{ url('vendor/mermaid-11.17.2/mermaid.min.js') }}"></script>
         <script src="{{ asset('js/blog/mermaid.js') }}"></script>
     {% endif %}
