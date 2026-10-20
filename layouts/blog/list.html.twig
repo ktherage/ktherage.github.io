@@ -5,8 +5,17 @@
         <div class="container my-5">
             <header class="mb-5 text-center">
                 <h1 class="display-5 fw-bold">{{ page.title }}</h1>
-                {% if page.content %}
-                    <p class="lead text-muted">{{ page.content }}</p>
+                {# Only the blog landing page (page.path `blog`, language-neutral) gets the intro and the feeds #}
+                {% if page.path == 'blog' %}
+                    <p class="lead text-muted">{{ 'blog_lead'|trans }}</p>
+                    <nav class="d-flex justify-content-center gap-2 mt-4" aria-label="{{ 'blog_subscribe'|trans }}">
+                        <a href="{{ url(page, {canonical: true, format: 'rss'}) }}" class="btn btn-sm btn-outline-secondary" type="application/rss+xml">
+                            <i class="fa-solid fa-rss me-1" aria-hidden="true"></i>RSS
+                        </a>
+                        <a href="{{ url(page, {canonical: true, format: 'json'}) }}" class="btn btn-sm btn-outline-secondary" type="application/json">
+                            <i class="fa-solid fa-code me-1" aria-hidden="true"></i>JSON
+                        </a>
+                    </nav>
                 {% endif %}
             </header>
 
