@@ -5,172 +5,172 @@
   repo: symfony/symfony-docs
   repo_url: 'https://github.com/symfony/symfony-docs'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2026-08-26'
+  merged_at: '2026-08-26T10:50:11Z'
 -
   title: 'Adding French translation to 8.5 release page'
   url: 'https://github.com/php/web-php/pull/1910'
   repo: php/web-php
   repo_url: 'https://github.com/php/web-php'
   avatar: 'https://github.com/php.png'
-  merged_at: '2026-06-01'
+  merged_at: '2026-06-01T08:50:08Z'
 -
   title: '[Form] Allow `ViolationMapperInterface` injection for `ValidatorExtension` and `FormTypeValidatorExtension`'
   url: 'https://github.com/symfony/symfony/pull/63214'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2026-02-09'
+  merged_at: '2026-02-09T13:26:31Z'
 -
   title: 'feat(httpinterop): Remove direct Guzzle dependency from QdrantVectorStore class'
   url: 'https://github.com/LLPhant/LLPhant/pull/363'
   repo: LLPhant/LLPhant
   repo_url: 'https://github.com/LLPhant/LLPhant'
   avatar: 'https://github.com/LLPhant.png'
-  merged_at: '2025-08-02'
+  merged_at: '2025-08-02T09:19:54Z'
 -
   title: 'feat(httpinterop): Remove direct Guzzle dependency from ChatSessionStream class'
   url: 'https://github.com/LLPhant/LLPhant/pull/371'
   repo: LLPhant/LLPhant
   repo_url: 'https://github.com/LLPhant/LLPhant'
   avatar: 'https://github.com/LLPhant.png'
-  merged_at: '2025-07-23'
+  merged_at: '2025-07-23T15:55:41Z'
 -
   title: 'feat(httpinterop): Remove direct Guzzle dependency from MilvusClient class'
   url: 'https://github.com/LLPhant/LLPhant/pull/366'
   repo: LLPhant/LLPhant
   repo_url: 'https://github.com/LLPhant/LLPhant'
   avatar: 'https://github.com/LLPhant.png'
-  merged_at: '2025-07-20'
+  merged_at: '2025-07-20T18:03:43Z'
 -
   title: 'feat(httpinterop): Remove direct Guzzle dependency from LLPhantTypesenseClient class'
   url: 'https://github.com/LLPhant/LLPhant/pull/368'
   repo: LLPhant/LLPhant
   repo_url: 'https://github.com/LLPhant/LLPhant'
   avatar: 'https://github.com/LLPhant.png'
-  merged_at: '2025-07-20'
+  merged_at: '2025-07-20T17:58:49Z'
 -
   title: '[Security] Remove deprecated `RememberMeToken::getSecret()`'
   url: 'https://github.com/symfony/symfony/pull/61011'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2025-07-08'
+  merged_at: '2025-07-08T10:30:31Z'
 -
   title: 'Adding precision on where to add max_wait_time configuration'
   url: 'https://github.com/php/frankenphp/pull/1640'
   repo: php/frankenphp
   repo_url: 'https://github.com/php/frankenphp'
   avatar: 'https://github.com/php.png'
-  merged_at: '2025-06-30'
+  merged_at: '2025-06-30T20:08:08Z'
 -
   title: 'feat(httpinterop): Remove direct Guzzle dependency from Anthropic classes'
   url: 'https://github.com/LLPhant/LLPhant/pull/362'
   repo: LLPhant/LLPhant
   repo_url: 'https://github.com/LLPhant/LLPhant'
   avatar: 'https://github.com/LLPhant.png'
-  merged_at: '2025-06-26'
+  merged_at: '2025-06-26T17:12:40Z'
 -
   title: "[Translation] Clarifying LocaleSwitcher's behavior"
   url: 'https://github.com/symfony/symfony-docs/pull/20981'
   repo: symfony/symfony-docs
   repo_url: 'https://github.com/symfony/symfony-docs'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2025-05-21'
+  merged_at: '2025-05-21T08:12:42Z'
 -
   title: 'Adding precision on PANTHER_NO_HEADLESS behavior'
   url: 'https://github.com/symfony/panther/pull/639'
   repo: symfony/panther
   repo_url: 'https://github.com/symfony/panther'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2025-01-07'
+  merged_at: '2025-01-07T10:48:16Z'
 -
   title: "Fixing Typo : Usage of 'balise fermente' which implies fermentation of balise instead of 'closing balise'"
   url: 'https://github.com/php/doc-fr/pull/1974'
   repo: php/doc-fr
   repo_url: 'https://github.com/php/doc-fr'
   avatar: 'https://github.com/php.png'
-  merged_at: '2024-12-26'
+  merged_at: '2024-12-26T11:10:29Z'
 -
   title: 'Adding precision on how to define attributes on the root node for the XML Encoder'
   url: 'https://github.com/symfony/symfony-docs/pull/19192'
   repo: symfony/symfony-docs
   repo_url: 'https://github.com/symfony/symfony-docs'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2023-11-29'
+  merged_at: '2023-11-29T08:59:21Z'
 -
   title: '[Serializer] Fix MissingConstructorArgumentsException returning missing argument one by one'
   url: 'https://github.com/symfony/symfony/pull/49832'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2023-04-21'
+  merged_at: '2023-04-21T15:32:11Z'
 -
   title: 'Small Typo fix'
   url: 'https://github.com/php/doc-fr/pull/443'
   repo: php/doc-fr
   repo_url: 'https://github.com/php/doc-fr'
   avatar: 'https://github.com/php.png'
-  merged_at: '2023-04-11'
+  merged_at: '2023-04-11T12:08:41Z'
 -
   title: '[Form] Fixing "HTML5 color format" link'
   url: 'https://github.com/symfony/symfony-docs/pull/17256'
   repo: symfony/symfony-docs
   repo_url: 'https://github.com/symfony/symfony-docs'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2022-09-14'
+  merged_at: '2022-09-14T14:56:21Z'
 -
   title: '[Messenger] Add new `messenger:count` command that return a list of transports with their "to be processed" message count.'
   url: 'https://github.com/symfony/symfony/pull/46571'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2022-08-01'
+  merged_at: '2022-08-01T11:14:50Z'
 -
   title: "[Ldap] Deprecate '{username}' parameter use in favour of '{user_identifier}' in LDAP configuration"
   url: 'https://github.com/symfony/symfony/pull/46683'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2022-07-29'
+  merged_at: '2022-07-29T10:29:53Z'
 -
   title: "Adding new ElasticSearch 7.10 'case_insensitive' param to Wildcard."
   url: 'https://github.com/ruflin/Elastica/pull/1894'
   repo: ruflin/Elastica
   repo_url: 'https://github.com/ruflin/Elastica'
   avatar: 'https://github.com/ruflin.png'
-  merged_at: '2021-09-22'
+  merged_at: '2021-09-22T10:25:43Z'
 -
   title: 'Updating swagger-cli to get OAS validation.'
   url: 'https://github.com/Jean-Beru/docker-swagger-cli/pull/1'
   repo: Jean-Beru/docker-swagger-cli
   repo_url: 'https://github.com/Jean-Beru/docker-swagger-cli'
   avatar: 'https://github.com/Jean-Beru.png'
-  merged_at: '2021-07-30'
+  merged_at: '2021-07-30T12:33:03Z'
 -
   title: 'Highlighting possibilty to use FQCN as type value.'
   url: 'https://github.com/symfony/symfony-docs/pull/12419'
   repo: symfony/symfony-docs
   repo_url: 'https://github.com/symfony/symfony-docs'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2019-10-04'
+  merged_at: '2019-10-04T15:51:41Z'
 -
   title: '[VarDumper] Output the location of calls to dump() '
   url: 'https://github.com/symfony/symfony/pull/31446'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2019-09-28'
+  merged_at: '2019-09-28T16:21:41Z'
 -
   title: "Changing messenger bus id from 'message_bus' to 'messenger.default_bus'"
   url: 'https://github.com/symfony/symfony/pull/30690'
   repo: symfony/symfony
   repo_url: 'https://github.com/symfony/symfony'
   avatar: 'https://github.com/symfony.png'
-  merged_at: '2019-04-01'
+  merged_at: '2019-04-01T14:51:41Z'
 -
   title: 'Adding of a Webpack Encore section'
   url: 'https://github.com/FriendsOfSymfony/FOSCKEditorBundle/pull/174'
   repo: FriendsOfSymfony/FOSCKEditorBundle
   repo_url: 'https://github.com/FriendsOfSymfony/FOSCKEditorBundle'
   avatar: 'https://github.com/FriendsOfSymfony.png'
-  merged_at: '2019-02-27'
+  merged_at: '2019-02-27T17:38:21Z'
