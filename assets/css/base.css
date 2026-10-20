@@ -158,6 +158,13 @@ a:hover {
     color: var(--btn-hover-color) !important;
 }
 
+/* Bouton d'une carte avec stretched-link (::after, z-index 1) : sans ça le lien
+   recouvre le bouton et son :hover ne se déclenche jamais */
+.card .btn {
+    position: relative;
+    z-index: 2;
+}
+
 /* Styles pour les badges */
 .badge {
     color: white !important;
