@@ -33,10 +33,11 @@ fingerprints them.
 
 ## Decision
 
-- Reference vendor files with `url('vendor/…')`, never `asset('vendor/…')`
-  (7 references across `layouts/_default/page.html.twig` and
+- Reference vendor files with `url('vendor/…', {language: null})`, never
+  `asset('vendor/…')` (7 references across `layouts/_default/page.html.twig` and
   `layouts/blog/page.html.twig`: Bootstrap CSS + bundle, Font Awesome CSS,
-  Highlight.js CSS + JS, Mermaid).
+  Highlight.js CSS + JS, Mermaid). The `language: null` option is mandatory: see
+  the trap below.
 - Keep `asset()` for `assets/` files (site CSS, JS, images) where the pipeline's
   content hash is wanted.
 - Cache-busting comes from the version in the directory name; upgrading a library
@@ -59,6 +60,16 @@ fingerprints them.
 - `url()` renders absolute URLs from `baseurl` (`https://ktherage.github.io/vendor/…`);
   `cecil.dev.yml` overrides `baseurl` with `http://localhost`, so `serve` loads
   the local copies.
+- Trap: for a plain string, Cecil's `url()` prefixes the current page's language
+  when it differs from the default — on a French page,
+  `url('vendor/bootstrap.min.css')` renders
+  `https://ktherage.github.io/fr/vendor/bootstrap.min.css`, which does not exist.
+  The first version of this decision omitted the option, so **every French page
+  404'd Bootstrap, Font Awesome, Highlight.js and Mermaid** while the English
+  pages were fine. `{language: null}` renders the root path on every page;
+  `url('feed.xml')` keeps the prefix on purpose (`/fr/feed.xml`).
 - Verified: Font Awesome glyphs still resolve (computed
   `font-family: "Font Awesome 7 Free"`), Bootstrap's global and Highlight.js load,
-  and `make test-e2e` stays green.
+  and `make test-e2e` stays green (59 scenarios). `tests/features/assets.feature`
+  now resolves every `…/vendor/…` reference (`href`, `src`, `data-bundle`) against
+  `_site` in both languages, and the French diagram scenario renders its charts.

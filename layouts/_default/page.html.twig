@@ -19,7 +19,7 @@
         <link rel="describedby" href="{{ url('llms.txt') }}">
 
         {# Preload critical resources — vendors first, then custom #}
-        <link rel="preload" href="{{ url('vendor/bootstrap-5.3.8/bootstrap.min.css') }}" as="style">
+        <link rel="preload" href="{{ url('vendor/bootstrap-5.3.8/bootstrap.min.css', {language: null}) }}" as="style">
         <link rel="preload" href="{{ asset('css/base.css') }}" as="style">
         <link rel="preload" href="{{ asset('css/fonts.css') }}" as="style">
         <link rel="preload" href="/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -30,14 +30,14 @@
 
         {# Vendors — always loaded before custom CSS (so custom overrides win) #}
         {# Bootstrap 5.3.8 #}
-        <link href="{{ url('vendor/bootstrap-5.3.8/bootstrap.min.css') }}" rel="stylesheet">
+        <link href="{{ url('vendor/bootstrap-5.3.8/bootstrap.min.css', {language: null}) }}" rel="stylesheet">
 
         {# Font Awesome 7.3.1 #}
-        <link rel="stylesheet" href="{{ url('vendor/fontawesome-7.3.1/all.min.css') }}">
+        <link rel="stylesheet" href="{{ url('vendor/fontawesome-7.3.1/all.min.css', {language: null}) }}">
 
         {# Highlight.js 11.12.0 (individual blog posts with code blocks only) #}
         {%- if page.section == 'blog' and page.virtual == false ~%}
-            <link rel="stylesheet" href="{{ url('vendor/highlightjs-11.12.0/atom-one-dark.min.css') }}">
+            <link rel="stylesheet" href="{{ url('vendor/highlightjs-11.12.0/atom-one-dark.min.css', {language: null}) }}">
         {%- endif ~%}
 
         {# Custom CSS — must come after vendors #}
@@ -77,7 +77,7 @@
 </footer>
 {%- block javascripts ~%}
     {# Bootstrap 5.3.8 (includes Popper) #}
-    <script src="{{ url('vendor/bootstrap-5.3.8/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('vendor/bootstrap-5.3.8/bootstrap.bundle.min.js', {language: null}) }}"></script>
 
     {# Custom JS #}
     <script src="{{ asset('js/theme-switcher.js') }}"></script>

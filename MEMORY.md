@@ -28,6 +28,18 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-10-20 — `url()` prefixes the page language (vendor assets 404 in French)
+
+**Insight:** for a plain string, Cecil's `url()` prefixes the current page's language when it differs from the default: on a French page `url('vendor/bootstrap.min.css')` renders `https://ktherage.github.io/fr/vendor/…`, a path that does not exist. The documented option `url('vendor/…', {language: null})` renders the root path on every page; `url('feed.xml')` must keep the prefix (`/fr/feed.xml`).
+
+**Why it matters:** after ADR-008 switched the 7 vendor references from `asset()` to `url()`, every French page 404'd Bootstrap, Font Awesome, Highlight.js and the Mermaid bundle — unstyled, no diagrams — while the English pages were fine. Nothing caught it: the e2e suite only asserted on `href` attributes, and the built pages reference production asset URLs anyway.
+
+**Evidence / verification:** the built FR page listed `/fr/vendor/…` for all 6 vendor files; after `{language: null}` both languages emit `/vendor/…` (FR feeds still `/fr/feed.xml`). `tests/features/assets.feature` resolves every `…/vendor/…` reference (`href`, `src`, `data-bundle`) against `_site`, and the FR diagram scenario renders 2 charts.
+
+**Decision:** every vendor reference is `url('vendor/…', {language: null})`.
+
+**Harness:** `tests/support/world.ts` fulfills every `https://ktherage.github.io/**` request from `_site`, so the e2e suite exercises this branch's CSS/JS instead of the deployed ones (before, a branch's new asset hash 404'd against production and JS regressions stayed invisible).
+
 ### 2026-10-19 — Do not build while `make dev` watches the same tree
 
 **Insight:** `php cecil.phar serve` rebuilds on any file change, and each build rewrites `_site` + the cache, which the watcher sees as another change. Running `php cecil.phar build` / `make lint` in parallel in the same directory therefore starts a rebuild loop.
