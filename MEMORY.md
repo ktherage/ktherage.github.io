@@ -382,3 +382,15 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** Established during E2E test migration from Playwright Test to Cucumber.js. Verified across 41 scenarios / 239 steps.
 
 **Decision:** All new feature files must follow these conventions. A Gherkin skill has been created at `~/.config/opencode/skills/gherkin/SKILL.md` encoding these rules for any future agent work.
+
+---
+
+### 2026-10-19 — `graphify` on the full repo is dominated by minified vendor bundles
+
+**Insight:** Running `graphify .` over the whole project produces 3,929 nodes, of which the vast majority come from `static/vendor/` (3.5 MB `mermaid.min.js`, `bootstrap.bundle.min.js`, `highlight.min.js`). 99% of the communities are minified-bundle internals, and every "god node" is a minified alias (`t()`, `r()`, `push()`), so the god-node/cluster output carries no project signal.
+
+**Why it matters:** The report looks rich but is mostly noise; a meaningful graph needs `static/vendor/` excluded from the scan (and images/slides only if vision extraction is actually wanted).
+
+**Evidence / verification:** Full run of 2026-10-19 — 110 files, 276 communities, 203 labelled "Mermaid bundle internals"; AST alone produced 3,747 of the 3,929 nodes.
+
+**Decision:** Keep `graphify-out/` out of commits; when the goal is understanding this codebase, run graphify on `layouts/ pages/ extensions/ assets/js/ doc/` rather than the repo root.
