@@ -9,6 +9,9 @@
                 {% if page.path == 'blog' %}
                     <p class="lead text-muted">{{ 'blog_lead'|trans }}</p>
                     <nav class="d-flex justify-content-center gap-2 mt-4" aria-label="{{ 'blog_subscribe'|trans }}">
+                        <a href="{{ url(page, {canonical: true, format: 'atom'}) }}" class="btn btn-sm btn-outline-secondary" type="application/atom+xml">
+                            <i class="fa-solid fa-rss me-1" aria-hidden="true"></i>Atom
+                        </a>
                         <a href="{{ url(page, {canonical: true, format: 'rss'}) }}" class="btn btn-sm btn-outline-secondary" type="application/rss+xml">
                             <i class="fa-solid fa-rss me-1" aria-hidden="true"></i>RSS
                         </a>
