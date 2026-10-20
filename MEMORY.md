@@ -40,6 +40,16 @@ Use this structure for new insights:
 
 **Harness:** `tests/support/world.ts` fulfills every `https://ktherage.github.io/**` request from `_site`, so the e2e suite exercises this branch's CSS/JS instead of the deployed ones (before, a branch's new asset hash 404'd against production and JS regressions stayed invisible).
 
+### 2026-10-20 — A section `index.md` joins `site.pages` with a default date (breaks the homepage JSON-LD)
+
+**Insight:** creating `pages/blog/index.md` (even only to host an intro text) makes Cecil treat it as a page of the `blog` section **with a default `date`** (file mtime), so the homepage JSON-LD `latest_posts` filter (`section == 'blog'`, title, date, non-virtual) picks it up. `partials/jsonld.js.twig` then throws `Neither the property "excerpt" nor one of the methods "excerpt()" … exist`, because `post.description|default(post.excerpt|striptags)` evaluates the `default()` argument **eagerly** and a section page has no `excerpt`.
+
+**Why it matters:** the build fails with an error naming a page that looks unrelated (`Unable to render … for page "index.md"`). Same trap for any page without `excerpt`/`description` that reaches that loop.
+
+**Evidence / verification:** adding `pages/blog/index.md` + `.fr.md` → build failed at `jsonld.js.twig:192`; removing them → green. Kept the blog intro in translations (`blog_lead`) and selected the landing page with `page.path == 'blog'` (language-neutral; year pages are `page.path == 'blog/2026'`), verified in EN/FR plus `make lint` and `make test-e2e`.
+
+**Decision:** no section index page for the blog; intro copy lives in `translations/messages.*.yaml`. If one is ever needed, guard `jsonld.js.twig` with `post.excerpt is defined` first.
+
 ### 2026-10-19 — Do not build while `make dev` watches the same tree
 
 **Insight:** `php cecil.phar serve` rebuilds on any file change, and each build rewrites `_site` + the cache, which the watcher sees as another change. Running `php cecil.phar build` / `make lint` in parallel in the same directory therefore starts a rebuild loop.
