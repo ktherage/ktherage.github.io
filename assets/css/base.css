@@ -161,6 +161,8 @@ a:hover {
 /* Styles pour les badges */
 .badge {
     color: white !important;
+    /* Même transition que les .btn Bootstrap (les badges sont des boutons) */
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 }
 
 .badge:hover {
