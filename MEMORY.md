@@ -28,6 +28,16 @@ Use this structure for new insights:
 
 ## Key insights
 
+### 2026-10-21 — No acceptable French male voice for narration; audio deferred
+
+**Insight:** Kyutai Pocket TTS's only native French voice is `estelle` (female); its 12 male voices (`jean`, `paul`, `michael`, …) are English and are applied cross-lingually, so they keep an audible accent on French text. Piper's native French male voices (`fr_FR-tom`, `fr_FR-upmc`/`pierre`) are VITS at 16/22 kHz — rejected by ear. The two `edge-tts` French male voices (`HenriNeural`, `RemyMultilingualNeural`) are native but were judged below Kyutai. Every cloning path is blocked: `kyutai/pocket-tts` and `gradium/phonon-40m-fr` are gated (HF terms + token), Voxtral TTS is API-only or GPU-hosted.
+
+**Why it matters:** this machine has 8 cores, 29 GB RAM and **no CUDA GPU**. Coqui XTTS v2 (~2 GB model + torch) was OOM-killed while PhpStorm (3.5 GB), Firefox and Ollama were running, and took the GNOME session down with it. Any local TTS candidate above ~100 M parameters is not viable here; Pocket TTS 24 layers is the ceiling (0.43× realtime, ~1 GB).
+
+**Evidence / verification:** ADR-009 records the full comparison. Measured: Pocket TTS 6 layers 0.95× realtime, 24 layers 0.43×; XTTS killed the desktop on 2026-10-21.
+
+**Decision:** audio narration is deferred (`doc/adr/009-audio-narration-deferred.md`). Reusable normalization if it resumes: digits spelled out with `num2words` (`20` → _vingt_, `9.11.0` → _neuf point onze point zéro_), emoji ranges stripped before synthesis, and a lexicon limited to acronyms — rewriting proper names degrades the output. Trap for that work: `page.audios` does not emit `og:audio` on blog posts because Cecil forces the page type to `article`.
+
 ### 2026-10-20 — `url()` prefixes the page language (vendor assets 404 in French)
 
 **Insight:** for a plain string, Cecil's `url()` prefixes the current page's language when it differs from the default: on a French page `url('vendor/bootstrap.min.css')` renders `https://ktherage.github.io/fr/vendor/…`, a path that does not exist. The documented option `url('vendor/…', {language: null})` renders the root path on every page; `url('feed.xml')` must keep the prefix (`/fr/feed.xml`).

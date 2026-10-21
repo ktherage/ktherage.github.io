@@ -20,3 +20,4 @@ Node toolchain). Later readers need it to judge whether a decision still applies
 | [ADR-006](006-open-source-contributions.md) | Open Source contributions section | Accepted |
 | [ADR-007](007-open-source-feeds.md) | Open Source section feeds (RSS/Atom/JSON) | Accepted |
 | [ADR-008](008-vendor-assets-verbatim.md) | Vendor CSS/JS bypass the asset pipeline | Accepted |
+| [ADR-009](009-audio-narration-deferred.md) | Audio narration deferred: no acceptable French male voice | Accepted |
