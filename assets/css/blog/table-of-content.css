@@ -127,3 +127,11 @@
         bottom: 76px;
     }
 }
+
+/* 1200-1600px : la ToC fixe (220px + gouttière) recouvrirait l'article centré.
+   On plafonne la colonne pour lui laisser la place plutôt que de la chevaucher. */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+    .toc-floating ~ .row > [class*="col-"] {
+        max-width: calc(100vw - 520px);
+    }
+}
