@@ -450,3 +450,14 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** axe-core runs on the EN/FR article pages, before and after the overrides; the ratios above come from axe's own computed messages.
 
 **Decision:** `base.css` overrides `.hljs-comment/.hljs-quote` to `#9da5b4` (5.6:1) and `.hljs-deletion/.hljs-name/.hljs-section/.hljs-selector-tag/.hljs-subst` to `#e8858e` (5.4:1); `variables.css` sets `--bs-code-color: #b0175f` (5.0:1 on the lightest alert background) and keeps Bootstrap's `#e685b5` for `[data-bs-theme="dark"]`.
+---
+
+### 2026-10-21 — Raw Mermaid source is a scrollable region axe will flag
+
+**Insight:** until the Mermaid bundle renders, a `<pre class="mermaid">` contains the diagram source with `white-space: pre`. Long lines create a horizontal scroll area with no focusable content, and axe reports `scrollable-region-focusable` (serious, RGAA 7.3 / WCAG 2.1.1). It only shows up on article pages, and only while mermaid is not yet rendered — or if the bundle never loads.
+
+**Why it matters:** the failure is timing-dependent and disappears once the SVG replaces the source, so it looks flaky. It also appears as soon as the article column gets narrower, because the source no longer fits.
+
+**Evidence / verification:** axe on `/blog/2026/the-cache-that-silently-wasnt/` at 1280x720 flagged `.mermaid` after the article column was capped to `calc(100vw - 520px)`; `pre.mermaid { white-space: pre-wrap; overflow-wrap: anywhere }` clears it.
+
+**Decision:** `.mermaid` pre blocks wrap their source; the rendered SVG keeps its own `max-width`, so diagrams still fit the column.
