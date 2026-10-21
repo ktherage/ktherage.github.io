@@ -404,3 +404,39 @@ Move superseded knowledge here instead of silently deleting it when the historic
 **Evidence / verification:** Full run of 2026-10-19 — 110 files, 276 communities, 203 labelled "Mermaid bundle internals"; AST alone produced 3,747 of the 3,929 nodes.
 
 **Decision:** Keep `graphify-out/` out of commits; when the goal is understanding this codebase, run graphify on `layouts/ pages/ extensions/ assets/js/ doc/` rather than the repo root.
+
+---
+
+### 2026-10-21 — The code-block scroller is the inner `<code>`, not the `<pre>`
+
+**Insight:** highlight.js adds `.hljs` with `display:block; overflow-x:auto`, so a long code line scrolls inside the inner `<code>` element. `pre.scrollWidth` then equals `pre.clientWidth` and any overflow detection built on the `<pre>` finds nothing.
+
+**Why it matters:** Keyboard reachability of code blocks (RGAA/WCAG 1.4.10, 2.1.1) must be attached to the element that actually scrolls; focusing the `<pre>` would not let the user scroll the code. The focus ring is also clipped by the scroller's own overflow unless `outline-offset` is negative.
+
+**Evidence / verification:** `pre.clientWidth` 912 vs `pre.firstElementChild.scrollWidth` 1083 on `/blog/2026/building-a-rag-powered-code-review-assistant/` at 1024×800; the e2e step now asserts `pre[tabindex="0"], pre > [tabindex="0"]`.
+
+**Decision:** `assets/js/blog/highlight.js` picks `[pre, pre.firstElementChild].find(el => el.scrollWidth > el.clientWidth)`, sets `tabindex`, `role="group"` and a Twig-provided `aria-label` on it; `base.css` uses `outline-offset: -3px` for that element.
+
+---
+
+### 2026-10-21 — Third-party embeds make `window.load` unusable as an init signal
+
+**Insight:** Posts embed Giphy iframes and Giscus; those requests can hold the `load` event well past the e2e step timeout. Code that waits for `load` to measure layout never runs in tests, and `page.goto` with the default `waitUntil: 'load'` times out.
+
+**Why it matters:** Any layout measurement or enhancement scheduled on `load` silently does nothing on article pages; a test then fails with "0 elements" rather than a timing error.
+
+**Evidence / verification:** Giphy iframe requests kept `load` pending >5 s on `/blog/2026/the-cache-that-silently-wasnt/`; switching the generic visit step to `waitUntil: 'domcontentloaded'` and the enhancement to `document.fonts.ready` made 81/81 scenarios pass.
+
+**Decision:** Enhancements run at `DOMContentLoaded`, then again on `document.fonts.ready`; new e2e steps that touch article pages wait for `domcontentloaded` only.
+
+---
+
+### 2026-10-21 — WCAG AA tokens for the atom-one-dark code theme and inline code
+
+**Insight:** On the `#282c34` background, atom-one-dark `#5c6370` (comments, 3.6:1) and `#e06c75` (name/section/subst, 4.38:1) fail 4.5:1, and Bootstrap's `--bs-code-color: #d63384` fails on alert backgrounds (4.06:1 on `#fff3cd`, 3.36:1 on `#f8d7da`, 2.9:1 on `#e2e3e5`).
+
+**Why it matters:** axe flags these as serious contrast violations, and they only appear on article pages (the homepage and lists have no highlighted code).
+
+**Evidence / verification:** axe-core runs on the EN/FR article pages, before and after the overrides; the ratios above come from axe's own computed messages.
+
+**Decision:** `base.css` overrides `.hljs-comment/.hljs-quote` to `#9da5b4` (5.6:1) and `.hljs-deletion/.hljs-name/.hljs-section/.hljs-selector-tag/.hljs-subst` to `#e8858e` (5.4:1); `variables.css` sets `--bs-code-color: #b0175f` (5.0:1 on the lightest alert background) and keeps Bootstrap's `#e685b5` for `[data-bs-theme="dark"]`.
