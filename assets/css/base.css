@@ -104,6 +104,10 @@ pre {
 
 pre.mermaid {
   background-color: white;
+  /* Raw Mermaid source is shown until the bundle renders: wrap it instead of
+     creating an unreachable horizontal scroll region (RGAA 7.3 / WCAG 2.1.1). */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
 }
 
 /* atom-one-dark comments (#5c6370 on #282c34) are below WCAG AA: lighten them */
