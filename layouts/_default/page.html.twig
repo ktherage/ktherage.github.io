@@ -48,12 +48,15 @@
     {%- endblock head ~%}
 </head>
 <body class="container d-flex flex-column" style="min-height: 100vh;">
+{# First focusable element: bypass the navigation (RGAA 12.6) #}
+<a class="skip-link" href="#main">{{ 'skip_to_content'|trans }}</a>
 <header class="sticky-top">
     {%- block header ~%}
         {{- include('partials/navigation.html.twig', {page: page, menu: site.menus.main}, with_context: false) ~}}
     {%- endblock header ~%}
 </header>
-<main>
+{# tabindex="-1" lets the skip link move focus here in every browser #}
+<main id="main" tabindex="-1">
     {#- debug ~#}
     {%- if getenv('CECIL_DEBUG') %}
         {{ d() }}

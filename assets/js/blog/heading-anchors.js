@@ -1,111 +1,101 @@
 (function () {
-    'use strict';
+	"use strict";
 
-    if (!document.querySelector('.blog-content')) {
-        return;
-    }
+	const content = document.querySelector(".blog-content");
 
-    const HEADING_SELECTOR = '.blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6';
+	if (!content) {
+		return;
+	}
 
-    function showCopyNotification() {
-        const existing = document.querySelector('.copy-notification');
-        if (existing) {
-            existing.remove();
-        }
+	const HEADING_SELECTOR =
+		".blog-content h1, .blog-content h2, .blog-content h3, .blog-content h4, .blog-content h5, .blog-content h6";
 
-        const notification = document.createElement('div');
-        notification.textContent = '🔗 Lien copié !';
-        notification.className = 'copy-notification';
-        document.body.appendChild(notification);
+	// Labels are rendered by Twig so they follow the page language.
+	const copyLabel =
+		content.dataset.anchorCopy || "Copy link to this section: %title%";
+	const copyTitle = content.dataset.anchorCopyTitle || "";
+	const copiedLabel = content.dataset.anchorCopied || "Link copied!";
 
-        setTimeout(function () {
-            if (notification.parentNode) {
-                notification.style.animation = 'slideIn 0.3s ease-out reverse';
-                setTimeout(function () {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }
-        }, 3000);
-    }
+	// Live region created empty at load, so updates are announced.
+	const status = document.createElement("div");
+	status.className = "copy-notification";
+	status.setAttribute("role", "status");
+	document.body.appendChild(status);
 
-    function fallbackCopy(text) {
-        const textArea = document.createElement('textarea');
-        textArea.value = text;
-        textArea.style.position = 'fixed';
-        textArea.style.opacity = '0';
-        document.body.appendChild(textArea);
-        textArea.select();
-        try {
-            document.execCommand('copy');
-        } catch (err) {
-            /* eslint-disable-next-line no-console */
-            console.warn('Clipboard copy failed', err);
-        }
-        document.body.removeChild(textArea);
-    }
+	let hideTimeout = null;
 
-    function init() {
-        const headings = document.querySelectorAll(HEADING_SELECTOR);
+	function showCopyNotification() {
+		clearTimeout(hideTimeout);
+		status.textContent = copiedLabel;
+		status.classList.add("is-visible");
+		hideTimeout = setTimeout(function () {
+			status.classList.remove("is-visible");
+			status.textContent = "";
+		}, 3000);
+	}
 
-        headings.forEach(function (heading) {
-            let id = heading.id;
+	function fallbackCopy(text) {
+		const textArea = document.createElement("textarea");
+		textArea.value = text;
+		textArea.style.position = "fixed";
+		textArea.style.opacity = "0";
+		document.body.appendChild(textArea);
+		textArea.select();
+		try {
+			document.execCommand("copy");
+		} catch (err) {
+			/* eslint-disable-next-line no-console */
+			console.warn("Clipboard copy failed", err);
+		}
+		document.body.removeChild(textArea);
+	}
 
-            if (!id) {
-                id = uniqueHeadingId(slugifyHeading(heading.textContent));
-                heading.id = id;
-            }
+	function init() {
+		const headings = document.querySelectorAll(HEADING_SELECTOR);
 
-            if (heading.querySelector('.heading-anchor')) {
-                return;
-            }
+		headings.forEach(function (heading) {
+			let id = heading.id;
 
-            const anchor = document.createElement('a');
-            anchor.href = '#' + id;
-            anchor.className = 'heading-anchor';
-            anchor.innerHTML = '<i class="fas fa-link"></i>';
-            anchor.setAttribute('aria-label', 'Lien vers cette section : ' + heading.textContent);
-            anchor.setAttribute('title', 'Cliquer pour copier le lien vers cette section');
+			if (!id) {
+				id = uniqueHeadingId(slugifyHeading(heading.textContent));
+				heading.id = id;
+			}
 
-            anchor.addEventListener('click', function () {
-                const fullUrl = window.location.origin + window.location.pathname + '#' + id;
+			if (heading.querySelector(".heading-anchor")) {
+				return;
+			}
 
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(fullUrl).then(showCopyNotification);
-                } else {
-                    fallbackCopy(fullUrl);
-                    showCopyNotification();
-                }
-            });
+			const anchor = document.createElement("a");
+			anchor.href = "#" + id;
+			anchor.className = "heading-anchor";
+			anchor.innerHTML = '<i class="fas fa-link" aria-hidden="true"></i>';
+			anchor.setAttribute(
+				"aria-label",
+				copyLabel.replace("%title%", heading.textContent.trim()),
+			);
+			if (copyTitle) {
+				anchor.setAttribute("title", copyTitle);
+			}
 
-            heading.appendChild(anchor);
-        });
+			anchor.addEventListener("click", function () {
+				const fullUrl =
+					window.location.origin + window.location.pathname + "#" + id;
 
-        // Smooth scroll for any in-page anchor click (Cecil [toc], TOC, etc.)
-        document.addEventListener('click', function (e) {
-            const target = e.target.closest('a[href^="#"]');
-            if (!target) {
-                return;
-            }
-            const targetId = target.getAttribute('href').substring(1);
-            if (!targetId) {
-                return;
-            }
-            const targetElement = document.getElementById(targetId);
-            if (targetElement) {
-                const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                targetElement.scrollIntoView({
-                    behavior: reduceMotion ? 'auto' : 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    }
+				if (navigator.clipboard && window.isSecureContext) {
+					navigator.clipboard.writeText(fullUrl).then(showCopyNotification);
+				} else {
+					fallbackCopy(fullUrl);
+					showCopyNotification();
+				}
+			});
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
+			heading.appendChild(anchor);
+		});
+	}
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", init);
+	} else {
+		init();
+	}
 })();

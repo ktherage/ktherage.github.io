@@ -15,6 +15,8 @@
             </p>
         </header>
 
+        {# Card titles are h3: this hidden heading keeps the outline from skipping a level #}
+        <h2 class="visually-hidden">{{ 'articles_heading'|trans }}</h2>
         <div class="row g-4" role="list" id="blog-posts">
             {{ include('partials/post-card.html.twig', {pages: page.pages}) }}
         </div>

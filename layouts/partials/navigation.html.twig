@@ -1,5 +1,5 @@
 {%- if menu|length > 1 ~%}
-<nav class="navbar navbar-expand-md">
+<nav class="navbar navbar-expand-md" aria-label="{{ 'main_navigation'|trans }}">
     <div class="container">
         {# Left: always visible controls #}
         <div class="navbar-nav flex-row align-items-center">
@@ -22,7 +22,7 @@
             </div>
             <div class="nav-item px-2 dropdown">
                 <button type="button" class="nav-link p-0 border-0 bg-transparent dropdown-toggle" data-bs-toggle="dropdown" title="{{ 'feeds'|trans }}" aria-label="{{ 'feeds'|trans }}">
-                    <i class="fas fa-rss"></i>
+                    <i class="fas fa-rss" aria-hidden="true"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="{{ url('feed.xml') }}">{{ 'rss_feed'|trans }}</a></li>
@@ -33,7 +33,7 @@
             </div>
         </div>
         {# Toggler: visible on < md #}
-        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="{{ 'main_navigation'|trans }}">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse flex-grow-0" id="mainNav">
