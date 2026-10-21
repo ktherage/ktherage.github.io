@@ -7,7 +7,7 @@ description: "Comment j'ai transformé 20 ans de code reviews Symfony en assista
 cover:
   image: "img/pexels-cottonbro-6153344.jpg"
   alt: "Gros plan d'un poing humain frappant une main prothétique, symbolisant la technologie et la connexion humaine."
-  caption: "Photo par <a href=\"https://www.pexels.com/fr-fr/@cottonbro/\">cottonbro studio</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
+  caption: 'Photo par <a href="https://www.pexels.com/fr-fr/@cottonbro/">cottonbro studio</a> sur <a href="https://www.pexels.com">Pexels</a>'
 published: true
 tags: [AI, Symfony, PHP, RAG, MCP, LLM, Ollama, Qdrant]
 repository: "https://github.com/ktherage/symfony-review-mcp"
@@ -35,7 +35,8 @@ Plus tard est arrivé le [Console Bundle](https://symfony.com/blog/new-in-symfon
 J'avais déjà demandé à un LLM de relire les modifications que j'avais faites _(sur des projets perso bien sûr)_ et, comme vous vous en doutez, j'ai obtenu des conseils du genre `pensez à utiliser l'injection de dépendances`, `peut-être extraire cette logique dans un service` ou `pense a vérifier le code style`. Ces retours sont techniquements corrects, mais surtout universellements applicables et complètements génériques. Bref, rien qui ne puisse être corrigé avec de bons outils et un peu de rigeur.
 
 Sortant du Symfony Live, m'est venu une idée un peu dingue.
-Et si je pouvais demander au même LLM : 
+Et si je pouvais demander au même LLM :
+
 > « Review ce code comme le ferait stof »
 
 J'aurais des retours ultra pointu et un code qui en ressortira grandi.
@@ -44,7 +45,7 @@ Ou
 
 > « Review ce code comme le ferait n'importe quel contributeur Symfony »
 
-J'aurais alors le point de vu de l'ensemble de la communauté sur le code que je viens de créé. 
+J'aurais alors le point de vu de l'ensemble de la communauté sur le code que je viens de créé.
 
 Ou bien même
 
@@ -63,9 +64,10 @@ Comment ça fonctionne ?
 ## Architecture globale
 
 L'architecture globale se découpe en deux gros blocs :
-1. **La génération du RAG :** 
-    1. Avec la récupération des données et leurs mise en cache
-    2. Avec la génération du dataset et l'indexation dans [Qdrant](https://qdrant.tech/)
+
+1. **La génération du RAG :**
+   1. Avec la récupération des données et leurs mise en cache
+   2. Avec la génération du dataset et l'indexation dans [Qdrant](https://qdrant.tech/)
 2. **Le serveur MCP**
 
 ### La génération du RAG
@@ -230,6 +232,7 @@ final readonly class BuildCommand
 ##### Le fichier de base
 
 Une fois les données récupérées, `DatasetGenerator` transforme chaque PR et ses reviews en fichier texte structuré :
+
 ```
 [PULL_REQUEST]
     id: 54321
@@ -265,7 +268,6 @@ Une fois les données récupérées, `DatasetGenerator` transforme chaque PR et 
 
 Ces fichiers vivent dans `var/dataset/pull-{id}.txt` et servent de vérité terrain pour la vectorisation.
 
-
 ##### Intégration Qdrant
 
 La base vectorielle est câblée dans le conteneur comme `StoreInterface`, via le `StoreFactory` de [Qdrant](https://qdrant.tech/) :
@@ -289,9 +291,10 @@ La base vectorielle est câblée dans le conteneur comme `StoreInterface`, via l
     ])
 ```
 
-Deux détails valent le détour. 
+Deux détails valent le détour.
+
 1. Le `Vectorizer` utilise exactement le même modèle [Ollama](https://ollama.com/) qu'au build — un modèle d'embedding `hf.co/ggml-org/embeddinggemma-300m-qat-q8_0-GGUF:Q8_0` produisant des vecteurs à 768 dimensions.
-Cette partie est extrêment importante si vous ne voulez pas vous retrouver à comparer des pommes de terre avec des choux lors de la recherche via le MCP. En effet, un vecteur généré avec un modèle précis ne peux pas être comparé avec un vecteur généré avec un autre modèle.
+   Cette partie est extrêment importante si vous ne voulez pas vous retrouver à comparer des pommes de terre avec des choux lors de la recherche via le MCP. En effet, un vecteur généré avec un modèle précis ne peux pas être comparé avec un vecteur généré avec un autre modèle.
 2. La base réutilise le décorateur `LoggedHttpClient`, donc chaque aller-retour vers Qdrant bénéficie d'un logging structuré par-dessus le client HTTP natif de Symfony.
 
 ##### Vectorisation et stockage
@@ -385,13 +388,11 @@ public function build(): void
 
 Crash-safe par conception : si le script meurt en plein milieu, `recoverOrphanedProcessingFiles()` remet en file les orphelins `processing_*` au prochain lancement. Pas de locks, pas de base de données, pas de race conditions.
 
-
 Oui, le code montre que, malgrés ce que j'ai dis plus haut :
 
 > Résultat, une seul vectorisation n'est possible à la fois.
 
 Oui, j'ai quand même essayé 🤣.
-
 
 #### Utilisation
 
@@ -420,25 +421,26 @@ flowchart TD
     I --> J["Client LLM (Claude Desktop)"]
 </pre>
 
-Le pipeline de génération (récupération → dataset → vectorisation) et le pipeline de service (recherche → réponse) partagent un seul point commun : la collection [Qdrant](https://qdrant.tech/). 
+Le pipeline de génération (récupération → dataset → vectorisation) et le pipeline de service (recherche → réponse) partagent un seul point commun : la collection [Qdrant](https://qdrant.tech/).
 
 Le serveur MCP expose deux **tools** et quatre **prompts** :
 
-| Tool | Rôle |
-|---|---|
-| `review_as_group` | Recherche par groupe d'affiliation (MEMBER, CONTRIBUTOR, NONE) |
+| Tool               | Rôle                                                           |
+| ------------------ | -------------------------------------------------------------- |
+| `review_as_group`  | Recherche par groupe d'affiliation (MEMBER, CONTRIBUTOR, NONE) |
 | `review_as_person` | Recherche par reviewer spécifique (nicolas-grekas, stof, etc.) |
 
-| Prompt | Rôle |
-|---|---|
-| `review_as_group` | Message formaté utilisant `review_as_group` |
-| `review_as_person` | Message formaté utilisant `review_as_person` |
-| `get_stofed` | Force le reviewer à « stof » — le plus prolifique reviewer du Core Symfony |
-| `hq_review` | Multi-review : interroge 14 reviewers et synthétise un rapport markdown |
+| Prompt             | Rôle                                                                       |
+| ------------------ | -------------------------------------------------------------------------- |
+| `review_as_group`  | Message formaté utilisant `review_as_group`                                |
+| `review_as_person` | Message formaté utilisant `review_as_person`                               |
+| `get_stofed`       | Force le reviewer à « stof » — le plus prolifique reviewer du Core Symfony |
+| `hq_review`        | Multi-review : interroge 14 reviewers et synthétise un rapport markdown    |
 
 #### Recherche : les Tools MCP
 
 Quand un utilisateur envoie une requête via un tool MCP, voici ce qui se passe :
+
 1. Le tool construit une requête combinant reviewer, chemin de fichier et diff
 2. `RetrieverInterface::retrieve()` vectorise la requête via Ollama
 3. Une recherche par similarité cosinus s'exécute sur Qdrant
@@ -530,12 +532,16 @@ Puis configurer Claude Desktop (ou tout client MCP) en ajoutant le serveur à `c
     "symfony-reviewer": {
       "command": "docker",
       "args": [
-            "run", "-i", "--rm",
-            "--add-host=host.docker.internal:host-gateway",
-            "-e", "QDRANT_DSN=http://host.docker.internal:6333",
-            "-e", "OLLAMA_DSN=http://host.docker.internal:11434",
-            "symfony-reviewer-mcp-cli"
-        ]
+        "run",
+        "-i",
+        "--rm",
+        "--add-host=host.docker.internal:host-gateway",
+        "-e",
+        "QDRANT_DSN=http://host.docker.internal:6333",
+        "-e",
+        "OLLAMA_DSN=http://host.docker.internal:11434",
+        "symfony-reviewer-mcp-cli"
+      ]
     }
   }
 }
@@ -545,13 +551,13 @@ Puis configurer Claude Desktop (ou tout client MCP) en ajoutant le serveur à `c
 
 Toute la configuration passe par les variables `.env` :
 
-| Variable | Rôle |
-|---|---|
-| `GITHUB_TOKEN` | [Token d'accès personnel GitHub](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) |
-| `QDRANT_DSN` | URL du service Qdrant |
-| `OLLAMA_DSN` | URL du service Ollama |
-| `BLACKLISTED_PATTERN` | Tableau JSON de patterns URL à exclure du cache |
-| `APP_VERSION` | Version affichée dans les métadonnées MCP |
+| Variable              | Rôle                                                                                                                                                  |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GITHUB_TOKEN`        | [Token d'accès personnel GitHub](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) |
+| `QDRANT_DSN`          | URL du service Qdrant                                                                                                                                 |
+| `OLLAMA_DSN`          | URL du service Ollama                                                                                                                                 |
+| `BLACKLISTED_PATTERN` | Tableau JSON de patterns URL à exclure du cache                                                                                                       |
+| `APP_VERSION`         | Version affichée dans les métadonnées MCP                                                                                                             |
 
 ## Leçons apprises
 
@@ -567,6 +573,7 @@ Ce projet m'a permis de comprendre comment fonctionne le protocole MCP, ce qu'es
 ### Ce qui doit être amélioré
 
 Si j'avais eu une machine plus efficace avec un GPU dédié ou une RAM unifiée (👋 les propriétaires de Mac), j'aurai peut-être pu changer ce qui suit :
+
 - **Interaction Qdrant naïve** : Les documents sont ajoutés un par un. Un batch upsert serait nettement plus rapide pour les gros volumes.
 - **Pas de mise à jour incrémentale du RAG** : Le pipeline est add-only. Il n'y a pas de mécanisme "builtin" _(c'est possible via le dashboard de qdrant)_ pour purger ou mettre à jour les vecteurs existants quand des commentaires de PR sont édités sur GitHub. Ce qui en soit est un vrai/faux problème puisqu'on retrouve rarement de nouveaux commentaire sur des Pull-Requests déjà mergées.
 - **Ajoutez vos propres conventions** : J'ai ajouté les reviews de Symfony, mais vous pouvez vous aussi modifier et adapter le code pour qu'il s'appuie sur un corpus de données supplémentaire comme les revues de vos collaborateurs.
@@ -578,8 +585,8 @@ Si j'avais eu une machine plus efficace avec un GPU dédié ou une RAM unifiée 
 3. **Webhook GitHub** : Au lieu de reconstruire périodiquement, écouter les événements de PR mergées et mettre à jour le dataset de manière incrémentale
 4. **Évaluation des modèles d'embeddings** : 768 dimensions fonctionne bien, mais je devrais comparer différents modèles : des modèles plus petits (comme [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2), 384 dimensions) pour améliorer les performances, ou des modèles beaucoup plus gros afin d'évaluer le gain potentiel en qualité de recherche.
 5. **Contexte élargi : commentaires de PR et diff complet** : le dataset actuel ne retient que les review comments attachés à un diff précis. Il ignore les commentaires généraux de la PR (issue comments, description) et surtout le diff complet de la PR — un reviewer ne juge jamais une ligne isolée, il la juge dans le contexte du changement entier. Injecter les deux donnerait au modèle bien plus de matière pour comprendre pourquoi une review a été formulée ainsi.
-6. **Exploiter le champ `metadata` pour le JSON brut de GitHub** : [`symfony/ai-store`](https://github.com/symfony/ai-store) attache à chaque `VectorDocument` un objet `Metadata` (`Symfony\AI\Store\Document\Metadata`) qui voyage jusqu'au store choisi. Chez Qdrant, ce `Metadata` correspond exactement à la notion de *payload* : un objet JSON arbitraire attaché à chaque point, indexable et filtrable nativement — par exemple filtrer par `reviewer_association`, par date, ou par nombre de réactions, sans re-parser le texte du dataset. Aujourd'hui, seul `content` (le texte assemblé du fichier dataset) y est stocké ; j'y aurais ajouté la réponse JSON brute de l'API GitHub (PR + review + reactions), pour garder une trace exploitable indépendante du format texte généré.
-7. **Exploiter les réactions du JSON GitHub**: Les réactions se prêteraient d'ailleurs à mieux qu'un simple filtre : elles pourraient pondérer le score de recherche lui-même, pas juste être renvoyées dans le `content`. Depuis la version 1.14, Qdrant propose une [*Formula Query*](https://qdrant.tech/documentation/search/hybrid-queries/) qui permet de composer un score final à partir du score de similarité initial et de champs du payload, dans une même formule de reclassement. Une review avec dix `+1` remonterait alors devant une review isolée à zéro réaction, à similarité vectorielle égale — une façon de faire remonter les avis que la communauté a elle-même validés, Une fonctionnalitée qui meriterai d'être explorée.
+6. **Exploiter le champ `metadata` pour le JSON brut de GitHub** : [`symfony/ai-store`](https://github.com/symfony/ai-store) attache à chaque `VectorDocument` un objet `Metadata` (`Symfony\AI\Store\Document\Metadata`) qui voyage jusqu'au store choisi. Chez Qdrant, ce `Metadata` correspond exactement à la notion de _payload_ : un objet JSON arbitraire attaché à chaque point, indexable et filtrable nativement — par exemple filtrer par `reviewer_association`, par date, ou par nombre de réactions, sans re-parser le texte du dataset. Aujourd'hui, seul `content` (le texte assemblé du fichier dataset) y est stocké ; j'y aurais ajouté la réponse JSON brute de l'API GitHub (PR + review + reactions), pour garder une trace exploitable indépendante du format texte généré.
+7. **Exploiter les réactions du JSON GitHub**: Les réactions se prêteraient d'ailleurs à mieux qu'un simple filtre : elles pourraient pondérer le score de recherche lui-même, pas juste être renvoyées dans le `content`. Depuis la version 1.14, Qdrant propose une [_Formula Query_](https://qdrant.tech/documentation/search/hybrid-queries/) qui permet de composer un score final à partir du score de similarité initial et de champs du payload, dans une même formule de reclassement. Une review avec dix `+1` remonterait alors devant une review isolée à zéro réaction, à similarité vectorielle égale — une façon de faire remonter les avis que la communauté a elle-même validés, Une fonctionnalitée qui meriterai d'être explorée.
 
 ## Est-ce que ça fonctionne ?
 
@@ -590,7 +597,8 @@ Les réponses générées **me** paraissent beaucoup plus dans le ton d'une revi
 Enfin, comme un LLM et par nature "probabiliste", je ne crois pas qu'il soit pertinant de dire que sur la base de mes propres observations et mon sentiment personnel seul le fonctionnement d'un outil est établi.
 
 Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
-```markdown
+
+````markdown
 ---
 
 ### 1. fabpot
@@ -607,6 +615,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 2. nicolas-grekas
+
 **Files:** `src/HTTP/CachedResponse.php`, `src/Kernel.php`
 
 > Reading the response body twice is going to blow up the moment the response is not buffered. `toArray()` internally calls `getContent()` — so snapshot the content once and `json_decode` it, don't call both.
@@ -618,6 +627,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 3. stof
+
 **Files:** `src/Kernel.php`
 
 > Service wiring nit: decoration replaces the decorated id, so `$httpClient => service(LoggedHttpClient::class)` gives you the `CachedHttpClient`, not the logging client. That's a scope leak — the Qdrant store is now coupled to a cache tuned for the GitHub API (see `BLACKLISTED_PATTERN`).
@@ -629,6 +639,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 4. weaverryan
+
 **Files:** `src/MCP/Tools/ReviewAsPersonMatchingFileDiffTool.php`
 
 > Hey! Love the ergonomics of this tool — the `review_as_person` name makes the intent super clear. Great job composing the query with the pseudonym, file, and diff.
@@ -640,6 +651,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 5. derrabus
+
 **Files:** `src/HTTP/CachedHttpClient.php`
 
 > Two things:
@@ -652,17 +664,19 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 6. xabbuh
+
 **Files:** `src/HTTP/CachedResponse.php`
 
 > I have concerns about the snapshot in the constructor:
 >
-> * Calling `$response->getContent()` eagerly downloads and stores the whole payload. For the GitHub fetchers this is fine, but a general-purpose cache should stream lazily.
-> * More importantly, `getContent()` followed by `toArray()` breaks for responses that disabled buffering (the Ollama `EventSourceHttpClient` forces `buffer => false`). This is an exploitable/observable crash — at minimum it should throw a clear `TransportException` or read once.
-> * `getInfo()` filtering out closures is a nice touch, but the returned array is shallow — nested closures could still leak. Use a recursive filter or `json_encode/decode` the info array.
+> - Calling `$response->getContent()` eagerly downloads and stores the whole payload. For the GitHub fetchers this is fine, but a general-purpose cache should stream lazily.
+> - More importantly, `getContent()` followed by `toArray()` breaks for responses that disabled buffering (the Ollama `EventSourceHttpClient` forces `buffer => false`). This is an exploitable/observable crash — at minimum it should throw a clear `TransportException` or read once.
+> - `getInfo()` filtering out closures is a nice touch, but the returned array is shallow — nested closures could still leak. Use a recursive filter or `json_encode/decode` the info array.
 
 ---
 
 ### 7. Tobion
+
 **Files:** `src/HTTP/CachedHttpClient.php`
 
 > The pipeline operator chains in `request()` are over-engineered for building a regex. `implode('|', array_map(preg_quote(...), $this->blacklistedPatterns))` is enough. As written, an empty blacklist produces the pattern `#^$#` which would match an empty call string — harmless, but misleading.
@@ -672,15 +686,17 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 8. mpdude
+
 **Files:** `src/RAG/Builder.php` (via `Store`)
 
-> The Qdrant indexing loop swallows exceptions and logs `Index failed` — but the build then *continues* (I saw `Indexing document continues`). If a document fails vectorization, subsequent documents are still sent. That means the collection is only partially populated, and `review_as_person` will silently return "No reviews found" or partial results.
+> The Qdrant indexing loop swallows exceptions and logs `Index failed` — but the build then _continues_ (I saw `Indexing document continues`). If a document fails vectorization, subsequent documents are still sent. That means the collection is only partially populated, and `review_as_person` will silently return "No reviews found" or partial results.
 >
 > Please make the build fail-fast or at least surface a summary count at the end ("indexed X / failed Y") so operators know the dataset is incomplete. Right now nothing tells us that only ~1106 of 8691 documents made it in.
 
 ---
 
 ### 9. WouterJ
+
 **Files:** `src/Kernel.php`
 
 > The container config reads really well — the decoration chain is easy to follow. Nice use of `env('json:BLACKLISTED_PATTERN')` and `StoreFactory::create(...)`.
@@ -690,6 +706,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 10. alexislefebvre
+
 **Files:** `tests/HTTP/CachedHttpClientTest.php`
 
 > Nice test coverage — you test blacklist skipping, persistence across instances, `withOptions` cloning, and `reset`. 👍
@@ -703,6 +720,7 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 11. Nyholm
+
 **Files:** `src/HTTP/LoggedHttpClient.php`, `src/HTTP/CachedHttpClient.php`
 
 > As the http-client component maintainer: don't re-implement caching. Symfony's `HttpClient` supports a `cache` option natively via the `http_cache` from the contracts, and it handles cache keys, headers, `Vary`, and ETags properly. Rolling your own `md5(method.url)` cache key is a regression waiting to happen (it already broke on POST bodies).
@@ -714,23 +732,26 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 12. jderusse
+
 **Files:** `src/RAG/Builder.php`, `src/HTTP/CachedHttpClient.php`
 
 > The elephant in the room: the per-document vectorization loop is serial. 8691 documents, ~10s each — that's ~24h to build the RAG, and with the cache bug most embeddings were identical (same URL → same key). That's why retrieval feels broken.
 >
 > Fixes I'd push for:
-> * Parallelize vectorization with Symfony's `AsyncResponse` / `stream()` over batches.
-> * Include the body in the cache key (obviously).
-> * Index the docs that failed (`Index failed` ×636) with retry/backoff.
+>
+> - Parallelize vectorization with Symfony's `AsyncResponse` / `stream()` over batches.
+> - Include the body in the cache key (obviously).
+> - Index the docs that failed (`Index failed` ×636) with retry/backoff.
 >
 > Also `Builder` should checkpoint progress so a crash doesn't restart from zero.
 
 ---
 
 ### 13. chalasr
+
 **Files:** `src/MCP/Tools/ReviewAsPersonMatchingFileDiffTool.php`, `src/Command/ServeCommand.php`
 
-> Tool ergonomics are good — `limit` is explicit, errors are caught and surfaced. But: the error path returns `Error retrieving reviews: {message}` as a *successful* tool result. For an MCP server, real failures should be proper exceptions/tool errors, not strings, otherwise the client can't distinguish "no data" from "server broken".
+> Tool ergonomics are good — `limit` is explicit, errors are caught and surfaced. But: the error path returns `Error retrieving reviews: {message}` as a _successful_ tool result. For an MCP server, real failures should be proper exceptions/tool errors, not strings, otherwise the client can't distinguish "no data" from "server broken".
 >
 > Also, the query string embeds the raw diff with no size guard — a huge diff will blow the embedding context window. Truncate or chunk the diff.
 >
@@ -739,27 +760,30 @@ Voici un exemple de revue effectuée sur ce projet pour vous donner un idée :
 ---
 
 ### 14. yceruto
+
 **Files:** `src/Kernel.php`, `src/HTTP/CachedHttpClient.php`
 
 > The routing of the HTTP decorators deserves attention: `LoggedHttpClient::class` is decorated by `CachedHttpClient`, so every consumer referencing it — including the Qdrant store — ends up behind the GitHub cache. That coupling is accidental.
 >
 > I'd restructure like this:
+>
 > ```
 > HttpClientInterface          # plain
 >  └─ logged.http_client       # logging only (for Qdrant/Ollama)
 >  └─ cached.github.http_client # cache + github token (for GitHub fetchers)
 > ```
+>
 > Two separate chains, no cross-decorating. Then the cache key issue (URL-only, no body) also only affects GitHub GETs, which is safe.
 >
 > After that, the 14 `review_as_person` calls will stop returning the `buffering is disabled` error and start returning real reviews.
 
 ---
-```
+````
 
 ## Pour conclure
 
 <div style="width:100%;height:0;padding-bottom:56%;position:relative;">
-    <iframe src="https://giphy.com/embed/NRiRXQTwbijNba2l2l" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/NRiRXQTwbijNba2l2l" title="GIF : essayez vous-même" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 <p><a href="https://giphy.com/gifs/The-Animal-Crackers-Movie-baking-try-it-NRiRXQTwbijNba2l2l">via GIPHY</a></p>
@@ -776,7 +800,7 @@ docker compose run --rm cli bin/console mcp:build
 docker compose up -d
 ```
 
-La chose la plus surprenante que j'ai apprise en construisant ce projet : PHP est un langage parfaitement viable pour les pipelines RAG. Les composants HttpClient, Cache et Console de Symfony, combinés avec les packages [`symfony/ai-*`](https://github.com/symfony/ai), gèrent tout, de la décoration HTTP aux opérations sur bases vectorielles. 
+La chose la plus surprenante que j'ai apprise en construisant ce projet : PHP est un langage parfaitement viable pour les pipelines RAG. Les composants HttpClient, Cache et Console de Symfony, combinés avec les packages [`symfony/ai-*`](https://github.com/symfony/ai), gèrent tout, de la décoration HTTP aux opérations sur bases vectorielles.
 
 Vous n'avez pas besoin de Python pour faire de la recherche sémantique.
 

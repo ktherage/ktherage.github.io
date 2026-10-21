@@ -6,7 +6,7 @@ description: "How a Closure inside getInfo(), a silent exception, and an uncheck
 cover:
   image: "img/pexels-black-hole-23522813.jpeg"
   alt: "Black and white view of a black hole surrounded by swirling stars in a spiral galaxy"
-  caption: "Photo by <a href=\"https://www.pexels.com/@icebergsano-427049742/\">Iceberg San</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
+  caption: 'Photo by <a href="https://www.pexels.com/@icebergsano-427049742/">Iceberg San</a> on <a href="https://www.pexels.com">Pexels</a>'
 published: true
 tags: [Symfony, PHP, Debug, Cache, Serialization]
 excerpt: >-
@@ -41,7 +41,7 @@ app.DEBUG: Response stored to cache with key c3f36f73afae200bb284436334b6647f.
 The debug logs confirmed the caching attempts. The reality: `var/http_cache/` remained completely empty.
 
 <div class="d-flex flex-column m-2 justify-content-center align-items-center">
-    <iframe src="https://giphy.com/embed/NTur7XlVDUdqM" width="480" height="274" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/NTur7XlVDUdqM" title="GIF: the consequences" width="480" height="274" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <p><a href="https://giphy.com/gifs/trump-consequences-NTur7XlVDUdqM">via GIPHY</a>
 </div>
 
@@ -134,7 +134,7 @@ final class CachedResponse implements ResponseInterface
         $this->toArray = $response->toArray();
         $this->info = $response->getInfo();
     }
-    
+
     // ...
 }
 ```
@@ -142,6 +142,7 @@ final class CachedResponse implements ResponseInterface
 ### 2.2. Process of Elimination
 
 By a process of elimination, only `getInfo()` could contain this kind of data, because:
+
 - `statusCode`: returns an `int` corresponding to the HTTP status code.
 - `headers`: returns HTTP headers, which are fundamentally arrays of `int` or `string`.
 - `content`: returns the response body, which is just a `string`, so no `Closure` there.
@@ -176,12 +177,14 @@ Three layers of code completely masked the root cause:
 My mistake was failing to check the return value of the `save()` function. I hadn't realized at the time that it returns a boolean indicating whether the item was successfully stored.
 
 So I went from:
+
 ```php
 $this->cache->save($cacheItem); // returns false, ignored
 $this->logger->debug("Response stored to cache with key {$key}.");
 ```
 
 To:
+
 ```php
 $saved = $this->cache->save($cacheItem);
 $this->logger->debug("Cache save: {result}", ['result' => $saved ? 'success' : 'FAILED']);

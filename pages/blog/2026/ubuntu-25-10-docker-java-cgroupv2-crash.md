@@ -6,7 +6,7 @@ description: "How a simple Ubuntu update crashed my Selenium containers, and why
 cover:
   image: "img/pexels-docker-port.jpg"
   alt: "Container cranes at a bustling port during sunset"
-  caption: "Photo by <a href=\"[https://www.pexels.com/@thorl5/](https://www.pexels.com/@thorl5/)\">thorl5</a> on <a href=\"[https://www.pexels.com](https://www.pexels.com)\">Pexels</a>"
+  caption: 'Photo by <a href="[https://www.pexels.com/@thorl5/](https://www.pexels.com/@thorl5/)">thorl5</a> on <a href="[https://www.pexels.com](https://www.pexels.com)">Pexels</a>'
 published: true
 updated: 2026-06-18
 tags: [Ubuntu, Docker, cgroupv2, Debug]
@@ -16,7 +16,7 @@ excerpt: >-
 
 ## The Quiet Update That Turned Into a Nightmare
 
-It was a Friday night, just like any other. I finally decided to do what every good developer avoids: **updating my OS**. Ubuntu 24.04 LTS → 25.10, just a routine little update. *"It can only get better,"* I told myself with that specific brand of pessimism reserved for those who have seen too many updates go south (Ubuntu 24.10, I’m looking at you!).
+It was a Friday night, just like any other. I finally decided to do what every good developer avoids: **updating my OS**. Ubuntu 24.04 LTS → 25.10, just a routine little update. _"It can only get better,"_ I told myself with that specific brand of pessimism reserved for those who have seen too many updates go south (Ubuntu 24.10, I’m looking at you!).
 
 I launched the update with confidence. Everything went well. Reboot. Everything works. Perfect.
 
@@ -41,15 +41,17 @@ chrome-1  |      at java.base/jdk.internal.platform.Container.metrics(Container.
 ```
 
 **My first thought:**
+
 <div class="d-flex flex-row m-2 justify-content-center">
-  <iframe src="https://giphy.com/embed/4ZxicT7ZQYcLShHOiz" width="480" height="274" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  <iframe src="https://giphy.com/embed/4ZxicT7ZQYcLShHOiz" title="GIF: my first thought" width="480" height="274" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 > I'm a PHP developer, not a Java one.
 
 **My reflex:**
+
 <div class="d-flex flex-row m-2 justify-content-center">
-  <iframe src="https://giphy.com/embed/pUVOeIagS1rrqsYQJe" width="480" height="288" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  <iframe src="https://giphy.com/embed/pUVOeIagS1rrqsYQJe" title="GIF: my reflex" width="480" height="288" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 > Let's ask someone smarter than me. Gemini cricket (🤖🦗) 🥲.
@@ -59,16 +61,16 @@ chrome-1  |      at java.base/jdk.internal.platform.Container.metrics(Container.
 My cricket friend pointed out **cgroupv2** on line `CgroupV2Subsystem.java:81` and linked it to my system update. But what exactly is **cgroupv2**?
 
 🤖🦗:
+
 > Long story short, it's what allows Docker 🐋 to limit a container's CPU or RAM.
 
-
-
 In concrete terms:
-* Docker tells the JVM: *"You are allowed 2GB of RAM."*
-* Java reads this info from **cgroups** (resource management files).
-* Java adjusts its behavior (Heap memory, etc.) accordingly.
 
-**This is supposed to be a good thing.** It prevents Java from being slaughtered by the host system's *OOM Killer*. However, Java must parse these files, and that’s where things fall apart.
+- Docker tells the JVM: _"You are allowed 2GB of RAM."_
+- Java reads this info from **cgroups** (resource management files).
+- Java adjusts its behavior (Heap memory, etc.) accordingly.
+
+**This is supposed to be a good thing.** It prevents Java from being slaughtered by the host system's _OOM Killer_. However, Java must parse these files, and that’s where things fall apart.
 
 > **Why a crash instead of just an error?**
 > In the source code of older JVMs, if the path returned by the system interface isn't exactly what's expected, the `mountPoint` variable remains `null`. The JVM then attempts to call a method on this non-existent object. It's a classic backfire: the function meant to protect your application becomes the very cause of its summary execution.
@@ -85,7 +87,7 @@ At startup, the Java inside our container scouts the system, fails to find the "
 
 **BOOM**. NullPointerException. Instant process death.
 
-The culprit wasn't our code or our Docker config, but an old JVM incapable of adapting to a modern Linux kernel's new hierarchy. *Fair enough, you might say.*
+The culprit wasn't our code or our Docker config, but an old JVM incapable of adapting to a modern Linux kernel's new hierarchy. _Fair enough, you might say._
 
 ## THE Solution
 
@@ -127,7 +129,7 @@ services:
 - **DO NOT DO THIS IN PRODUCTION.** In my case, this is a **local development** container.
 - Without `UseContainerSupport`, Java is unaware of its limits and can be terminated by the host system's OOM Killer.
 - This solution is a **temporary band-aid** while waiting for an update.
-:::
+  :::
 
 ## The Morale of the Story
 
@@ -135,17 +137,17 @@ Our software ecosystems are **fragile**. A simple Linux kernel update—via an U
 
 **Philosophical advice:**
 
-> *Remembering to "clean your room" regularly (I'm sure you get the metaphor) can save a lot of time.*
+> _Remembering to "clean your room" regularly (I'm sure you get the metaphor) can save a lot of time._
 
-> *Never perform an OS update on a Friday.*
+> _Never perform an OS update on a Friday._
 
-> *Always make sure to test your Docker containers in a staging environment after a system update.*
+> _Always make sure to test your Docker containers in a staging environment after a system update._
 
-> *"Works on my machine" — until the kernel updates.*
+> _"Works on my machine" — until the kernel updates._
 
 ## Sources and References
 
-- [Oracle Docs: Java Container Support](https://docs.oracle.com/en/java/javase/17+containers/) 
+- [Oracle Docs: Java Container Support](https://docs.oracle.com/en/java/javase/17+containers/)
 - [Ubuntu 25.10 Release Notes](https://ubuntu.com/blog/ubuntu-25-10)
 - [Docker & Java: Best Practices](https://docker-java.readthedocs.io/)
 - [cgroup v2 kernel documentation](https://www.kernel.org/doc/Documentation/cgroup-v2.txt)

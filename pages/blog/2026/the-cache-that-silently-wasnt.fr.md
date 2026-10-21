@@ -8,7 +8,7 @@ description: "Comment une Closure dans getInfo(), une exception silencieuse, et 
 cover:
   image: "img/pexels-black-hole-23522813.jpeg"
   alt: "Vue en noir et blanc d'un trou noir entouré d'étoiles tourbillonnantes dans une galaxie spirale"
-  caption: "Photo par <a href=\"https://www.pexels.com/@icebergsano-427049742/\">Iceberg San</a> sur <a href=\"https://www.pexels.com\">Pexels</a>"
+  caption: 'Photo par <a href="https://www.pexels.com/@icebergsano-427049742/">Iceberg San</a> sur <a href="https://www.pexels.com">Pexels</a>'
 published: true
 tags: [Symfony, PHP, Debug, Cache, Sérialisation]
 excerpt: >-
@@ -43,7 +43,7 @@ app.DEBUG: Response stored to cache with key c3f36f73afae200bb284436334b6647f.
 Les logs debug confirmaient les tentatives de mise en cache. Réalité : `var/http_cache/` restait vide.
 
 <div class="d-flex flex-column m-2 justify-content-center align-items-center">
-    <iframe src="https://giphy.com/embed/NTur7XlVDUdqM" width="480" height="274" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    <iframe src="https://giphy.com/embed/NTur7XlVDUdqM" title="GIF : les conséquences" width="480" height="274" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
     <p><a href="https://giphy.com/gifs/trump-consequences-NTur7XlVDUdqM">via GIPHY</a>
 </div>
 
@@ -136,7 +136,7 @@ final class CachedResponse implements ResponseInterface
         $this->toArray = $response->toArray();
         $this->info = $response->getInfo();
     }
-    
+
     // ...
 }
 ```
@@ -144,12 +144,14 @@ final class CachedResponse implements ResponseInterface
 ### 2.2. Procédons par élimination
 
 En procédant par élimination, il ne nous reste que `getInfo()` qui peut avoir ce genre de choses à l'interieur puisque :
+
 - `statusCode`: retourne un `int` qui corresponds au code de statut HTTP qui est aussi un entier.
 - `headers`: retourne les entêtes HTTP qui ne sont basiquement que des tableaux d'`int` ou `string`.
 - `content`: retourne le corps de la réponse qui n'est qu'une `string` donc aucune `Closure` là-dedans.
 - `toArray`: aurait renvoyé une exception si le `content` n'avait pas été encodé en JSON.
 
 Donc il doit y avoir quelque chose d'étrange que je n'avais pas anticipé dans `getInfo()` et inspecter `getInfo()` a révélé le coupable ce que j'ai fais via ce script :
+
 ```bash
 docker compose exec cli php -r '
 require "/srv/vendor/autoload.php";
@@ -177,12 +179,14 @@ Trois couches ont occulté la rééle cause :
 Mon erreure a été de ne pas vérifier le retour de la fonction `save()` qui, je ne l'avais pas noté à ce moment là, retourne un booléen indiquant si l'enregistrement a bien été effectué.
 
 Je suis donc passé de :
+
 ```php
 $this->cache->save($cacheItem); // returns false, ignored
 $this->logger->debug("Response stored to cache with key {$key}.");
 ```
 
 à:
+
 ```php
 $saved = $this->cache->save($cacheItem);
 $this->logger->debug("Cache save: {result}", ['result' => $saved ? 'success' : 'FAILED']);
@@ -256,4 +260,3 @@ Ce bug n'était pas un problème avec le cache de Symfony — il fonctionnait co
 
 3. **Supposer que `getInfo()` ne contient que des données scalaires**  
    Des internals comme `pause_handler` peuvent fuir dans les métadonnées. Valide toujours ce que tu caches.
-

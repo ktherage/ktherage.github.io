@@ -6,7 +6,7 @@ description: "Comment une simple mise à jour Ubuntu a fait planter mes conteneu
 cover:
   image: "img/pexels-docker-port.jpg"
   alt: "Container cranes at a bustling port during sunset"
-  caption: "Photo by <a href=\"https://www.pexels.com/@thorl5/\">thorl5</a> on <a href=\"https://www.pexels.com\">Pexels</a>"
+  caption: 'Photo by <a href="https://www.pexels.com/@thorl5/">thorl5</a> on <a href="https://www.pexels.com">Pexels</a>'
 published: true
 updated: 2026-06-18
 tags: [Ubuntu, Docker, cgroupv2, Debug]
@@ -16,7 +16,7 @@ excerpt: >-
 
 ## La mise à jour tranquille qui tourne au cauchemar
 
-C'était un vendredi soir, comme les autres. Je décide enfin de faire ce que tout bon développeur évite : **mettre à jour son OS**. Ubuntu 24.04 LTS → 25.10, la petite mise à jour de routine. *"Ça ne peut que s'améliorer"*, me dis-je avec ce pessimisme propre à ceux qui ont vu trop de mises à jour mal se passer (Ubuntu 24.10 je te vois !).
+C'était un vendredi soir, comme les autres. Je décide enfin de faire ce que tout bon développeur évite : **mettre à jour son OS**. Ubuntu 24.04 LTS → 25.10, la petite mise à jour de routine. _"Ça ne peut que s'améliorer"_, me dis-je avec ce pessimisme propre à ceux qui ont vu trop de mises à jour mal se passer (Ubuntu 24.10 je te vois !).
 
 Je lance la mise à jour en confiance. Tout se passe bien. Redémarrage. Tout fonctionne. Nickel.
 
@@ -64,15 +64,17 @@ chrome-1  |     ... 6 more
 ```
 
 **Ma première pensée :**
+
 <div class="d-flex flex-row m-2 justify-content-center">
-  <iframe src="https://giphy.com/embed/4ZxicT7ZQYcLShHOiz" width="480" height="274" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  <iframe src="https://giphy.com/embed/4ZxicT7ZQYcLShHOiz" title="GIF : ma première réaction" width="480" height="274" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 > Je suis développeur PHP, pas Java.
 
 **Mon reflexe:**
+
 <div class="d-flex flex-row m-2 justify-content-center">
-  <iframe src="https://giphy.com/embed/pUVOeIagS1rrqsYQJe" width="480" height="288" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+  <iframe src="https://giphy.com/embed/pUVOeIagS1rrqsYQJe" title="GIF : mon réflexe" width="480" height="288" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
 </div>
 
 > Demandons à plus fort que soi. Gemini cricket (🤖🦗) 🥲.
@@ -82,14 +84,16 @@ chrome-1  |     ... 6 more
 Mon ami le cricket met le doigt sur **cgroupv2** dans la ligne `CgroupV2Subsystem.java:81` et fait le lien avec la mise à jour de mon système. Mais **cgroupv2**, c'est quoi ?
 
 🤖🦗:
+
 > Pour faire court, c'est ce qui permet à Docker 🐋 de limiter le CPU ou la RAM d'un container.
 
 Concrètement :
-* Docker dit à la JVM : *"Tu as le droit à 2Go de RAM"*.
-* Java lit ces infos dans les **cgroups** (fichiers de gestion des ressources).
-* Java ajuste son comportement (mémoire Heap, etc.) en conséquence.
 
-**C'est censé être une bonne chose.** Cela évite que Java ne se fasse abattre par le *OOM Killer* du système hôte. Mais Java doit parser ces fichiers, et c'est là que le bât blesse.
+- Docker dit à la JVM : _"Tu as le droit à 2Go de RAM"_.
+- Java lit ces infos dans les **cgroups** (fichiers de gestion des ressources).
+- Java ajuste son comportement (mémoire Heap, etc.) en conséquence.
+
+**C'est censé être une bonne chose.** Cela évite que Java ne se fasse abattre par le _OOM Killer_ du système hôte. Mais Java doit parser ces fichiers, et c'est là que le bât blesse.
 
 > **Pourquoi un crash et pas juste une erreur ?**
 > Dans le code source des anciennes JVM, si le chemin retourné par l'interface système n'est pas exactement celui attendu, la variable `mountPoint` reste à `null`. La JVM tente ensuite d'appeler une méthode sur cet objet inexistant. C'est l'arroseur arrosé : la fonction censée protéger votre application devient la cause de son exécution sommaire.
@@ -148,7 +152,7 @@ services:
 - **NE FAITES PAS ÇA EN PRODUCTION.**, dans mon cas il s'agit d'un container de **developpement** en locale.
 - Sans `UseContainerSupport`, Java ne connaît pas ses limites et peut se faire killer par le OOM Killer du système hôte.
 - Cette solution est un **pansement temporaire** en attendant la mise à jour.
-:::
+  :::
 
 ## La morale de cette histoire
 
@@ -156,18 +160,17 @@ Nos écosystèmes logiciels sont **fragiles**. Une simple mise à jour du noyau 
 
 **Les conseils philosophiques :**
 
-> *Penser à nettoyer sa chambre régulièrement (je suis sûr que vous comprenez l'image) peut faire gagner beaucoup de temps.*
+> _Penser à nettoyer sa chambre régulièrement (je suis sûr que vous comprenez l'image) peut faire gagner beaucoup de temps._
 
-> *Ne faites jamais de mise à jour d'OS un vendredi.*
+> _Ne faites jamais de mise à jour d'OS un vendredi._
 
-> *Prenez soin de toujours tester vos conteneurs Docker sur un environnement de staging après une mise à jour système.*
+> _Prenez soin de toujours tester vos conteneurs Docker sur un environnement de staging après une mise à jour système._
 
-> *"Works on my machine" — jusqu'à la mise à jour du kernel.*
-
+> _"Works on my machine" — jusqu'à la mise à jour du kernel._
 
 ## Sources et Références
 
-- [Oracle Docs : Java Container Support](https://docs.oracle.com/en/java/javase/17+containers/) 
+- [Oracle Docs : Java Container Support](https://docs.oracle.com/en/java/javase/17+containers/)
 - [Ubuntu 25.10 Release Notes](https://ubuntu.com/blog/ubuntu-25-10)
 - [Docker & Java : Best Practices](https://docker-java.readthedocs.io/)
 - [cgroup v2 kernel documentation](https://www.kernel.org/doc/Documentation/cgroup-v2.txt)
